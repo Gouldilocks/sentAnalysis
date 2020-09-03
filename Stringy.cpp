@@ -234,7 +234,5 @@ void Stringy::findAndDelete (char *toFind) {
 		by moving the data over the number of places that the length of toFind is. */
 		 memmove(strstr(this->ystring,toFind), strstr(this->ystring,toFind) + strlen(toFind), strlen(ystring) - strlen(toFind));
 	}
-	// if there is not word in the string, then return without doing anything.
-	 return;
 }
 

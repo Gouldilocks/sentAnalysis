@@ -23,10 +23,12 @@ this->sentiment = oldReview->getSentiment();
 this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
 }
 // This is the one that will most likely be used the most.
-review::review (Stringy *total) {
+review::review (Stringy *total, int is_It_Training) {
 this-> total = new Stringy(*total);
+if(is_It_Training == 1){
 this->sentiment = findSentiment();
-cleanUp();
+}
+	cleanUp ();
 }
 
 review::review (Stringy *total, bool sentiment) {
