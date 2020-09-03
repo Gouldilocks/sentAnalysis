@@ -68,11 +68,6 @@ bool review::findSentiment () {
 	return returnMe;
 	}
 
-review::review (Stringy *total) {
-this-> total = total;
-this->sentiment = findSentiment ();
-this->spaceSeparatedWords = nullptr;
-}
 
 
 

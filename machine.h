@@ -14,7 +14,7 @@
  * */
 class machine{
 public:
-	~machine(){delete trainData; delete testData; delete sentimentWords; delete negativeWords;}
+	~machine(){delete trainData; delete testData; delete sentimentWords;}
 	/*ToDo:
 	 * Create Constructors
 	 * Take the reviews and call the total parameter constructor in review. ~~Pull input with getline~~
@@ -31,12 +31,9 @@ public:
 
 	void setTrainData(vector<review*>* trainData){this->trainData = trainData;}
 
-	vector<Stringy*>* getPositiveWords(){return this->sentimentWords;}
+	vector<word*>* getSentimentWords(){return this->sentimentWords;}
 
-	void setPositiveWords(vector<Stringy*>* analysedWords){this->sentimentWords = analysedWords;}
-
-	vector<Stringy*>* getNegativeWords(){return this-> negativeWords;}
-	void setNegativeWords(vector<Stringy*>* negativeWords){this->negativeWords = negativeWords;}
+	void setSentimentWords(vector<word*>* analysedWords){this->sentimentWords = analysedWords;}
 
 	/* ***** Functions ***** */
 	// function which will input all of the data to be sorted into testData.
