@@ -14,7 +14,7 @@
  * */
 class machine{
 public:
-	~machine(){delete trainData; delete testData; delete positiveWords; delete negativeWords;}
+	~machine(){delete trainData; delete testData; delete sentimentWords; delete negativeWords;}
 	/*ToDo:
 	 * Create Constructors
 	 * Take the reviews and call the total parameter constructor in review. ~~Pull input with getline~~
@@ -31,9 +31,9 @@ public:
 
 	void setTrainData(vector<review*>* trainData){this->trainData = trainData;}
 
-	vector<Stringy*>* getPositiveWords(){return this->positiveWords;}
+	vector<Stringy*>* getPositiveWords(){return this->sentimentWords;}
 
-	void setPositiveWords(vector<Stringy*>* analysedWords){this->positiveWords = analysedWords;}
+	void setPositiveWords(vector<Stringy*>* analysedWords){this->sentimentWords = analysedWords;}
 
 	vector<Stringy*>* getNegativeWords(){return this-> negativeWords;}
 	void setNegativeWords(vector<Stringy*>* negativeWords){this->negativeWords = negativeWords;}
@@ -58,10 +58,8 @@ private:
 
 	//POST-CONSTRUCTOR
 	// a vector filled with all of the words that have been categorized positive.
-	vector<word*>* positiveWords;
+	vector<word*>* sentimentWords;
 
-	// a vector filled with all of the words that have been categorized negative.
-	vector<word*>* negativeWords;
 
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_MACHINE_H

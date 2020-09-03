@@ -6,7 +6,7 @@
 #define S20_PA01_SENTIMENTANALYSIS_WORD_H
 
 #include "Stringy.h"
-
+//IMPORTANT the sentiment must be calculated after all the words have been
 // this class will serve to keep all the information about each instance of words in the reviews.
 class word{
 public:
@@ -20,8 +20,8 @@ public:
 	// returns the c-string of the word in question.
 	char* getWordy(){return this-> theWord->getString();}
 	/* ***** Functions ***** */
-	void increasePos() {numPos++;}
-	void increaseNeg() {numNeg++;}
+	void increasePos() {numPos++; totalInstances++;}
+	void increaseNeg() {numNeg++; totalInstances++;}
 	// calculates the sentiment of the whole word.
 	void calc_Sentiment();
 	// will add a word to the word count, and change the positive or negative count.
@@ -29,7 +29,7 @@ public:
 
 	/* ***** Constructors ***** */
 	word();
-	word(Stringy* theNewWord);
+	word(Stringy* theNewWord, bool sentiment);
 	word(char* theNewWord);
 	word(int pos, int neg){this-> numPos = pos; this->numNeg = neg;}
 

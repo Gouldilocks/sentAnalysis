@@ -44,21 +44,27 @@ void machine::sort_Training_Data () {
 			// if the review is positive
 			if(eachReview->getSentiment ()){
 			// check if the word is in the positive word bank
-			for (word *eachWord: *positiveWords) {
+			for (word *eachWord: *sentimentWords) {
 			// if it is in the bank, increment word count
 			if (eachWord->getWordy() == tempStringy->getString ()){
 				eachWord->increasePos ();
 				// if it is not, then add it as new word
 			} else {
-				positiveWords->push_back(new word(tempStringy));
+				sentimentWords->push_back(new word(tempStringy, true));
 			}
 			}
 			// if the review is negative
 			} else if (!eachReview->getSentiment ()) {
 				// check if the word is in the negative word bank
-				for (word *eachWord: *negativeWords) {
+				for (word *eachWord: *sentimentWords) {
 				// if it is in the bank, increment word count
+				if (eachWord-> getWordy () == tempStringy->getString ()){
+					eachWord->increaseNeg ();
+				}
 				// if it is not, then add it as new word
+				else {
+					sentimentWords->push_back((new word(tempStringy, false)));
+				}
 				}
 			}
 		}
