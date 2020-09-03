@@ -11,16 +11,17 @@ set (EXE_NAME SentimentAnalyzer)
 #   set (input02 "train_target.csv")
 # etc....
 
-set (input01 "")
+set (input01 "fullData.csv")
 set (input02 "")
 set (input03 "")
 set (input04 "")
+set (input05 "testMe")
 
 #
 ##########################################
 
 # Copy data files to build dir
-foreach(file IN LISTS input01 input02 input03 input04)
+foreach(file IN LISTS input01 input02 input03 input04 input05)
     configure_file(${file} ${file} COPYONLY)
 endforeach()
 
