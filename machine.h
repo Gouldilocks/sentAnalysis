@@ -10,13 +10,20 @@
 
 class machine{
 public:
-	Stringy* getBlackList(){return blackList;}
-	void setBlackList(Stringy* blackList){this-> blackList = blackList;}
-	void makeBlackList();
+	/*ToDo:
+	 * Create Constructors
+	 * Take the call the total parameter constructor in review. ~~Pull input with getline~~
+	 *
+	 *
+	 *
+	 *
+	 * */
+
 private:
-	// the space-separated list of words which are banned from being analyzed.
-	Stringy* blackList = nullptr;
 	// a vector filled with all of the train data reviews.
-	vector<review> trainData;
+	vector<review*>* trainData;
+
+	// a vector filled with all of the words that have been categorized positive and negative.
+	vector<Stringy*>* analysedWords;
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_MACHINE_H

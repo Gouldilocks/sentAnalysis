@@ -16,17 +16,17 @@ total = nullptr;
 sentiment = false;
 spaceSeparatedWords = nullptr;
 }
-
+// copy constructor
 review::review (review *oldReview) {
 this-> total = new Stringy(*oldReview->getTotal ());
 this->sentiment = oldReview->getSentiment();
 this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
 }
-
-review::review (Stringy *total, Stringy* blackList) {
+// This is the one that will most likely be used the most.
+review::review (Stringy *total) {
 this-> total = new Stringy(*total);
 this->sentiment = findSentiment();
-cleanUp(blackList);
+cleanUp();
 }
 
 review::review (Stringy *total, bool sentiment) {
