@@ -3,16 +3,22 @@
 #include <sstream>
 #include <vector>
 #include "Stringy.h"
+// function which returns the index of the given stringy where the beginning of the sentiment starts.
 int findSent(Stringy*find){
+	// whole function will not execute if Stringy is empty.
+	if (find->empty()) return 0;
+	int returnMe = 0;
 for(int i = 0; i < find->length (); i++){
-	// function will not excecute if the string is empty
-	if (find->empty()){
-		return 0;
-		// this will only execute if the function has a string in it.
-	} else {
-
+	if (i == find-> length() - 1) return i;
+	else{
+		// will only return true if ",p or ",n is present
+		if (find->getString ()[i] == '"' && find->getString ()[i+1] == ',' && (find->getString ()[i+2] == 'p' || find-> getString ()[i+2] == 'n'))	{
+			cout <<"***************" << find->getString ()[i] << find->getString ()[i+1] << find->getString ()[i+2] <<"*********************" << endl;
+			return i+2;
+		}
 	}
 }
+return returnMe;
 }
 int main() {
 //	Stringy* stringMan = new Stringy("Cor");
