@@ -34,8 +34,16 @@ this-> total = total;
 this-> sentiment = sentiment;
 }
 
-void review::cleanUp (Stringy* blackList) {
-
+void review::cleanUp () {
+	ifstream noNoWords("blackList");
+	char temporary[100];
+	auto* tempStringy = new Stringy();
+	while(noNoWords.getline(temporary,99,' ')) {
+		tempStringy->setString (temporary);
+		this->total->findAndDelete(tempStringy->getString ());
+	}
+	delete tempStringy;
+	this-> spaceSeparatedWords = this->total;
 }
 
 // will default to false.

@@ -26,11 +26,16 @@ return returnMe;
 }
 int main() {
 
-ifstream testhim("fullData.csv");
+ifstream testhim("blackList");
 char temp[1000000];
 vector<Stringy *> stringThing;
-Stringy* fakeBlackList = new Stringy("\"yes, I am a person who hates this movie with a passion.\",positive");
-fakeBlackList->findAndDelete("person ");
+Stringy* fakeBlackList = new Stringy("\"yes, I am / a person. who hates this movie with a passion.\",positive");
+Stringy* removeMe = new Stringy();
+char temporary[100];
+while(testhim.getline(temporary,99,' ')) {
+	removeMe->setString (temporary);
+	fakeBlackList->findAndDelete (removeMe->getString ());
+}
 cout << *fakeBlackList << endl;
 //for(int i = 0; i < 200; i++) {
 //	//cout << i << endl;

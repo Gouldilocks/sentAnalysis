@@ -23,7 +23,7 @@ public:
 	/* ***** Functions ***** */
 	// function will clean up the total, ignoring blacklisted words,
 	// and then put the clean version of the review into spaceSeparatedWords.
-	void cleanUp(Stringy* blackList);
+	void cleanUp();
 	// function to find the sentiment of the total review.
 	bool findSentiment();
 

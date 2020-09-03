@@ -23,10 +23,7 @@ public:
 
 	/* *****     Functions     ***** */
 
-	//todo: Make word search
-	// will return the index of where the array of characters was found.
-	int find(char* toFind);
-
+	// will find and remove the char* that is passed from the ystring.
 	void findAndDelete(char* toFind);
 
 	//displays length of string excluding null
