@@ -2,7 +2,7 @@
 // Created by loggityloglog on 9/3/20.
 //
 #include "machine.h"
-
+#include <sstream>
 machine::machine () {
 
 }
@@ -30,11 +30,37 @@ while(training_Data.getline(temp,9999)){
 	this->trainData->push_back(trainingReview);
 }
 }
-
+// todo: finish this function
 void machine::sort_Training_Data () {
+	Stringy* tempStringy;
 	// for each review in the trainData array
-	// todo: finish this function
-for(review* eachReview: *this->trainData){
-
-}
+	for (review *eachReview: *this->trainData) {
+		// put the review's string into a string stream for tokenization.
+		stringstream ss (eachReview->getSpaceSeparatedWords ()->getString ());
+		char temp[10000];
+		// tokenizes the words at each space.
+		while (ss.getline (temp, 9999, ' ')) {
+			tempStringy = new Stringy(temp);
+			// if the review is positive
+			if(eachReview->getSentiment ()){
+			// check if the word is in the positive word bank
+			for (word *eachWord: *positiveWords) {
+			// if it is in the bank, increment word count
+			if (eachWord->getWordy() == tempStringy->getString ()){
+				eachWord->increasePos ();
+				// if it is not, then add it as new word
+			} else {
+				positiveWords->push_back(new word(tempStringy));
+			}
+			}
+			// if the review is negative
+			} else if (!eachReview->getSentiment ()) {
+				// check if the word is in the negative word bank
+				for (word *eachWord: *negativeWords) {
+				// if it is in the bank, increment word count
+				// if it is not, then add it as new word
+				}
+			}
+		}
+	}
 }
