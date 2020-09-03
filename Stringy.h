@@ -23,6 +23,9 @@ public:
 
 	/* *****     Functions     ***** */
 
+	//todo: Make word search
+	char* find(char* toFind);
+
 	//displays length of string excluding null
 	int length(); // $$$
 
@@ -53,9 +56,11 @@ public:
 
 	friend  bool operator ==(const Stringy& S1, const Stringy & S2); // $$$
 
-	friend Stringy * operator + (const Stringy& S1, const Stringy & S2); // $$$
+	friend Stringy & operator + (const Stringy& S1, const Stringy & S2); // $$$
 
-	Stringy * operator += (const Stringy& S1); // $$$
+	friend Stringy & operator + (const Stringy& S1, char* addition); // $$$
+
+	Stringy & operator += (const Stringy& S1); // $$$
 
 private:
 	char* ystring;

@@ -158,7 +158,7 @@ Stringy& Stringy::operator =(const Stringy &S)
 	return *this;
 }
 
-Stringy * operator + (const Stringy& S1, const Stringy & S2){
+Stringy& operator + (const Stringy& S1, const Stringy & S2){
 	//add the lengths minus the null terminator, then add one to rep. the new null terminator.
 	int length = (S1.ylength -1) + (S2.ylength - 1) + 1;
 	// initialize the array that will be used
@@ -178,10 +178,10 @@ Stringy * operator + (const Stringy& S1, const Stringy & S2){
 	// delete the temp variable
 	delete[] array;
 	// return the new Stringy
-	return returnMe;
+	return *returnMe;
 }
 // not needed, just made for the heck of it:
-Stringy* Stringy :: operator += (const Stringy& S1){
+Stringy& Stringy :: operator += (const Stringy& S1){
 	// make total length equal to the original length minus null plus new stringy minus null plus new null
 	int newLength = (this-> ylength -1) + (S1.ylength -1) + 1;
 	int oldlength = this-> ylength;
@@ -205,7 +205,22 @@ Stringy* Stringy :: operator += (const Stringy& S1){
 	for(int i = oldlength - 1, j = 0; i < ylength; i++, j++){
 		this-> ystring[i] = S1.ystring[j];
 	}
-	// delete the temp c-string and return the pointer.
-	return this;
+	// return the pointer.
+	return *this;
+}
+
+Stringy &operator+ (const Stringy &S1, char *addition) {
+	char * newStringy = nullptr;
+	newStringy = new char [S1.ylength + strlen(addition)];
+	for(int i = 0; i < S1.ylength-1; i++){
+		newStringy[i] = S1.ystring[i];
+	}
+	for(int i = S1.ylength-1, j = 0; i < S1.ylength+strlen(addition); i++,j++){
+		newStringy[i] = addition[j];
+	}
+
+	auto* returnMe = new Stringy(newStringy);
+	cout << *returnMe << endl;
+	return *returnMe;
 }
 
