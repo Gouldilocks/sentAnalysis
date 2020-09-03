@@ -6,6 +6,7 @@
 #define S20_PA01_SENTIMENTANALYSIS_MACHINE_H
 #include "Stringy.h"
 #include "review.h"
+#include "word.h"
 #include <vector>
 
 /*The machine's purpose is to organize all of the functionality of the review class, and to
@@ -35,7 +36,6 @@ public:
 	void setPositiveWords(vector<Stringy*>* analysedWords){this->positiveWords = analysedWords;}
 
 	vector<Stringy*>* getNegativeWords(){return this-> negativeWords;}
-
 	void setNegativeWords(vector<Stringy*>* negativeWords){this->negativeWords = negativeWords;}
 
 	/* ***** Functions ***** */
@@ -58,10 +58,10 @@ private:
 
 	//POST-CONSTRUCTOR
 	// a vector filled with all of the words that have been categorized positive.
-	vector<Stringy*>* positiveWords;
+	vector<word*>* positiveWords;
 
 	// a vector filled with all of the words that have been categorized negative.
-	vector<Stringy*>* negativeWords;
+	vector<word*>* negativeWords;
 
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_MACHINE_H
