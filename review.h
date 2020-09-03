@@ -10,6 +10,7 @@ public:
 	/* ***** Constructors ***** */
 	review();
 	review(review* oldReview);
+	review(Stringy* total);
 	review(Stringy* total, Stringy* blackList);
 	review(Stringy* total, bool sentiment);
 	/* ***** Getters / Setters ***** */

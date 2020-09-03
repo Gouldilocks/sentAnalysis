@@ -24,7 +24,10 @@ public:
 	/* *****     Functions     ***** */
 
 	//todo: Make word search
-	char* find(char* toFind);
+	// will return the index of where the array of characters was found.
+	int find(char* toFind);
+
+	void findAndDelete(char* toFind);
 
 	//displays length of string excluding null
 	int length(); // $$$
@@ -49,7 +52,6 @@ public:
 
 	friend ostream& operator << (ostream & OS,const Stringy &S); // $$$
 
-	//replaces given stringy with next line of input stream
 	friend istream& operator >> (istream & IS,Stringy &S); // $$$
 
 	Stringy& operator = (const Stringy& S);// $$$

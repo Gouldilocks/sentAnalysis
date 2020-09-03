@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include "Stringy.h"
+#include "review.h"
 // function which returns the index of the given stringy where the beginning of the sentiment starts.
 int findSent(Stringy*find){
 	// whole function will not execute if Stringy is empty.
@@ -25,22 +26,22 @@ return returnMe;
 }
 int main() {
 
-ofstream outputMe("blackList");
 ifstream testhim("fullData.csv");
 char temp[1000000];
 vector<Stringy *> stringThing;
-
-
-for(int i = 0; i < 200; i++) {
-	//cout << i << endl;
-	testhim.getline(temp,100000);
-	//cout << temp << endl;
-	auto* testStringy = new Stringy(temp);
-	stringThing.push_back (testStringy);
-}
-for(Stringy* ok: stringThing){
-	//findSent (ok);
-}
+Stringy* fakeBlackList = new Stringy("\"yes, I am a person who hates this movie with a passion.\",positive");
+fakeBlackList->findAndDelete("person ");
+cout << *fakeBlackList << endl;
+//for(int i = 0; i < 200; i++) {
+//	//cout << i << endl;
+//	testhim.getline(temp,100000);
+//	//cout << temp << endl;
+//	auto* testStringy = new Stringy(temp);
+//	stringThing.push_back (testStringy);
+//}
+//for(Stringy* ok: stringThing){
+//	//findSent (ok);
+//}
 
     return 0;
 }

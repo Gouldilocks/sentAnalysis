@@ -224,3 +224,15 @@ Stringy &operator+ (const Stringy &S1, char *addition) {
 	return *returnMe;
 }
 
+/* Referenced Stack overflow for this function:
+ * https://stackoverflow.com/questions/5457608/how-to-remove-the-character-at-a-given-index-from-a-string-in-c
+ * */
+void Stringy::findAndDelete (char *toFind) {
+	// strstr returns null if needle is not found in haystack.
+	if(strstr(this->ystring,toFind) != NULL){
+		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
+		by moving the data over the number of places that the length of toFind is. */
+		 memmove(strstr(this->ystring,toFind), strstr(this->ystring,toFind) + strlen(toFind), strlen(ystring) - strlen(toFind));
+	} else return;
+}
+
