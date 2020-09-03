@@ -23,35 +23,42 @@ this->sentiment = oldReview->getSentiment();
 this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
 }
 
-review::review (Stringy *total) {
+review::review (Stringy *total, Stringy* blackList) {
 this-> total = new Stringy(*total);
 this->sentiment = findSentiment();
-cleanUp();
+cleanUp(blackList);
 }
 
 review::review (Stringy *total, bool sentiment) {
+this-> total = total;
+this-> sentiment = sentiment;
+}
+
+void review::cleanUp (Stringy* blackList) {
 
 }
 
-void review::cleanUp () {
-
-}
-
+// will default to false.
 bool review::findSentiment () {
-	return false;
-}
+	// whole function will not execute if Stringy is empty.
+	if (this->total->empty()) return 0;
+	bool returnMe = false;
+	for(int i = 0; i < this->total->length (); i++){
+		if (i == this->total-> length() - 1) return i;
+		else{
+			// will only return true if ",p or ",|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')
+			if (this->total->getString ()[i] == '"'  && (this->total->getString ()[i+1] == ','|| this->total->getString ()[i+1] == '\t' || this->total-> getString ()[i+1] == '|') && this->total->getString ()[i+2] == 'p')	{
+				return true;
+			}
+			else if(this->total->getString ()[i] == '"'  && (this->total->getString ()[i+1] == ','|| this->total->getString ()[i+1] == '\t' || this->total-> getString ()[i+1] == '|') && this->total-> getString ()[i+2] == 'n'){
+				return false;
+				}
+			}
+		}
+	return returnMe;
+	}
 
-void review::makeBlackList () {
-	delete this-> blackList;
-	this-> blackList = new Stringy();
-ifstream blackListInput("blackList");
-char temp [10000];
-// get a whole line from the input file
-while (blackListInput.getline(temp, 9999, ' ')){
-		Stringy tempStringy(temp);
-		*this-> blackList += tempStringy;
-		*this-> blackList = *this->blackList + " ";
-}
-cout << "Blacklisted Words: " << *this-> blackList << endl;
-}
+
+
+
 

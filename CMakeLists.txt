@@ -26,5 +26,5 @@ foreach(file IN LISTS input01 input02 input03 input04 input05)
 endforeach()
 
 set(CMAKE_CXX_STANDARD 17)
-add_executable(${EXE_NAME} main.cpp Stringy.h Stringy.cpp review.h review.cpp machine.h)
+add_executable(${EXE_NAME} main.cpp Stringy.h Stringy.cpp review.h review.cpp machine.h machine.cpp)
 
