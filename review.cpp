@@ -3,6 +3,7 @@
 //
 #include "review.h"
 #include <iostream>
+#include <fstream>
 #include <sstream>
 /*
  * Elements:
@@ -28,7 +29,7 @@ this-> total = new Stringy(*total);
 if(is_It_Training == 1){
 this->sentiment = findSentiment();
 }
-	cleanUp ();
+	this->cleanUp ();
 }
 
 review::review (Stringy *total, bool sentiment) {
@@ -38,14 +39,15 @@ this-> sentiment = sentiment;
 
 void review::cleanUp () {
 	ifstream noNoWords("blackList");
-	char temporary[100];
-	auto* tempStringy = new Stringy();
-	while(noNoWords.getline(temporary,99,' ')) {
+	char temporary[200];
+	Stringy* tempStringy = new Stringy();
+	while(noNoWords.getline(temporary,150,' ')) {
 		tempStringy->setString (temporary);
 		this->total->findAndDelete(tempStringy->getString ());
 	}
-	delete tempStringy;
+
 	this-> spaceSeparatedWords = this->total;
+	noNoWords.close();
 }
 
 // will default to false.

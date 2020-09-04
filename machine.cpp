@@ -4,11 +4,16 @@
 #include "machine.h"
 #include <sstream>
 machine::machine () {
-
+	this-> trainData = new vector<review*>();
+	this->testData = new vector<review*>();
+	this->sentimentWords = new vector<word*>();
+this->take_In_Training_Data ();
+this->sort_Training_Data ();
+this->take_In_Testing_Data ();
 }
 
 void machine::take_In_Testing_Data () {
-ifstream testing_Data("testing_Data");
+ifstream testing_Data("testing_Data.csv");
 Stringy* testingData;
 review* testingReview;
 char temp[10000];
@@ -20,7 +25,7 @@ this->testData->push_back(testingReview);
 }
 
 void machine::take_In_Training_Data () {
-ifstream training_Data("training_Data");
+ifstream training_Data("training_Data.csv");
 Stringy* trainingData;
 review* trainingReview;
 char temp[10000];

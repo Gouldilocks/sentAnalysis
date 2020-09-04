@@ -46,14 +46,14 @@ public:
 	void sort_Training_Data();
 
 private:
-	//PRE-CONSTRUCTOR
+	//INITIALIZED IN-CONSTRUCTOR
 	// a vector filled with all of the train data reviews.
 	vector<review*>* trainData;
 
 	// a vector filled with all of the testing data.
 	vector<review*>* testData;
 
-	//POST-CONSTRUCTOR
+	//INITIALIZED POST-CONSTRUCTOR
 	// a vector filled with all of the words that have been categorized positive.
 	vector<word*>* sentimentWords;
 

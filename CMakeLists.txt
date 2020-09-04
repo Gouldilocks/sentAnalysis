@@ -12,10 +12,10 @@ set (EXE_NAME SentimentAnalyzer)
 # etc....
 
 set (input01 "fullData.csv")
-set (input02 "")
-set (input03 "")
+set (input02 "training_Data.csv")
+set (input03 "testing_Data.csv")
 set (input04 "")
-set (input05 "blackList")
+set (input05 "blackList.txt")
 
 #
 ##########################################
