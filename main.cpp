@@ -7,12 +7,13 @@
 #include "machine.h"
 // function which returns the index of the given stringy where the beginning of the sentiment starts.
 int main() {
+// todo: make all words capital, as it treats them as different
+	ifstream testing_Data("testing_Data.csv");
+	ifstream training_Data("training_Data.csv");
+auto* newMachine = new machine();
+	newMachine->jumpStart (testing_Data,training_Data);
+	cout << "Done" << endl;
 
-//auto* newMachine = new machine();
-ifstream noNoWords("blackList.txt");
-review* reviewMan = new review(new Stringy("Hello negative this is my positive negative string hellow\",positive"), 1);
-reviewMan->cleanUp(noNoWords);
-cout << *reviewMan->getSpaceSeparatedWords () << endl;
     return 0;
 }
 

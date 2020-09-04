@@ -6,6 +6,7 @@
 #define S20_PA01_SENTIMENTANALYSIS_STRINGY_H
 #include <cstring>
 #include <fstream>
+#include <vector>
 using namespace std;
 class Stringy
 {
@@ -37,6 +38,9 @@ public:
 
 	//	int find (const Stringy& S, int index =0);
 
+	// takes the next word in the String, then returns a vector of each word according to the delimeter
+	vector<Stringy*>* tokenizeStringy(char delim);
+
 	// returns a pointer to a substring of the object that calls it
 	Stringy* substr(int index, int length); // $$$
 
@@ -57,7 +61,7 @@ public:
 
 	friend Stringy & operator + (const Stringy& S1, const Stringy & S2); // $$$
 
-	friend Stringy & operator + (const Stringy& S1, char* addition); // $$$
+	friend Stringy & operator + (const Stringy& S1, char addition[]); // $$$
 
 	Stringy & operator += (const Stringy& S1); // $$$
 

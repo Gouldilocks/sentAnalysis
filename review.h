@@ -19,8 +19,8 @@ public:
 	/* int is_It_Testing serves for the class to function as knowing whether or not the data is training
 	 * data or testing data, so that it does not run findSentiment.
 	 * put 1 if it is training data, any other number for testing data*/
-	review(Stringy* total, int is_It_Training);
-	review(Stringy* total, bool sentiment);
+	review(Stringy* total, int row);
+	review(Stringy* total, bool sentiment, bool useBool);
 	/* ***** Getters / Setters ***** */
 	Stringy* getTotal(){return total;}
 	void setTotal(Stringy* total){this-> total = total;}
@@ -28,6 +28,8 @@ public:
 	bool getSentiment(){return sentiment;}
 	void setSpaceSeparatedWords(Stringy* words){this-> spaceSeparatedWords = words;}
 	Stringy* getSpaceSeparatedWords(){return spaceSeparatedWords;}
+	int getRow(){return this->row;}
+	void setRow(int newRow){this->row = newRow;}
 	/* ***** Functions ***** */
 	// function will clean up the total, ignoring blacklisted words,
 	// and then put the clean version of the review into spaceSeparatedWords.
@@ -35,12 +37,14 @@ public:
 	// function to find the sentiment of the total review when it is given.
 	bool findSentiment();
 
-private:
+protected:
 	// the whole string as taken from the file.
 	Stringy* total = nullptr;
 	// the sentiment given for the whole review.
 	bool sentiment;
 	// all the words, minus the ones I do not want, and minus any punctuation I do not want
 	Stringy* spaceSeparatedWords = nullptr;
+	// this integer will keep track of which row this certain review is on.
+	int row;
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_REVIEW_H

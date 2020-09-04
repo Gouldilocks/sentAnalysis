@@ -30,3 +30,4 @@ if (sentiment){
 } else increaseNeg ();
 calc_Sentiment();
 }
+

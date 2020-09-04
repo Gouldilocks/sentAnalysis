@@ -11,6 +11,8 @@
 class word{
 public:
 	/* ***** Getters / Setters ***** */
+	Stringy* get_The_Word(){return theWord;}
+	void set_The_Word(Stringy* newWord){this->theWord = newWord;}
 	int getNumPos(){return this->numPos;}
 	void setNumPos(int pos){this->numPos = pos;}
 	int getNumNeg(){return this->numNeg;}

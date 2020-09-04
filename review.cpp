@@ -22,20 +22,21 @@ review::review (review *oldReview) {
 this-> total = new Stringy(*oldReview->getTotal ());
 this->sentiment = oldReview->getSentiment();
 this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
+this-> row = oldReview->getRow();
 }
 // This is the one that will most likely be used the most.
-review::review (Stringy *total, int is_It_Training) {
+review::review (Stringy *total, int row) {
 	ifstream george("blackList.txt");
-this-> total = new Stringy(*total);
-if(is_It_Training == 1){
-this->sentiment = findSentiment();
-}
+	this->row = row;
+	this-> total = new Stringy(*total);
+	this->sentiment = findSentiment();
 	this->cleanUp (george);
 }
 
-review::review (Stringy *total, bool sentiment) {
+review::review (Stringy *total, bool sentiment, bool useBool) {
 this-> total = total;
 this-> sentiment = sentiment;
+this->row = 1;
 }
 
 void review::cleanUp (ifstream& noNoWords) {

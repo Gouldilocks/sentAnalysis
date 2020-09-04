@@ -4,6 +4,7 @@
 # include "Stringy.h"
 # include <iostream>
 # include <cstring>
+# include <sstream>
 using namespace std;
 
 /*temp = is a temporary variable*/
@@ -209,18 +210,17 @@ Stringy& Stringy :: operator += (const Stringy& S1){
 	return *this;
 }
 
-Stringy &operator+ (const Stringy &S1, char *addition) {
-	char * newStringy = nullptr;
-	newStringy = new char [S1.ylength + strlen(addition)];
-	for(int i = 0; i < S1.ylength-1; i++){
+Stringy &operator+ (const Stringy &S1, char addition[]) {
+	char* newStringy = nullptr;
+	newStringy = new char [strlen(S1.ystring) + strlen(addition)+1];
+	for(int i = 0; i < strlen(S1.ystring); i++){
 		newStringy[i] = S1.ystring[i];
 	}
-	for(int i = S1.ylength-1, j = 0; i < S1.ylength+strlen(addition); i++,j++){
+	for(int i = strlen(S1.ystring), j = 0; i < strlen(S1.ystring)+strlen(addition); i++,j++){
 		newStringy[i] = addition[j];
 	}
 
 	auto* returnMe = new Stringy(newStringy);
-	cout << *returnMe << endl;
 	return *returnMe;
 }
 
@@ -236,5 +236,20 @@ void Stringy::findAndDelete (char *toFind) {
 		 memmove(strstr(this->ystring,toFind), strstr(this->ystring,toFind) + strlen(toFind), strlen(ystring) - strlen(toFind));
 		 this->ylength = strlen(this->ystring)+1;
 	}
+}
+
+vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
+	auto* returnMe = new vector<Stringy*> ();
+	char temp[10000];
+	Stringy* tempStringy;
+	stringstream ss(this->getString());
+	while(ss.getline(temp,9999, delim)){
+		// avoid spaces being put into the word vector.
+		if(temp[0] != ' ') {
+			tempStringy = new Stringy (temp);
+			returnMe->push_back (tempStringy);
+		}
+	}
+	return returnMe;
 }
 
