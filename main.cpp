@@ -9,9 +9,10 @@
 int main() {
 
 //auto* newMachine = new machine();
+ifstream noNoWords("blackList.txt");
 review* reviewMan = new review(new Stringy("Hello negative this is my positive negative string hellow\",positive"), 1);
-reviewMan->cleanUp();
-cout << *reviewMan->getSpaceSeparatedWords() << endl;
+reviewMan->cleanUp(noNoWords);
+cout << *reviewMan->getSpaceSeparatedWords () << endl;
     return 0;
 }
 

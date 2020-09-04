@@ -25,11 +25,12 @@ this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
 }
 // This is the one that will most likely be used the most.
 review::review (Stringy *total, int is_It_Training) {
+	ifstream george("blackList.txt");
 this-> total = new Stringy(*total);
 if(is_It_Training == 1){
 this->sentiment = findSentiment();
 }
-	this->cleanUp ();
+	this->cleanUp (george);
 }
 
 review::review (Stringy *total, bool sentiment) {
@@ -37,15 +38,13 @@ this-> total = total;
 this-> sentiment = sentiment;
 }
 
-void review::cleanUp () {
-	ifstream noNoWords("blackList");
+void review::cleanUp (ifstream& noNoWords) {
 	char temporary[200];
-	Stringy* tempStringy = new Stringy();
+	Stringy tempStringy;
 	while(noNoWords.getline(temporary,150,' ')) {
-		tempStringy->setString (temporary);
-		this->total->findAndDelete(tempStringy->getString ());
+		tempStringy.setString (temporary);
+		this->total->findAndDelete(tempStringy.getString ());
 	}
-
 	this-> spaceSeparatedWords = this->total;
 	noNoWords.close();
 }
