@@ -51,58 +51,22 @@ while(training_Data.getline(temp,9999)){
 }
 // todo: test this function
 void machine::sort_Training_Data () {
-	int counter = 0;
 	Stringy *tempStringy;
-	// for each review in the trainData array
-	for (review *eachReview: *this->trainData) {
-		// put the review's string into a string stream for tokenization.
-		stringstream ss (eachReview->getSpaceSeparatedWords ()->getString ());
-		char temp[10000];
-		// tokenizes the words at each space.
-		while (ss.getline (temp, 9999, ' ')) {
-			counter = 0;
-			tempStringy = new Stringy (temp);
-			// if the review is positive
-			if (sentimentWords->empty()){
-				sentimentWords->push_back (new word (tempStringy, eachReview->getSentiment ()));
-					continue;
-			} else
-			if (eachReview->getSentiment ()) {
-				// check if the word is in the positive word bank
-				//for (word *eachWord: *sentimentWords) {
-				for(auto eachWord : *sentimentWords){
-					counter++;
-						// if it is in the bank, increment word count
-					if (eachWord->get_The_Word()->getString() == tempStringy->getString ()) {
-						eachWord->increasePos ();
-						// if it is not, then add it as new word
-					} else {
-						if (tempStringy->length () > 1) {
-							sentimentWords->push_back (new word (tempStringy, true));
-						} else continue;
-					}
-				}
-				// if the review is negative
-			} else if (!eachReview->getSentiment ()) {
-				// check if the word is in the negative word bank
-				for (word *eachWord: *sentimentWords) {
-					// if it is in the bank, increment word count
-					if (eachWord->getWordy () == tempStringy->getString ()) {
-						eachWord->increaseNeg ();
-					}
-						// if it is not, then add it as new word
-					else {
-						if (tempStringy->length () > 1) {
-							sentimentWords->push_back (new word (tempStringy, false));
+	// if the sentimentWords is empty, add the first word in trainData.
+	if (this->sentimentWords->empty ()) {
+		this->sentimentWords->push_back (new word (*this->trainData->at (0)->getSpaceSeparatedWords ()->getString (),
+												   this->trainData->at (0)->getSentiment ()));
+	}
 
-						}
-					}
-				}
+		// for each of the reviews, do this.
+		for (review *eachReview : *this->trainData) {
+			// if the sentimentWords is not empty, check if it is in one of the existing words
+			vector<Stringy *> *tokenizedWords = eachReview->getSpaceSeparatedWords ()->tokenizeStringy (' ');
+			for (Stringy *putMeInSentimentWords : *tokenizedWords) {
+				sentimentWords->push_back (new word (putMeInSentimentWords, eachReview->getSentiment ()));
 			}
 		}
 	}
-}
-
 //todo: finish function
 void machine::sort_Testing_Data () {
 

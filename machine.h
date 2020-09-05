@@ -66,6 +66,7 @@ public:
 	void sort_Sentiment_Words();
 
 	int getIndex(vector<word*>* v, word* K);
+
 protected:
 	//INITIALIZED IN-CONSTRUCTOR
 	// a vector filled with all of the train data reviews.

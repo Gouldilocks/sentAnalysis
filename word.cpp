@@ -8,7 +8,7 @@ word::word (char *theNewWord) {
 }
 
 word::word (Stringy *theNewWord, bool sentiment) {
-	this-> theWord = new Stringy(theNewWord->getString());
+	this-> theWord = new Stringy(*theNewWord);
 	if(sentiment){
 		increasePos ();
 	} else {
