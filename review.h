@@ -45,6 +45,6 @@ protected:
 	// all the words, minus the ones I do not want, and minus any punctuation I do not want
 	Stringy* spaceSeparatedWords = nullptr;
 	// this integer will keep track of which row this certain review is on.
-	int row;
+	int row = 0;
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_REVIEW_H

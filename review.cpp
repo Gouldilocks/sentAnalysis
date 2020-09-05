@@ -26,11 +26,11 @@ this-> row = oldReview->getRow();
 }
 // This is the one that will most likely be used the most.
 review::review (Stringy *total, int row) {
-	ifstream george("blackList.txt");
+	ifstream blackList("blackList.txt");
 	this->row = row;
 	this-> total = new Stringy(*total);
 	this->sentiment = findSentiment();
-	this->cleanUp (george);
+	this->cleanUp (blackList);
 }
 
 review::review (Stringy *total, bool sentiment, bool useBool) {
@@ -46,6 +46,8 @@ void review::cleanUp (ifstream& noNoWords) {
 		tempStringy.setString (temporary);
 		this->total->findAndDelete(tempStringy.getString ());
 	}
+	char deleteSpaces[3] = "  ";
+	this->total->setLength (strlen(this->total->getString ()));
 	this-> spaceSeparatedWords = this->total;
 	noNoWords.close();
 }

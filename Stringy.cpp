@@ -42,10 +42,7 @@ Stringy::~Stringy()
 
 int Stringy::length()
 {
-	int i = 0;
-	while(ystring[i] != '\0')
-	{i++;}
-	return i;
+	return (strlen(this-> ystring) +1);
 }
 
 char& Stringy::at(int loc)
@@ -230,11 +227,11 @@ Stringy &operator+ (const Stringy &S1, char addition[]) {
 void Stringy::findAndDelete (char *toFind) {
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
 	while(strstr(this->ystring,toFind) != nullptr){
-
-		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
-		by moving the data over the number of places that the length of toFind is. */
-		 memmove(strstr(this->ystring,toFind), strstr(this->ystring,toFind) + strlen(toFind), strlen(ystring) - strlen(toFind));
-		 this->ylength = strlen(this->ystring)+1;
+			/* this will find where the toFind string is inside of the ystring, then delete the word that was found
+			by moving the data over the number of places that the length of toFind is. */
+			memmove (strstr (this->ystring, toFind), strstr (this->ystring, toFind) + strlen (toFind),
+					 strlen (ystring) - strlen (toFind));
+			this->ylength = strlen (this->ystring);
 	}
 }
 

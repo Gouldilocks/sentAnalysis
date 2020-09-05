@@ -49,6 +49,7 @@ public:
 
 	char* getString (){return this-> ystring;}
 
+	void setLength(int newLen){this->ylength = newLen;}
 	/* ********     Overloaded Operators     ******** */
 
 	friend ostream& operator << (ostream & OS,const Stringy &S); // $$$

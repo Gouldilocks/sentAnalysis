@@ -78,9 +78,9 @@ protected:
 	// a vector filled with all of the words that have been categorized positive.
 	vector<word*>* sentimentWords;
 
-	int numRight;
+	int numRight = 0;
 
-	int numWrong;
+	int numWrong = 0;
 
 	Stringy* outputMe;
 
