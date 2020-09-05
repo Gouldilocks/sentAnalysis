@@ -25,7 +25,7 @@ public:
 	Stringy* getTotal(){return total;}
 	void setTotal(Stringy* total){this-> total = total;}
 	void setSentiment(bool sentiment){this-> sentiment = sentiment;}
-	bool getSentiment(){return sentiment;}
+	bool getSentiment(){return this->sentiment;}
 	void setSpaceSeparatedWords(Stringy* words){this-> spaceSeparatedWords = words;}
 	Stringy* getSpaceSeparatedWords(){return spaceSeparatedWords;}
 	int getRow(){return this->row;}

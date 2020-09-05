@@ -7,13 +7,9 @@ word::word (char *theNewWord) {
 	this-> theWord = new Stringy(theNewWord);
 }
 
-word::word (Stringy *theNewWord, bool sentiment) {
+word::word (Stringy *theNewWord, bool senty) {
 	this-> theWord = new Stringy(*theNewWord);
-	if(sentiment){
-		increasePos ();
-	} else {
-		increaseNeg ();
-	}
+	this->add_Word (senty);
 }
 
 word::word () {
@@ -28,6 +24,5 @@ void word::add_Word (bool sentiment) {
 if (sentiment){
 	increasePos ();
 } else increaseNeg ();
-calc_Sentiment();
 }
 

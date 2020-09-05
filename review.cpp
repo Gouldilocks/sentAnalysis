@@ -55,7 +55,7 @@ void review::cleanUp (ifstream& noNoWords) {
 // will default to false.
 bool review::findSentiment () {
 	// whole function will not execute if Stringy is empty.
-	if (this->total->empty()) return 0;
+	if (this->total->empty()) return false;
 	bool returnMe = false;
 	for(int i = 0; i < this->total->length (); i++){
 		if (i == this->total-> length() - 1) return i;

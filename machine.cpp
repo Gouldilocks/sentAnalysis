@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include <set>
 
 machine::machine () {
 	this-> trainData = new vector<review*>();
@@ -17,11 +18,11 @@ machine::machine () {
 void machine:: jumpStart(ifstream& testing_Data, ifstream& training_Data) {
 	this->take_In_Training_Data (training_Data);
 	this->sort_Training_Data ();
-	//this->sort_Sentiment_Words();
+	this->sort_Sentiment_Words();
 	//this->take_In_Testing_Data (testing_Data);
 	//this->sort_Testing_Data (); todo: make code for this;
 	//this->compare_Answers();
-	//this->output_Result (); todo: make code for this
+	//this->output_Result ();
 }
 
 void machine::take_In_Testing_Data (ifstream& testing_Data) {
@@ -50,20 +51,19 @@ while(training_Data.getline(temp,9999)){
 }
 }
 // todo: test this function
+// this function simply puts all the data from the training into sentimentWords
+// for Sort_Sentiment_Words to clean up.
 void machine::sort_Training_Data () {
 	Stringy *tempStringy;
-	// if the sentimentWords is empty, add the first word in trainData.
-	if (this->sentimentWords->empty ()) {
-		this->sentimentWords->push_back (new word (*this->trainData->at (0)->getSpaceSeparatedWords ()->getString (),
-												   this->trainData->at (0)->getSentiment ()));
-	}
-
 		// for each of the reviews, do this.
 		for (review *eachReview : *this->trainData) {
+			bool reviewSentiment = eachReview->getSentiment ();
 			// if the sentimentWords is not empty, check if it is in one of the existing words
 			vector<Stringy *> *tokenizedWords = eachReview->getSpaceSeparatedWords ()->tokenizeStringy (' ');
 			for (Stringy *putMeInSentimentWords : *tokenizedWords) {
-				sentimentWords->push_back (new word (putMeInSentimentWords, eachReview->getSentiment ()));
+				word* tempWord = new word(putMeInSentimentWords, reviewSentiment);
+				sentimentWords->push_back (tempWord);
+
 			}
 		}
 	}
@@ -87,49 +87,48 @@ for (testerReview testMe: *testData){
 }
 //todo: finish function
 void machine::output_Result () {
-
+ofstream outPutHere("outPutFile.csv");
+float percentage = this->numRight / this->numWrong;
+outPutHere << percentage << endl;
+outPutHere << this-> outputMe << endl;
 }
-//todo: test function
+//todo: redo function
 void machine::sort_Sentiment_Words () {
-	vector<Stringy*>* words_To_Place;
-	// initialize the sentiment words
-this-> sentimentWords = new vector<word*> ();
-for (review* thisReview : *trainData){
-	words_To_Place = thisReview->getSpaceSeparatedWords()->tokenizeStringy(' ');
-		// for each word in the review
-		for(Stringy* tempStringy: *words_To_Place){
-			// if the word is not already in the vector
-			/* referenced stack overflow
-			 * https://stackoverflow.com/questions/3450860/check-if-a-stdvector-contains-a-certain-object
-			 * */
-			word* tempWord = new word(tempStringy, thisReview->getSentiment());
-			//original code taken from stackoverflow -> if(std::find(v.begin(), v.end(), x) != v.end())
-			// if the word is already in the vector
-			if(getIndex(sentimentWords,tempWord) > -1){
-				// if the review is positive increase positive of word
-				if(thisReview->getSentiment ()) {
-					sentimentWords->at(getIndex (sentimentWords, tempWord))->increasePos();
-				}
-				// if the review is negative increase negative of word
-				if(!thisReview->getSentiment ()) {
-					sentimentWords->at(getIndex (sentimentWords, tempWord))->increaseNeg();
-				}
-			}
-			// otherwise add it as a new word.
-			else{
-				this-> sentimentWords->push_back(tempWord);
-				// if the review is positive, add a positive count, if negative, add negative count.
-				tempWord->add_Word (thisReview->getSentiment ());
+	int negAdd = 0;
+	int posAdd = 0;
+	// account for how many instances of words there are
+	for (word *thisWord : *sentimentWords) {
+		for (int i = 0; i < sentimentWords->size (); i++) {
+			if (thisWord == sentimentWords->at (i) && !sentimentWords->at (i)->getSorted ()) {
+				//thisWord->setNumNeg (thisWord->getNumNeg () + sentimentWords->at(i)->getNumNeg ());
+				//thisWord->setNumPos (thisWord->getNumPos () + sentimentWords->at(i)->getNumPos ());
+				if (sentimentWords->at (i)->getNumPos () > 0) {
+					thisWord->add_Word (true);
+				} else thisWord->add_Word (false);
+				// set the number of negative and positive for the next word to zero
+				// so that the algorithm does not make the numbers too high.
+				sentimentWords->at (i)->setNumNeg (0);
+				sentimentWords->at (i)->setNumPos (0);
+				// set the sorted portion of the words to true.
+				thisWord->setSorted (true);
+				sentimentWords->at (i)->setSorted (true);
 			}
 		}
+		// make all the words equivalent in size.
+//		for(int i = 0; i < sentimentWords->size(); i++){
+//			if(thisWord == sentimentWords->at (i)){
+//				sentimentWords->at(i)->setNumNeg (negAdd);
+//				sentimentWords->at(i)->setNumPos (posAdd);
+	}
+	// then remove the duplicate words
+	removeVec (*sentimentWords);
 }
-}
+
+
 
 /* referenced geeks for geeks
  * https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
  * */
-// Function to print the
-// index of an element
 int machine:: getIndex(vector<word*>* v, word* K)
 {
 	auto it = find(v->begin(),
@@ -149,4 +148,26 @@ int machine:: getIndex(vector<word*>* v, word* K)
 		cout << "-1" << endl;
 		return -1;
 	}
+}
+/*
+https://www.techiedelight.com/remove-duplicates-vector-cpp/
+ */
+// reference for this function
+void machine :: removeVec (vector<word*> &vec) {
+//	vector<int> eraseMe;
+//	for(int j = 0; j < vec.size(); j++){
+//		for(int i = j; i < vec.size(); i++){
+//			if(vec.at(j)->getWordy () == vec.at(i)->getWordy () && vec.at (i)->getSorted ()){
+//				vec.at(i)->setSorted(false);
+//				eraseMe.push_back(i);
+//			}
+//		}
+//	}
+//	// set to descending order
+//	sort(eraseMe.begin(), eraseMe.end(), greater<int>());
+//	// erase the parts of the vector
+//	for(int eraseInt : eraseMe){
+//		vec.erase(vec.begin() + eraseInt - 1);
+//	}
+	vec.erase( unique( vec.begin(), vec.end() ), vec.end() );
 }

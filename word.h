@@ -11,7 +11,11 @@
 class word{
 public:
 	/* ***** Getters / Setters ***** */
-	Stringy* get_The_Word(){return theWord;}
+	bool getSent(){return *this->sentiment;}
+	void setSent(bool* senty){this->sentiment = senty;}
+	const Stringy * get_The_Word() const {return theWord;}
+	bool getSorted(){return this-> sorted;}
+	void setSorted(bool sort) {this->sorted = sort;}
 	void set_The_Word(Stringy* newWord){this->theWord = newWord;}
 	int getNumPos(){return this->numPos;}
 	void setNumPos(int pos){this->numPos = pos;}
@@ -31,16 +35,21 @@ public:
 
 	/* ***** Constructors ***** */
 	word();
-	word(Stringy* theNewWord, bool sentiment);
+	word(Stringy* theNewWord, bool senty);
 	word(char* theNewWord);
-	word(int pos, int neg){this-> numPos = pos; this->numNeg = neg;}
+	//word(int pos, int neg){this-> numPos = pos; this->numNeg = neg;}
 
+	~word(){delete theWord; delete sentiment;}
+	friend bool operator == (const word& W1, const word& W2){
+		return (*W1.get_The_Word ()->getString () == *W2.get_The_Word ()->getString ());
+	}
 private:
 	Stringy* theWord;
 	int numPos = 0;
 	int numNeg = 0;
 	int totalInstances = 0;
-	bool sentiment;
+	bool sentiment = false;
+	bool sorted = false;
 
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_WORD_H

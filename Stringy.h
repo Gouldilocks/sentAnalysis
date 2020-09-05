@@ -47,7 +47,7 @@ public:
 	// sets the string of a Stringy that has not been initialized.
 	void setString (const char* input); // $$$
 
-	char* getString (){return this-> ystring;}
+	char * getString () const {return this-> ystring;}
 
 	void setLength(int newLen){this->ylength = newLen;}
 	/* ********     Overloaded Operators     ******** */
