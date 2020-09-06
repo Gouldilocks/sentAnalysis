@@ -12,7 +12,7 @@
  * The review objects will be managed by a machine object.*/
 class review{
 public:
-	~review(){delete total; delete spaceSeparatedWords;}
+	virtual ~review(){delete total; delete spaceSeparatedWords;}
 	/* ***** Constructors ***** */
 	review();
 	review(review* oldReview);
@@ -22,20 +22,20 @@ public:
 	review(Stringy* total, int row);
 	review(Stringy* total, bool sentiment, bool useBool);
 	/* ***** Getters / Setters ***** */
-	Stringy* getTotal(){return total;}
-	void setTotal(Stringy* total){this-> total = total;}
-	void setSentiment(bool sentiment){this-> sentiment = sentiment;}
-	bool getSentiment(){return this->sentiment;}
-	void setSpaceSeparatedWords(Stringy* words){this-> spaceSeparatedWords = words;}
-	Stringy* getSpaceSeparatedWords(){return spaceSeparatedWords;}
-	int getRow(){return this->row;}
-	void setRow(int newRow){this->row = newRow;}
+	virtual Stringy* getTotal(){return total;}
+	virtual void setTotal(Stringy* total){this-> total = total;}
+	virtual void setSentiment(bool sentiment){this-> sentiment = sentiment;}
+	virtual bool getSentiment(){return this->sentiment;}
+	virtual void setSpaceSeparatedWords(Stringy* words){this-> spaceSeparatedWords = words;}
+	virtual Stringy* getSpaceSeparatedWords(){return this-> spaceSeparatedWords;}
+	virtual int getRow(){return this->row;}
+	virtual void setRow(int newRow){this->row = newRow;}
 	/* ***** Functions ***** */
 	// function will clean up the total, ignoring blacklisted words,
 	// and then put the clean version of the review into spaceSeparatedWords.
-	void cleanUp(ifstream& noNoWords);
+	virtual void cleanUp(ifstream& noNoWords);
 	// function to find the sentiment of the total review when it is given.
-	bool findSentiment();
+	virtual bool findSentiment();
 
 protected:
 	// the whole string as taken from the file.

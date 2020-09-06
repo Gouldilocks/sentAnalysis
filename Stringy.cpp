@@ -252,8 +252,14 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 
 int Stringy :: find_Number_Inside(Stringy* toFind) {
 	int returnMe = 0;
-	while (strstr (this->ystring, toFind->getString()) != nullptr) {
+	// create a copy so that the original is not tainted.
+	char* findMe = new char(*toFind->getString());
+	while (strstr (this->ystring, findMe) != nullptr) {
 		returnMe++;
+		memmove (strstr (this->ystring, findMe), strstr (this->ystring, findMe) + strlen (findMe),
+				 strlen (this->ystring) - strlen (findMe));
 	}
-	return returnMe;
+	// this returns the actual number, as the calculations
+	// above are off by exactly 1 for unknown reasons.
+	return returnMe - 1;
 }

@@ -2,7 +2,9 @@
 // Created by loggityloglog on 9/3/20.
 //
 #include "machine.h"
-#include <sstream>
+#include "Stringy.h"
+#include "review.h"
+#include "testerReview.h"
 #include <algorithm>
 #include <iostream>
 #include <set>
@@ -50,7 +52,6 @@ while(training_Data.getline(temp,9999)){
 	rowCounter++;
 }
 }
-// todo: test this function
 // this function simply puts all the data from the training into sentimentWords
 // for Sort_Sentiment_Words to clean up.
 void machine::sort_Training_Data () {
@@ -67,12 +68,12 @@ void machine::sort_Training_Data () {
 			}
 		}
 	}
-//todo: finish function
+//todo: fix function. possible issue with line 76
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	for(word* thisWord : *sentimentWords){
 		// find the number of occurrences of this particular word inside of this review..
-		int occurrences = thisReview->getSpaceSeparatedWords()->find_Number_Inside (thisWord->get_The_Word ());
+		int occurrences = thisReview->review :: getSpaceSeparatedWords()->find_Number_Inside (thisWord->get_The_Word ());
 		// if the word is positive, increase positive word count
 		if(thisWord->getSent()){
 			thisReview->addToPosWords (occurrences);
@@ -103,14 +104,13 @@ for (testerReview testMe: *testData){
 	}
 }
 }
-//todo: finish function
+//todo: test function
 void machine::output_Result () {
 ofstream outPutHere("outPutFile.csv");
 float percentage = this->numRight / this->numWrong;
 outPutHere << percentage << endl;
 outPutHere << this-> outputMe << endl;
 }
-//todo: redo function
 void machine::sort_Sentiment_Words () {
 	int negAdd = 0;
 	int posAdd = 0;
