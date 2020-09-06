@@ -71,7 +71,7 @@ void machine::sort_Training_Data () {
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	for(word* thisWord : *sentimentWords){
-		// find the number of occurrences of this particular word inside of this review.
+		// find the number of occurrences of this particular word inside of this review..
 		int occurrences = thisReview->getSpaceSeparatedWords()->find_Number_Inside (thisWord->get_The_Word ());
 		// if the word is positive, increase positive word count
 		if(thisWord->getSent()){
