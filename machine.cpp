@@ -68,7 +68,7 @@ void machine::sort_Training_Data () {
 			}
 		}
 	}
-//todo: fix function. possible issue with line 76
+//todo: fix function. possible issue with line 78/79
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	for(word* thisWord : *sentimentWords){
