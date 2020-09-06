@@ -9,3 +9,11 @@ this-> expectedOutput = nullptr;
 testerReview :: testerReview() : review(){
 	this-> expectedOutput = nullptr;
 }
+
+void testerReview::addToPosWords (int addMe) {
+*this->posWords = *posWords + addMe;
+}
+
+void testerReview::addToNegWords (int addMe) {
+*this->negWords = *negWords + addMe;
+}

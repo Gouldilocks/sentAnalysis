@@ -11,9 +11,9 @@
 class word{
 public:
 	/* ***** Getters / Setters ***** */
-	bool getSent(){return *this->sentiment;}
+	bool getSent(){return this->sentiment;}
 	void setSent(bool* senty){this->sentiment = senty;}
-	const Stringy * get_The_Word() const {return theWord;}
+	Stringy * get_The_Word() const {return theWord;}
 	bool getSorted(){return this-> sorted;}
 	void setSorted(bool sort) {this->sorted = sort;}
 	void set_The_Word(Stringy* newWord){this->theWord = newWord;}
@@ -39,7 +39,7 @@ public:
 	word(char* theNewWord);
 	//word(int pos, int neg){this-> numPos = pos; this->numNeg = neg;}
 
-	~word(){delete theWord; delete sentiment;}
+	~word(){delete theWord;}
 	friend bool operator == (const word& W1, const word& W2){
 		return (*W1.get_The_Word ()->getString () == *W2.get_The_Word ()->getString ());
 	}

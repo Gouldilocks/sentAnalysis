@@ -50,6 +50,8 @@ public:
 	char * getString () const {return this-> ystring;}
 
 	void setLength(int newLen){this->ylength = newLen;}
+
+	int find_Number_Inside(Stringy* toFind);
 	/* ********     Overloaded Operators     ******** */
 
 	friend ostream& operator << (ostream & OS,const Stringy &S); // $$$

@@ -250,3 +250,10 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 	return returnMe;
 }
 
+int Stringy :: find_Number_Inside(Stringy* toFind) {
+	int returnMe = 0;
+	while (strstr (this->ystring, toFind->getString()) != nullptr) {
+		returnMe++;
+	}
+	return returnMe;
+}

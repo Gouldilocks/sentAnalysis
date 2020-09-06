@@ -19,10 +19,10 @@ void machine:: jumpStart(ifstream& testing_Data, ifstream& training_Data) {
 	this->take_In_Training_Data (training_Data);
 	this->sort_Training_Data ();
 	this->sort_Sentiment_Words();
-	//this->take_In_Testing_Data (testing_Data);
-	//this->sort_Testing_Data (); todo: make code for this;
-	//this->compare_Answers();
-	//this->output_Result ();
+	this->take_In_Testing_Data (testing_Data);
+	this->sort_Testing_Data ();
+	this->compare_Answers();
+	this->output_Result ();
 }
 
 void machine::take_In_Testing_Data (ifstream& testing_Data) {
@@ -69,7 +69,25 @@ void machine::sort_Training_Data () {
 	}
 //todo: finish function
 void machine::sort_Testing_Data () {
-
+for(testerReview *thisReview : *testData){
+	for(word* thisWord : *sentimentWords){
+		// find the number of occurrences of this particular word inside of this review.
+		int occurrences = thisReview->getSpaceSeparatedWords()->find_Number_Inside (thisWord->get_The_Word ());
+		// if the word is positive, increase positive word count
+		if(thisWord->getSent()){
+			thisReview->addToPosWords (occurrences);
+		// if the word is negative, increase negative word count
+		}else{
+			thisReview->addToNegWords (occurrences);
+		}
+	}// end every word
+	float percentage = (*thisReview->getPosWords ())/(*thisReview->getNegWords ());
+	if (percentage >= 1){
+	thisReview->setExpectedOutput (true);
+	} else {
+	thisReview->setExpectedOutput (false);
+	}
+}// end every review
 }
 //todo: test function
 void machine::compare_Answers () {
