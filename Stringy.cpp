@@ -22,7 +22,9 @@ Stringy::Stringy(const char *input) // constructor, given a c-string.
 	this-> ylength = strlen(input) + 1;
 	this-> ystring = new char[ this-> ylength ];
 	// adds each of the elements in input including the null terminating zero.
-	for (int i = 0; i < this-> ylength; i++) this-> ystring[ i ] = input[ i ];
+	for (int i = 0; i < this-> ylength; i++) {
+		this->ystring[ i ] = input[ i ];
+	}
 }
 
 Stringy :: Stringy (Stringy &S){
@@ -144,7 +146,7 @@ istream& operator >> (istream & IS,Stringy& S) {
 	S.ystring[S.ylength-1] = '\0';
 	return IS;
 }
-Stringy& Stringy::operator =(const Stringy &S)
+Stringy& Stringy::operator = (const Stringy &S)
 {
 	this-> ylength = S.ylength;
 	delete[] this-> ystring;
@@ -224,6 +226,7 @@ Stringy &operator+ (const Stringy &S1, char addition[]) {
 /* Referenced Stack overflow for this function:
  * https://stackoverflow.com/questions/5457608/how-to-remove-the-character-at-a-given-index-from-a-string-in-c
  * */
+
 void Stringy::findAndDelete (char *toFind) {
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
 	while(strstr(this->ystring,toFind) != nullptr && (strcmp(strstr(this->ystring,toFind), " ")) != 0){
@@ -239,7 +242,7 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 	auto* returnMe = new vector<Stringy*> ();
 	char temp[10000];
 	Stringy* tempStringy;
-	stringstream ss(this->getString());
+	stringstream ss(this->getString ());
 	while(ss.getline(temp,9999, delim)){
 		// avoid spaces being put into the word vector.
 		if(temp[0] != ' ') {

@@ -63,8 +63,20 @@ void machine::sort_Training_Data () {
 			vector<Stringy *> *tokenizedWords = eachReview->getSpaceSeparatedWords ()->tokenizeStringy (' ');
 			for (Stringy *putMeInSentimentWords : *tokenizedWords) {
 				word* tempWord = new word(putMeInSentimentWords, reviewSentiment);
-				sentimentWords->push_back (tempWord);
+				// if the word is not already in the array, add it as a new word.
 
+				if(this->sentimentWords->empty() || isInsideVector(*this->sentimentWords, *tempWord) == nullptr) {
+					sentimentWords->push_back (tempWord);
+				// otherwise, increase the number of that word.
+				} else {
+					word* ref = nullptr;
+					ref = (isInsideVector (*this->sentimentWords, *tempWord));
+
+					bool senty = eachReview->getSentiment();
+					// add the word to the list of words for that given word.
+					isInsideVector (*this->sentimentWords, *ref)->add_Word (senty);
+				}
+				delete tempWord;
 			}
 		}
 	}
@@ -75,71 +87,48 @@ for(testerReview *thisReview : *testData){
 		// find the number of occurrences of this particular word inside of this review..
 		int occurrences = thisReview->review :: getSpaceSeparatedWords()->find_Number_Inside (thisWord->get_The_Word ());
 		// if the word is positive, increase positive word count
-		if(thisWord->getSent()){
-			thisReview->addToPosWords (occurrences);
-		// if the word is negative, increase negative word count
-		}else{
-			thisReview->addToNegWords (occurrences);
+		if(occurrences > 0) {
+			if (thisWord->getSent ()) {
+				thisReview->addToPosWords (occurrences);
+				// if the word is negative, increase negative word count
+			} else {
+				thisReview->addToNegWords (occurrences);
+			}
 		}
 	}// end every word
+	// todo: issue with these numbers being zero.
 	float percentage = (*thisReview->getPosWords ())/(*thisReview->getNegWords ());
-	if (percentage >= 1){
-	thisReview->setExpectedOutput (true);
-	} else {
-	thisReview->setExpectedOutput (false);
-	}
+	// if the percentage of positive words exceeds the number of
+	// negative words, then set expected output to positive.
+	thisReview->setExpectedOutput (percentage >= 1);
 }// end every review
 }
 //todo: test function
 void machine::compare_Answers () {
 	// for each tested review in testData
-for (testerReview testMe: *testData){
-	if (testMe.getSentiment() == testMe.getExpectedOutput ()){
+for (testerReview* testMe: *testData){
+	if (testMe->getSentiment() == testMe->getExpectedOutput ()){
 		this->numRight++;
 	} else {
 		// increase number wrong and add the row number to the output stringy with new line
 		this->numWrong++;
-		char rowArr[2] = {(char) testMe.getRow(), '\n'};
+		char rowArr[2] = {(char) testMe->getRow(), '\n'};
 		*outputMe = *outputMe + rowArr;
 	}
 }
 }
 //todo: test function
+
 void machine::output_Result () {
 ofstream outPutHere("outPutFile.csv");
 float percentage = this->numRight / this->numWrong;
 outPutHere << percentage << endl;
-outPutHere << this-> outputMe << endl;
+outPutHere << *this-> outputMe << endl;
 }
 void machine::sort_Sentiment_Words () {
-	int negAdd = 0;
-	int posAdd = 0;
-	// account for how many instances of words there are
-	for (word *thisWord : *sentimentWords) {
-		for (int i = 0; i < sentimentWords->size (); i++) {
-			if (thisWord == sentimentWords->at (i) && !sentimentWords->at (i)->getSorted ()) {
-				//thisWord->setNumNeg (thisWord->getNumNeg () + sentimentWords->at(i)->getNumNeg ());
-				//thisWord->setNumPos (thisWord->getNumPos () + sentimentWords->at(i)->getNumPos ());
-				if (sentimentWords->at (i)->getNumPos () > 0) {
-					thisWord->add_Word (true);
-				} else thisWord->add_Word (false);
-				// set the number of negative and positive for the next word to zero
-				// so that the algorithm does not make the numbers too high.
-				sentimentWords->at (i)->setNumNeg (0);
-				sentimentWords->at (i)->setNumPos (0);
-				// set the sorted portion of the words to true.
-				thisWord->setSorted (true);
-				sentimentWords->at (i)->setSorted (true);
-			}
-		}
-		// make all the words equivalent in size.
-//		for(int i = 0; i < sentimentWords->size(); i++){
-//			if(thisWord == sentimentWords->at (i)){
-//				sentimentWords->at(i)->setNumNeg (negAdd);
-//				sentimentWords->at(i)->setNumPos (posAdd);
-	}
-	// then remove the duplicate words
-	removeVec (*sentimentWords);
+for(word* thisWord : *this->sentimentWords ){
+	thisWord->calc_Sentiment ();
+}
 }
 
 
@@ -147,10 +136,18 @@ void machine::sort_Sentiment_Words () {
 /* referenced geeks for geeks
  * https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
  * */
+word* machine :: isInsideVector(vector<word*>& v, word k){
+	for(word* theWord : v){
+		if (*theWord == k){
+			return theWord;
+		}
+	}
+	return nullptr;
+}
 int machine:: getIndex(vector<word*>* v, word* K)
 {
 	auto it = find(v->begin(),
-				   v->end(), K);
+				  v->end(), K);
 
 	// If element was found
 	if (it != v->end()) {

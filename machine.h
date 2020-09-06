@@ -61,13 +61,21 @@ public:
 	// function will compare what was gotten versus what should have been gotten.
 	void compare_Answers();
 
+	// function will output all the data to the output file
 	void output_Result();
 
+	/* function will take words from testingData and
+	 * put them into sentimentWords */
 	void sort_Sentiment_Words();
 
+	/* function will get the index of the given word
+	 * and return it. Returns -1 if cannot find */
 	int getIndex(vector<word*>* v, word* K);
 
+	/* function will remove duplicate entries of a word */
 	void removeVec(vector<word*> &vec);
+
+	word* isInsideVector(vector<word*>& v, word k);
 protected:
 	//INITIALIZED IN-CONSTRUCTOR
 	// a vector filled with all of the train data reviews.
