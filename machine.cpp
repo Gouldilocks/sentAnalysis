@@ -55,7 +55,6 @@ while(training_Data.getline(temp,9999)){
 // this function simply puts all the data from the training into sentimentWords
 // for Sort_Sentiment_Words to clean up.
 void machine::sort_Training_Data () {
-	Stringy *tempStringy;
 		// for each of the reviews, do this.
 		for (review *eachReview : *this->trainData) {
 			bool reviewSentiment = eachReview->getSentiment ();
@@ -66,12 +65,11 @@ void machine::sort_Training_Data () {
 				// if the word is not already in the array, add it as a new word.
 
 				if(this->sentimentWords->empty() || isInsideVector(*this->sentimentWords, *tempWord) == nullptr) {
-					sentimentWords->push_back (tempWord);
+					sentimentWords->push_back (tempWord); //IMPORTANT push back does not work. pushes it back as blank
 				// otherwise, increase the number of that word.
 				} else {
 					word* ref = nullptr;
 					ref = (isInsideVector (*this->sentimentWords, *tempWord));
-
 					bool senty = eachReview->getSentiment();
 					// add the word to the list of words for that given word.
 					isInsideVector (*this->sentimentWords, *ref)->add_Word (senty);
