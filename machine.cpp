@@ -68,13 +68,12 @@ void machine::sort_Training_Data () {
 					sentimentWords->push_back (tempWord); //IMPORTANT push back does not work. pushes it back as blank
 				// otherwise, increase the number of that word.
 				} else {
-					word* ref = nullptr;
+					word *ref = nullptr;
 					ref = (isInsideVector (*this->sentimentWords, *tempWord));
-					bool senty = eachReview->getSentiment();
+					bool senty = eachReview->getSentiment ();
 					// add the word to the list of words for that given word.
 					isInsideVector (*this->sentimentWords, *ref)->add_Word (senty);
 				}
-				delete tempWord;
 			}
 		}
 	}

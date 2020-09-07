@@ -6,13 +6,13 @@
 using namespace std;
 // function which returns the index of the given stringy where the beginning of the sentiment starts.
 int main(int argc, char** argv) {
-Catch :: Session().run();
+//Catch :: Session().run();
 // todo: make all words capital, as it treats them as different
-//	ifstream testing_Data("testing_Data.csv");
-//	ifstream training_Data("training_Data.csv");
-//	auto* newMachine = new machine();
-//	newMachine->jumpStart (testing_Data,training_Data);
-//	cout << "Done" << endl;
+	ifstream testing_Data("testing_Data.csv");
+	ifstream training_Data("training_Data.csv");
+	auto* newMachine = new machine();
+	newMachine->jumpStart (testing_Data,training_Data);
+	cout << "Done" << endl;
     return 0;
 }
 /* CATCH things

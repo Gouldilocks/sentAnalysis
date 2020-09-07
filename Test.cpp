@@ -90,64 +90,64 @@ TEST_CASE("Review Class", "[review]"){
 	Stringy* negStringp = new Stringy(negString);
 	Stringy* poStringp = new Stringy(posString);
 	review negRev(negStringp, 1);
-//	review posRev(poStringp, 2);
-//	SECTION("Getters and Setters"){
+	review posRev(poStringp, 2);
+	SECTION("Getters and Setters"){
 		REQUIRE (!negRev.getSentiment());
-//		REQUIRE (posRev.getSentiment());
+		REQUIRE (posRev.getSentiment());
 		negRev.setSentiment( true );
 		REQUIRE (negRev.getSentiment ());
 		negRev.setSentiment(false);
 		REQUIRE (!negRev.getSentiment ());
 		REQUIRE(*negRev.getTotal() == testSpaced);
-//		Stringy* testy = new Stringy(testString);
-//		posRev.setSpaceSeparatedWords(testy);
-//		REQUIRE(posRev.getSpaceSeparatedWords() == testString);
-//		negRev.setTotal(testy);
-//		REQUIRE(*negRev.getTotal() == testString);
-//		negRev.setRow(2);
-//		posRev.setRow(1);
-//		REQUIRE (negRev.getRow() == 2);
-//		REQUIRE (posRev.getRow() == 1);
-//	}
+		Stringy* testy = new Stringy(testString);
+		posRev.setSpaceSeparatedWords(testy);
+		REQUIRE(posRev.getSpaceSeparatedWords() == testString);
+		negRev.setTotal(testy);
+		REQUIRE(*negRev.getTotal() == testString);
+		negRev.setRow(2);
+		posRev.setRow(1);
+		REQUIRE (negRev.getRow() == 2);
+		REQUIRE (posRev.getRow() == 1);
+	}
 }
 // subclass of review
-//TEST_CASE("testerReview Class", "[testerReview]"){
-//	Stringy negString("This is a review which is negative\",negative");
-//	Stringy posString("This is a review which is positive\",positive");
-//	Stringy testString("This is a tester review of spaced");
-//	Stringy blackList ("spaced"); // this is the blacklist;
-//	Stringy testSpaced("This is a review which is ");
-//	testerReview negRev(&negString, 1);
-//	testerReview posRev(&posString, 2);
-//	SECTION("Getters and Setters"){
-//		REQUIRE (!negRev.getSentiment());
-//		REQUIRE (posRev.getSentiment());
-//		negRev.setSentiment( true );
-//		REQUIRE (negRev.getSentiment ());
-//		negRev.setSentiment(false);
-//		REQUIRE (!negRev.getSentiment ());
-//		REQUIRE(*negRev.getTotal() == testSpaced);
-//		posRev.setSpaceSeparatedWords(&testString);
-//		REQUIRE(posRev.getSpaceSeparatedWords() == testString);
-//		negRev.setTotal(&testString);
-//		REQUIRE(*negRev.getTotal() == testString);
-//		negRev.setRow(2);
-//		posRev.setRow(1);
-//		REQUIRE (negRev.getRow() == 2);
-//		REQUIRE (posRev.getRow() == 1);
-//	}
-//	SECTION ("Getters and Setters from testerReview"){
-//	posRev.setExpectedOutput(false);
-//	REQUIRE(!posRev.getExpectedOutput());
-//	posRev.setExpectedOutput(true);
-//	REQUIRE(posRev.getExpectedOutput());
-//	negRev.setPosWords(new int(2));
-//	REQUIRE(*negRev.getPosWords() == 2);
-//	negRev.setNegWords(new int(2));
-//	REQUIRE(*negRev.getNegWords() == 2);
-//	negRev.addToNegWords(1);
-//	REQUIRE(*negRev.getNegWords() == 3);
-//	negRev.addToPosWords(1);
-//	REQUIRE(*negRev.getPosWords() == 3);
-//	}
-//}
+TEST_CASE("testerReview Class", "[testerReview]"){
+	Stringy negString("This is a review which is negative\",negative");
+	Stringy posString("This is a review which is positive\",positive");
+	Stringy testString("This is a tester review of spaced");
+	Stringy blackList ("spaced"); // this is the blacklist;
+	Stringy testSpaced("This is a review which is ");
+	testerReview negRev(&negString, 1);
+	testerReview posRev(&posString, 2);
+	SECTION("Getters and Setters"){
+		REQUIRE (!negRev.getSentiment());
+		REQUIRE (posRev.getSentiment());
+		negRev.setSentiment( true );
+		REQUIRE (negRev.getSentiment ());
+		negRev.setSentiment(false);
+		REQUIRE (!negRev.getSentiment ());
+		REQUIRE(*negRev.getTotal() == testSpaced);
+		posRev.setSpaceSeparatedWords(&testString);
+		REQUIRE(posRev.getSpaceSeparatedWords() == testString);
+		negRev.setTotal(&testString);
+		REQUIRE(*negRev.getTotal() == testString);
+		negRev.setRow(2);
+		posRev.setRow(1);
+		REQUIRE (negRev.getRow() == 2);
+		REQUIRE (posRev.getRow() == 1);
+	}
+	SECTION ("Getters and Setters from testerReview"){
+	posRev.setExpectedOutput(false);
+	REQUIRE(!posRev.getExpectedOutput());
+	posRev.setExpectedOutput(true);
+	REQUIRE(posRev.getExpectedOutput());
+	negRev.setPosWords(new int(2));
+	REQUIRE(*negRev.getPosWords() == 2);
+	negRev.setNegWords(new int(2));
+	REQUIRE(*negRev.getNegWords() == 2);
+	negRev.addToNegWords(1);
+	REQUIRE(*negRev.getNegWords() == 3);
+	negRev.addToPosWords(1);
+	REQUIRE(*negRev.getPosWords() == 3);
+	}
+}

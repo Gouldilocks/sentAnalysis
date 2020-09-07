@@ -12,7 +12,7 @@
  * The review objects will be managed by a machine object.*/
 class review{
 public:
-	virtual ~review(){delete spaceSeparatedWords; delete total;}
+	~review(){delete spaceSeparatedWords;delete total;}
 	/* ***** Constructors ***** */
 	review();
 	review(review* oldReview);

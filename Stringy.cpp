@@ -206,17 +206,22 @@ Stringy &operator+ (const Stringy &S1, char addition[])  {
  * */
 
 void Stringy::findAndDelete (char *toFind) {
-	int toFindLen = strlen(toFind);
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
 	while(strstr(this->ystring,toFind) != nullptr && (strcmp(strstr(this->ystring,toFind), " ")) != 0 && strcmp(toFind,"") != 0){
-			/* this will find where the toFind string is inside of the ystring, then delete the word that was found
-			by moving the data over the number of places that the length of toFind is. */
+		int toFindLen = strlen(toFind);
+		int bytesToMove = strlen(strstr(this->ystring,toFind)) - toFindLen;
+		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
+		by moving the data over the number of places that the length of toFind is. */
+			//cout << "toFind: " << toFind << endl;
+			//cout << "Destination: " << strstr(this->ystring,toFind) << endl;
+			//cout << "Source: " << strstr(this->ystring, toFind) + strlen(toFind) << endl;
+			//cout << "Number of Bytes: " << bytesToMove << endl;
+			//cout << "******************" << endl;
 			memmove (strstr (this->ystring, toFind), strstr (this->ystring, toFind) + strlen (toFind),
-					 strlen (ystring) - strlen (toFind));
+					 bytesToMove);
 		substr(0,this->length() - toFindLen);
 		this->ylength = strlen (ystring) + 1;
 	}
-
 }
 
 vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
@@ -235,16 +240,22 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 }
 
 int Stringy :: find_Number_Inside(Stringy* toFind) {
-	int returnMe = 0;
-	// create a copy so that the original is not tainted.
-	char* findMe = new char(*toFind->getString());
-	while (strstr (this->ystring, findMe) != nullptr) {
-		returnMe++;
+	cout << "Stringy toFind: " << *toFind << endl;
+	cout << "char* findMe: " << toFind-> getString () << endl;
+	char* findMe = toFind->getString ();
+	while(strstr(this->ystring,findMe) != nullptr && (strcmp(strstr(this->ystring,findMe), " ")) != 0 && strcmp(findMe,"") != 0){
+		int toFindLen = strlen(findMe);
+		int bytesToMove = strlen(strstr(this->ystring,findMe)) - toFindLen;
+		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
+		by moving the data over the number of places that the length of toFind is. */
+		cout << "toFind: " << toFind << endl;
+		cout << "Destination: " << strstr(this->ystring,findMe) << endl;
+		cout << "Source: " << strstr(this->ystring, findMe) + strlen(findMe) << endl;
+		cout << "Number of Bytes: " << bytesToMove << endl;
+		cout << "******************" << endl;
 		memmove (strstr (this->ystring, findMe), strstr (this->ystring, findMe) + strlen (findMe),
-				 strlen (this->ystring) - strlen (findMe));
+				 bytesToMove);
+		substr(0,this->length() - toFindLen);
+		this->ylength = strlen (ystring) + 1;
 	}
-	this->substr(0,this->length() - toFind->length());
-	// this returns the actual number, as the calculations
-	// above are off by exactly 1 for unknown reasons.
-	return returnMe - 1;
 }
