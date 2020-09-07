@@ -44,6 +44,7 @@ public:
 	friend bool operator == (const word& W1, const word& W2){
 		return (*W1.get_The_Word ()->getString () == *W2.get_The_Word ()->getString ());
 	}
+	word& operator = (const word& word1);
 private:
 	Stringy* theWord;
 	int* numPos = nullptr;

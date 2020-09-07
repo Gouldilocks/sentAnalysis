@@ -54,3 +54,20 @@ void word::increaseNeg () {
 *this->totalInstances = *totalInstances + 1;
 }
 
+word &word::operator= (const word &word1) {
+	delete this->theWord;
+	delete this-> numPos;
+	delete this-> numNeg;
+	delete this-> totalInstances;
+	delete this-> sentiment;
+	delete this-> sorted;
+	this-> theWord = new Stringy(*word1.theWord);
+	this-> numPos = new int(*word1.numPos);
+	this-> numNeg = new int(*word1.numNeg);
+	this-> totalInstances = new int(*word1.totalInstances);
+	this-> sentiment = new bool (*word1.sentiment);
+	this-> sorted = new bool (*word1.sorted);
+	return *this;
+}
+
+

@@ -44,7 +44,7 @@ Stringy::~Stringy()
 
 int Stringy::length()
 {
-	return (strlen(this-> ystring) +1);
+	return (strlen(this-> ystring));
 }
 
 char& Stringy::at(int loc)
@@ -109,24 +109,7 @@ void Stringy:: setString(const char* input){
 bool operator == (const Stringy & S1, const Stringy & S2)
 {
 	//if they are the same length, only then does the algorithm start.
-	if(S1.ylength == S2.ylength)
-	{
-		bool same = true;
-		int counter1 = S1.ylength;
-		int counter2 = S2.ylength;
-		int i = 0;
-		//will loop through all but the null-terminator in the string.
-		while(i < counter1 && i < counter2){
-			// bool same will be set to false if any of the string pieces do not match.
-			if(S1.ystring[i] != S2.ystring[i]){bool same = false;}
-			i++;
-		}
-		// for testing.
-		//cout << i << " " << counter2 << endl;
-		return same;
-	}
-	// if the strings are not the same length, return false.
-	else {return false;}
+	return strcmp (S1.getString (), S2.getString ()) == 0;
 
 }
 
@@ -209,7 +192,7 @@ Stringy& Stringy :: operator += (const Stringy& S1){
 	return *this;
 }
 
-Stringy &operator+ (const Stringy &S1, char addition[]) {
+Stringy &operator+ (const Stringy &S1, char addition[])  {
 	char* newStringy = nullptr;
 	newStringy = new char [strlen(S1.ystring) + strlen(addition)+1];
 	for(int i = 0; i < strlen(S1.ystring); i++){
