@@ -18,9 +18,11 @@ public:
 	//$$$
 	Stringy(const char* input);//Takes in a string and creates an object
 	//$$$
-	Stringy(Stringy &S);//Copy constructor
+	Stringy(Stringy *S);//Copy constructor
 	//$$$
 	~Stringy();//Destructor deletes the nstring at the end
+
+	Stringy(Stringy const &s);
 
 	/* *****     Functions     ***** */
 
@@ -36,13 +38,13 @@ public:
 	// if string is empty returns true else it returns false
 	bool empty(); // $$$
 
-	//	int find (const Stringy& S, int index =0);
+	int charLength();
 
 	// takes the next word in the String, then returns a vector of each word according to the delimeter
 	vector<Stringy*>* tokenizeStringy(char delim);
 
 	// returns a pointer to a substring of the object that calls it
-	Stringy* substr(int index, int length); // $$$
+	void substr(int index, int length); // $$$
 
 	// sets the string of a Stringy that has not been initialized.
 	void setString (const char* input); // $$$

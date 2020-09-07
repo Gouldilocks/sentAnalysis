@@ -28,7 +28,7 @@ this-> row = oldReview->getRow();
 review::review (Stringy *total, int row) {
 	ifstream blackList("blackList.txt");
 	this->row = row;
-	this-> total = new Stringy(*total);
+	this-> total = new Stringy(total);
 	this->sentiment = findSentiment();
 	this->cleanUp (blackList);
 }
@@ -41,15 +41,13 @@ this->row = 1;
 
 void review::cleanUp (ifstream& noNoWords) {
 	char temporary[200];
-	Stringy tempStringy;
+	int counter = 0;
+	counter++;
 	while(noNoWords.getline(temporary,150,' ')) {
-		tempStringy.setString (temporary);
+		Stringy tempStringy(temporary);
 		this->total->findAndDelete(tempStringy.getString ());
 	}
-	char deleteSpaces[3] = "  ";
-	this->total->setLength (strlen(this->total->getString ()));
-	this-> spaceSeparatedWords = this->total;
-	noNoWords.close();
+	this-> spaceSeparatedWords = new Stringy(this->total);
 }
 
 // will default to false.

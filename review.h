@@ -12,7 +12,7 @@
  * The review objects will be managed by a machine object.*/
 class review{
 public:
-	virtual ~review(){delete total; delete spaceSeparatedWords;}
+	virtual ~review(){delete spaceSeparatedWords; delete total;}
 	/* ***** Constructors ***** */
 	review();
 	review(review* oldReview);
@@ -26,7 +26,7 @@ public:
 	virtual void setTotal(Stringy* total){this-> total = total;}
 	virtual void setSentiment(bool sentiment){this-> sentiment = sentiment;}
 	virtual bool getSentiment(){return this->sentiment;}
-	virtual void setSpaceSeparatedWords(Stringy* words){this-> spaceSeparatedWords = words;}
+	virtual void setSpaceSeparatedWords(Stringy* words){delete this-> spaceSeparatedWords; this-> spaceSeparatedWords = words;}
 	virtual Stringy* getSpaceSeparatedWords(){return this-> spaceSeparatedWords;}
 	virtual int getRow(){return this->row;}
 	virtual void setRow(int newRow){this->row = newRow;}

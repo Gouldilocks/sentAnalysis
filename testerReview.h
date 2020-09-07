@@ -6,7 +6,7 @@
 #define S20_PA01_SENTIMENTANALYSIS_TESTERREVIEW_H
 #include "review.h"
 #include "Stringy.h"
-class testerReview :public review {
+class testerReview : public review {
 public:
 	/* ***** Constructors ***** */
 	testerReview();

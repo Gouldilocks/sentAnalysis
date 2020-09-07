@@ -15,7 +15,7 @@ Stringy::Stringy()
 	ystring = new char[ylength];
 	ystring[ylength-1] = '\0';
 }
-Stringy::Stringy(const char *input) // constructor, given a c-string.
+Stringy::Stringy(const char* input) // constructor, given a c-string.
 {
 	// A new copy of a C-string contains exactly the same number of characters in
 	// the C-string plus a terminating zero.
@@ -26,13 +26,17 @@ Stringy::Stringy(const char *input) // constructor, given a c-string.
 		this->ystring[ i ] = input[ i ];
 	}
 }
-
-Stringy :: Stringy (Stringy &S){
-	this-> ylength = S.ylength;
+Stringy :: Stringy (Stringy const &s){
+	this-> ylength = s.ylength;
+	this-> ystring = new char[ylength];
+	strcpy (this->ystring,s.ystring);
+}
+Stringy :: Stringy (Stringy *S){
+	this-> ylength = S->length ();
 	this-> ystring = new char [ylength];
 	//make all the values in S part of this string
 	for (int i = 0; i < this-> ylength; i++){
-		this-> ystring[i] = S.ystring[i];
+		this-> ystring[i] = S->getString()[i];
 	}
 }
 //Destructor
@@ -44,7 +48,10 @@ Stringy::~Stringy()
 
 int Stringy::length()
 {
-	return (strlen(this-> ystring));
+	return (this-> ylength);
+}
+int Stringy :: charLength(){
+	return strlen(this-> ystring);
 }
 
 char& Stringy::at(int loc)
@@ -66,12 +73,11 @@ bool Stringy::empty()
 
 
 
-Stringy* Stringy::substr(int index, int length)
+void Stringy::substr(int index, int length)
 {
 
 	int size = length+1;
-	char* temp = new char[size];
-	int j = 0;
+	char * temp = new char[size];
 	//double for loop, in which it will end at a specified length "i" in the string,
 	//and starts at zero for the new temp string.
 	for(int i = index, j = 0; j < size; i++, j++)
@@ -79,21 +85,10 @@ Stringy* Stringy::substr(int index, int length)
 		temp[j] = ystring[i];
 	}
 	//make sure the end of the c-string is null-terminated.
-	if(temp[size -1 ] != '\0'){temp[size -1] = '\0';}
-
-	//create the variable which the new substring will be.
-	auto* returnMe = new Stringy();
-	returnMe->ylength = size;
-	delete[]returnMe->ystring;
-	returnMe->ystring = new char[size];
-
-	for(int m = 0; m < size; m++){
-
-		returnMe->ystring[m] = temp[m];
-
-	}
-	delete[]temp;
-	return returnMe;
+	if(temp[size-1] != '\0'){temp[size-1] = '\0';}
+	delete ystring;
+	this-> ystring = temp;
+	this-> ylength = size;
 }
 
 // Function to set the string to a new string.
@@ -211,14 +206,17 @@ Stringy &operator+ (const Stringy &S1, char addition[])  {
  * */
 
 void Stringy::findAndDelete (char *toFind) {
+	int toFindLen = strlen(toFind);
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
-	while(strstr(this->ystring,toFind) != nullptr && (strcmp(strstr(this->ystring,toFind), " ")) != 0){
+	while(strstr(this->ystring,toFind) != nullptr && (strcmp(strstr(this->ystring,toFind), " ")) != 0 && strcmp(toFind,"") != 0){
 			/* this will find where the toFind string is inside of the ystring, then delete the word that was found
 			by moving the data over the number of places that the length of toFind is. */
 			memmove (strstr (this->ystring, toFind), strstr (this->ystring, toFind) + strlen (toFind),
 					 strlen (ystring) - strlen (toFind));
-			this->ylength = strlen (this->ystring)+1;
+		substr(0,this->length() - toFindLen);
+		this->ylength = strlen (ystring) + 1;
 	}
+
 }
 
 vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
@@ -245,6 +243,7 @@ int Stringy :: find_Number_Inside(Stringy* toFind) {
 		memmove (strstr (this->ystring, findMe), strstr (this->ystring, findMe) + strlen (findMe),
 				 strlen (this->ystring) - strlen (findMe));
 	}
+	this->substr(0,this->length() - toFind->length());
 	// this returns the actual number, as the calculations
 	// above are off by exactly 1 for unknown reasons.
 	return returnMe - 1;

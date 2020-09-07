@@ -135,9 +135,9 @@ for(word* thisWord : *this->sentimentWords ){
  * https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
  * */
 word* machine :: isInsideVector(vector<word*>& v, word k){
-	for(word* theWord : v){
-		if (*theWord == k){
-			return theWord;
+	for(int i =0; i < v.size(); i++){
+		if (*v.at(i) == k){
+			return v.at(i);
 		}
 	}
 	return nullptr;
