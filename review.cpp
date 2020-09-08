@@ -47,7 +47,7 @@ void review::cleanUp (ifstream& noNoWords) {
 		Stringy tempStringy(temporary);
 		this->total->findAndDelete(tempStringy.getString ());
 	}
-	this-> spaceSeparatedWords = new Stringy(this->total);
+	this-> spaceSeparatedWords = new Stringy(*this->total);
 }
 
 // will default to false.

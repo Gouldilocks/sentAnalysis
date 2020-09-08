@@ -13,9 +13,10 @@ public:
 	testerReview(Stringy* total, int row);
 	testerReview(bool expected) : review() {this-> expectedOutput = &expected;};
 	~testerReview(){delete expectedOutput; delete posWords; delete negWords;}
+	testerReview (const testerReview& tes);
 	/* ***** Getters / Setters ***** */
 	bool getExpectedOutput(){return expectedOutput;}
-	void setExpectedOutput(bool expect){this-> expectedOutput = &expect;}
+	void setExpectedOutput(bool expect){delete this->expectedOutput; expectedOutput = new bool(expect);}
 	int* getPosWords(){return this-> posWords;}
 	int* getNegWords(){return this-> negWords;}
 	void setPosWords(int* pos){this-> posWords = pos;}

@@ -29,7 +29,7 @@ public:
 	void findAndDelete(char* toFind);
 
 	//displays length of string excluding null
-	int length(); // $$$
+	int length() const; // $$$
 
 	// returns a chracter at specified loc-1
 	char& at(int loc); // $$$
@@ -65,12 +65,12 @@ public:
 
 	friend Stringy & operator + (const Stringy& S1, const Stringy & S2); // $$$
 
-	friend Stringy & operator + (const Stringy& S1, char addition[]); // $$$
+	friend Stringy & operator + (const Stringy& S1,const char* addition); // $$$
 
 	Stringy & operator += (const Stringy& S1); // $$$
 
 private:
-	char* ystring;
 	int ylength;
+	char* ystring;
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_STRINGY_H

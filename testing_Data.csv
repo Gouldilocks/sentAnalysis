@@ -1,2 +1,6 @@
-"this this this this this is the testing Data.",positive
-"I hope that we don't get a seg fault again",negative
+"I love the movie, good movie",positive
+"I like the movie, good like like",positive
+"I love the movie, I like this, like that, love this",positive
+"no no no bad",negative
+"bad bad bad movie",negative
+"do not go to this bad movie it was horrible",negative

@@ -1,7 +1,18 @@
 //
 // Created by loggityloglog on 9/3/20.
 //
-
+/*	To do list:
+ * -------------
+ * 1.) Make all input upper case
+ * 2.) Check for rule of threes
+ * 3.) Fix Blacklist deleting substring words
+ * 4.) Make all elements on the heap
+ * 5.) Fix output file type
+ * 6.) Fix main for proper input
+ * 7.) Finish catch cases
+ *
+ *
+ */
 #ifndef S20_PA01_SENTIMENTANALYSIS_MACHINE_H
 #define S20_PA01_SENTIMENTANALYSIS_MACHINE_H
 #include "Stringy.h"
@@ -15,16 +26,8 @@
  * */
 class machine{
 public:
-	~machine(){delete trainData; delete testData; delete sentimentWords; delete currentWord;}
-	/*ToDo:
-	 * Create Constructors
-	 * Take the reviews and call the total parameter constructor in review. ~~Pull input with getline~~
-	 *
-	 *
-	 *
-	 *
-	 * */
-	/* ***** Constructors ***** */
+	/* ***** Destructor ***** */
+	~machine(){delete trainData; delete testData; delete sentimentWords; delete currentWord;} /* ***** Constructors ***** */
 	machine();
 
 	machine(const machine& m);
@@ -58,13 +61,13 @@ public:
 	void sort_Training_Data();
 
 	// function which will jumpstart the whole proces of the program.
-	void jumpStart(ifstream& testing_Data, ifstream& training_Data);
+	void jumpStart(ifstream& testing_Data, ifstream& training_Data, ofstream& outPutHere);
 
 	// function will compare what was gotten versus what should have been gotten.
 	void compare_Answers();
 
 	// function will output all the data to the output file
-	void output_Result();
+	void output_Result(ofstream& outPutHere);
 
 	/* function will take words from testingData and
 	 * put them into sentimentWords */
@@ -74,12 +77,7 @@ public:
 	 * and return it. Returns -1 if cannot find */
 	int getIndex(vector<word*>* v, word* K);
 
-	/* function will remove duplicate entries of a word */
-	void removeVec(vector<word*> &vec);
-
 	word* isInsideVector(vector<word*> v, word k);
-
-	bool isIn (word* w);
 protected:
 	//INITIALIZED IN-CONSTRUCTOR
 	// a vector filled with all of the train data reviews.

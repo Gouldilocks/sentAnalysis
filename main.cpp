@@ -10,8 +10,9 @@ int main(int argc, char** argv) {
 // todo: make all words capital, as it treats them as different
 	ifstream testing_Data("testing_Data.csv");
 	ifstream training_Data("training_Data.csv");
+	ofstream outPut("outPut01.txt");
 	auto* newMachine = new machine();
-	newMachine->jumpStart (testing_Data,training_Data);
+	newMachine->jumpStart (testing_Data,training_Data,outPut);
 	cout << "Done" << endl;
     return 0;
 }

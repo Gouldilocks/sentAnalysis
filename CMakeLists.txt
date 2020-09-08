@@ -14,7 +14,7 @@ set (EXE_NAME SentimentAnalyzer)
 set (input01 "fullData.csv")
 set (input02 "training_Data.csv")
 set (input03 "testing_Data.csv")
-set (input04 "outPutFile.csv")
+set (input04 "outPut01.txt")
 set (input05 "blackList.txt")
 
 #

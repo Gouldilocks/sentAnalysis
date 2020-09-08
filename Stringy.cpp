@@ -46,8 +46,7 @@ Stringy::~Stringy()
 }
 
 
-int Stringy::length()
-{
+int Stringy::length() const {
 	return (this-> ylength);
 }
 int Stringy :: charLength(){
@@ -188,18 +187,16 @@ Stringy& Stringy :: operator += (const Stringy& S1){
 	return *this;
 }
 
-Stringy &operator+ (const Stringy &S1, char addition[])  {
+Stringy &operator+ (const Stringy &S1,const char* addition)  {
 	char* newStringy = nullptr;
-	newStringy = new char [strlen(S1.ystring) + strlen(addition)+1];
-	for(int i = 0; i < strlen(S1.ystring); i++){
-		newStringy[i] = S1.ystring[i];
+	newStringy = new char [strlen(S1.getString()) + strlen(addition)+1];
+	for(int i = 0; i < strlen(S1.getString ()); i++){
+		newStringy[i] = S1.getString ()[i];
 	}
-	for(int i = strlen(S1.ystring), j = 0; i < strlen(S1.ystring)+strlen(addition); i++,j++){
+	for(int i = strlen(S1.getString ()), j = 0; i < strlen(S1.getString ())+strlen(addition); i++,j++){
 		newStringy[i] = addition[j];
 	}
-
-	auto* returnMe = new Stringy(newStringy);
-	return *returnMe;
+	return *new Stringy(newStringy);
 }
 
 /* Referenced Stack overflow for this function:
@@ -242,8 +239,8 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 
 int Stringy :: find_Number_Inside(Stringy* toFind) {
 	int returnMe = 0;
-	cout << "Stringy toFind: " << *toFind << endl;
-	cout << "char* findMe: " << toFind-> getString () << endl;
+	//cout << "Stringy toFind: " << *toFind << endl;
+	//cout << "char* findMe: " << toFind-> getString () << endl;
 	char* findMe = toFind->getString ();
 	while(strstr(this->ystring,findMe) != nullptr && (strcmp(strstr(this->ystring,findMe), " ")) != 0 && strcmp(findMe,"") != 0){
 		int toFindLen = strlen(findMe);
@@ -251,11 +248,11 @@ int Stringy :: find_Number_Inside(Stringy* toFind) {
 		returnMe++;
 		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
 		by moving the data over the number of places that the length of toFind is. */
-		cout << "toFind: " << toFind << endl;
-		cout << "Destination: " << strstr(this->ystring,findMe) << endl;
-		cout << "Source: " << strstr(this->ystring, findMe) + strlen(findMe) << endl;
-		cout << "Number of Bytes: " << bytesToMove << endl;
-		cout << "******************" << endl;
+//		cout << "toFind: " << toFind << endl;
+//		cout << "Destination: " << strstr(this->ystring,findMe) << endl;
+//		cout << "Source: " << strstr(this->ystring, findMe) + strlen(findMe) << endl;
+//		cout << "Number of Bytes: " << bytesToMove << endl;
+//		cout << "******************" << endl;
 		memmove (strstr (this->ystring, findMe), strstr (this->ystring, findMe) + strlen (findMe),
 				 bytesToMove);
 		substr(0,this->length() - toFindLen);

@@ -12,6 +12,7 @@ class word{
 public:
 	/* ***** Getters / Setters ***** */
 	bool getSent(){return *this->sentiment;}
+	bool* getSentPtr(){return this->sentiment;}
 	void setSent(bool* senty){this->sentiment = senty;}
 	Stringy * get_The_Word() const {return theWord;}
 	bool getSorted(){return *this-> sorted;}

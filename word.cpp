@@ -45,7 +45,7 @@ void word::calc_Sentiment () {
 			sentiment = new bool (false);
 		}
 		*sentiment = *numPos >= *numNeg;
-	} else return;
+	} else this->sentiment = nullptr;
 }
 
 void word::add_Word (bool senty) {
@@ -54,7 +54,6 @@ if (senty){
 } else {
 	increaseNeg ();
 		}
-		this-> calc_Sentiment ();
 }
 
 void word::increasePos () {

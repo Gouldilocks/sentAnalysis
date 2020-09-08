@@ -19,3 +19,9 @@ void testerReview::addToPosWords (int addMe) {
 void testerReview::addToNegWords (int addMe) {
 *this->negWords = *negWords + addMe;
 }
+
+testerReview::testerReview (const testerReview &tes) : review(tes) {
+this-> expectedOutput = new bool(*tes.expectedOutput);
+this-> posWords = new int(*tes.posWords);
+this->negWords = new int(*tes.negWords);
+}
