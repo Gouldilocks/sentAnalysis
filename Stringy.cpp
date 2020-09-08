@@ -26,7 +26,7 @@ Stringy::Stringy(const char* input) // constructor, given a c-string.
 		this->ystring[ i ] = input[ i ];
 	}
 }
-Stringy :: Stringy (Stringy const &s){
+Stringy :: Stringy (const Stringy &s){
 	this-> ylength = s.ylength;
 	this-> ystring = new char[ylength];
 	strcpy (this->ystring,s.ystring);
@@ -86,7 +86,7 @@ void Stringy::substr(int index, int length)
 	}
 	//make sure the end of the c-string is null-terminated.
 	if(temp[size-1] != '\0'){temp[size-1] = '\0';}
-	delete ystring;
+	delete this-> ystring;
 	this-> ystring = temp;
 	this-> ylength = size;
 }
@@ -126,6 +126,7 @@ istream& operator >> (istream & IS,Stringy& S) {
 }
 Stringy& Stringy::operator = (const Stringy &S)
 {
+	if(this == &S) return *this;
 	this-> ylength = S.ylength;
 	delete[] this-> ystring;
 	this-> ystring = new char[this-> ylength];
@@ -240,12 +241,14 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 }
 
 int Stringy :: find_Number_Inside(Stringy* toFind) {
+	int returnMe = 0;
 	cout << "Stringy toFind: " << *toFind << endl;
 	cout << "char* findMe: " << toFind-> getString () << endl;
 	char* findMe = toFind->getString ();
 	while(strstr(this->ystring,findMe) != nullptr && (strcmp(strstr(this->ystring,findMe), " ")) != 0 && strcmp(findMe,"") != 0){
 		int toFindLen = strlen(findMe);
 		int bytesToMove = strlen(strstr(this->ystring,findMe)) - toFindLen;
+		returnMe++;
 		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
 		by moving the data over the number of places that the length of toFind is. */
 		cout << "toFind: " << toFind << endl;
@@ -258,4 +261,5 @@ int Stringy :: find_Number_Inside(Stringy* toFind) {
 		substr(0,this->length() - toFindLen);
 		this->ylength = strlen (ystring) + 1;
 	}
+	return returnMe;
 }

@@ -21,8 +21,7 @@ public:
 	Stringy(Stringy *S);//Copy constructor
 	//$$$
 	~Stringy();//Destructor deletes the nstring at the end
-
-	Stringy(Stringy const &s);
+	Stringy(const Stringy &s);
 
 	/* *****     Functions     ***** */
 

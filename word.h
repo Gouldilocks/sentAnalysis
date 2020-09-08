@@ -37,6 +37,7 @@ public:
 	word();
 	word(Stringy* theNewWord, bool senty);
 	word(char* theNewWord);
+	word(const word& w1);
 	//word(int pos, int neg){this-> numPos = pos; this->numNeg = neg;}
 
 	~word(){delete theWord; delete numPos; delete numNeg; delete totalInstances; delete sentiment; delete sorted;}
@@ -44,11 +45,11 @@ public:
 	friend bool operator == (const word& W1, const word& W2){
 		return (*W1.get_The_Word ()->getString () == *W2.get_The_Word ()->getString ());
 	}
-	word& operator = (const word& word1);
+	word& operator = (const word& w2);
 private:
 	Stringy* theWord;
-	int* numPos = nullptr;
-	int* numNeg = nullptr;
+	int* numPos;
+	int* numNeg;
 	int* totalInstances;
 	bool* sentiment;
 	bool* sorted;

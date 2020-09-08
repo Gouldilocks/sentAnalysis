@@ -7,15 +7,18 @@ word::word (char *theNewWord) {
 	this-> theWord = new Stringy(theNewWord);
 	this->numPos = new int(0);
 	this-> numNeg = new int(0);
+	this-> totalInstances = new int(0);
+	this-> sentiment = new bool(false);
+	this-> sorted = new bool(false);
 }
 
 word::word (Stringy *theNewWord, bool senty) {
 	this->numPos = new int(0);
 	this-> numNeg = new int(0);
 	this-> totalInstances = new int(0);
-	this-> sentiment = new bool(false);
+	this-> sentiment = new bool(senty);
 	this-> sorted = new bool(false);
-	this-> theWord = new Stringy(*theNewWord);
+	this-> theWord = new Stringy(theNewWord);
 	add_Word(senty);
 }
 
@@ -23,8 +26,18 @@ word::word () {
 this-> theWord = nullptr;
 	this->numPos = new int(0);
 	this-> numNeg = new int(0);
+	this-> totalInstances = new int(0);
+	this-> sentiment = new bool(false);
+	this-> sorted = new bool (false);
 }
-
+word :: word(const word& w1){
+	this-> numPos = new int(*w1.numPos);
+	this->numNeg = new int(*w1.numNeg);
+	this-> totalInstances = new int(*w1.totalInstances);
+	this->sentiment = new bool (*w1.sentiment);
+	this-> sorted = new bool(*w1.sorted);
+	this-> theWord = new Stringy(*w1.theWord);
+}
 void word::calc_Sentiment () {
 	//*sentiment = *numPos >= *numNeg;
 	if(*this-> totalInstances > 3){
@@ -32,7 +45,7 @@ void word::calc_Sentiment () {
 			sentiment = new bool (false);
 		}
 		*sentiment = *numPos >= *numNeg;
-	} else sentiment = nullptr;
+	} else return;
 }
 
 void word::add_Word (bool senty) {
@@ -55,7 +68,8 @@ void word::increaseNeg () {
 }
 
 word &word::operator= (const word &word1) {
-	delete this->theWord;
+	if(this == &word1) return *this;
+	delete this-> theWord;
 	delete this-> numPos;
 	delete this-> numNeg;
 	delete this-> totalInstances;

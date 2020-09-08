@@ -15,7 +15,7 @@
  * */
 class machine{
 public:
-	~machine(){delete trainData; delete testData; delete sentimentWords;}
+	~machine(){delete trainData; delete testData; delete sentimentWords; delete currentWord;}
 	/*ToDo:
 	 * Create Constructors
 	 * Take the reviews and call the total parameter constructor in review. ~~Pull input with getline~~
@@ -26,6 +26,8 @@ public:
 	 * */
 	/* ***** Constructors ***** */
 	machine();
+
+	machine(const machine& m);
 	/* ***** Getters / Setters ***** */
 	vector<review*>* getTrainData(){return this->trainData;}
 
@@ -75,7 +77,9 @@ public:
 	/* function will remove duplicate entries of a word */
 	void removeVec(vector<word*> &vec);
 
-	word* isInsideVector(vector<word*>& v, word k);
+	word* isInsideVector(vector<word*> v, word k);
+
+	bool isIn (word* w);
 protected:
 	//INITIALIZED IN-CONSTRUCTOR
 	// a vector filled with all of the train data reviews.
@@ -93,6 +97,8 @@ protected:
 	int numWrong = 0;
 
 	Stringy* outputMe;
+
+	word* currentWord;
 
 };
 #endif //S20_PA01_SENTIMENTANALYSIS_MACHINE_H

@@ -70,6 +70,13 @@ bool review::findSentiment () {
 	return returnMe;
 	}
 
+review::review (const review &rev) {
+this-> total = new Stringy(*rev.total);
+this-> spaceSeparatedWords = new Stringy(*rev.spaceSeparatedWords);
+this-> sentiment = rev.sentiment;
+this-> row = rev.row;
+}
+
 
 
 

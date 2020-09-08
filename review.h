@@ -16,6 +16,7 @@ public:
 	/* ***** Constructors ***** */
 	review();
 	review(review* oldReview);
+	review(const review& rev);
 	/* int is_It_Testing serves for the class to function as knowing whether or not the data is training
 	 * data or testing data, so that it does not run findSentiment.
 	 * put 1 if it is training data, any other number for testing data*/

@@ -61,15 +61,17 @@ void machine::sort_Training_Data () {
 			// if the sentimentWords is not empty, check if it is in one of the existing words
 			vector<Stringy *> *tokenizedWords = eachReview->getSpaceSeparatedWords ()->tokenizeStringy (' ');
 			for (Stringy *putMeInSentimentWords : *tokenizedWords) {
-				word* tempWord = new word(putMeInSentimentWords, reviewSentiment);
+				currentWord = new word(putMeInSentimentWords, reviewSentiment);
 				// if the word is not already in the array, add it as a new word.
 
-				if(this->sentimentWords->empty() || isInsideVector(*this->sentimentWords, *tempWord) == nullptr) {
-					sentimentWords->push_back (tempWord); //IMPORTANT push back does not work. pushes it back as blank
+
+				if(this->sentimentWords->empty() || isInsideVector(*(this->sentimentWords), *currentWord) == nullptr) {// this line makes the vector blank for some reason
+					cout << *currentWord->get_The_Word () << endl;
+					sentimentWords->push_back (currentWord);
 				// otherwise, increase the number of that word.
 				} else {
 					word *ref = nullptr;
-					ref = (isInsideVector (*this->sentimentWords, *tempWord));
+					ref = (isInsideVector (*this->sentimentWords, *currentWord));
 					bool senty = eachReview->getSentiment ();
 					// add the word to the list of words for that given word.
 					isInsideVector (*this->sentimentWords, *ref)->add_Word (senty);
@@ -80,12 +82,12 @@ void machine::sort_Training_Data () {
 //todo: fix function. possible issue with line 78/79
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
-	for(word* thisWord : *sentimentWords){
+	for(word* eachWord : *sentimentWords){
 		// find the number of occurrences of this particular word inside of this review..
-		int occurrences = thisReview->review :: getSpaceSeparatedWords()->find_Number_Inside (thisWord->get_The_Word ());
+		int occurrences = thisReview->review :: getSpaceSeparatedWords()->find_Number_Inside (eachWord->get_The_Word ());
 		// if the word is positive, increase positive word count
 		if(occurrences > 0) {
-			if (thisWord->getSent ()) {
+			if (eachWord->getSent ()) {
 				thisReview->addToPosWords (occurrences);
 				// if the word is negative, increase negative word count
 			} else {
@@ -133,11 +135,13 @@ for(word* thisWord : *this->sentimentWords ){
 /* referenced geeks for geeks
  * https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
  * */
-word* machine :: isInsideVector(vector<word*>& v, word k){
-	for(int i =0; i < v.size(); i++){
-		if (*v.at(i) == k){
-			return v.at(i);
-		}
+word* machine :: isInsideVector(vector<word*> v, word k){
+	vector<word> vec;
+	for(word * pushMeBack  : v){
+		vec.push_back(*pushMeBack);
+	}
+	for(int i = 0; i < vec.size(); i++){
+		if (vec.at(i) == k){ return v.at(i); } else continue;
 	}
 	return nullptr;
 }
@@ -161,25 +165,16 @@ int machine:: getIndex(vector<word*>* v, word* K)
 		return -1;
 	}
 }
-/*
-https://www.techiedelight.com/remove-duplicates-vector-cpp/
- */
-// reference for this function
-void machine :: removeVec (vector<word*> &vec) {
-//	vector<int> eraseMe;
-//	for(int j = 0; j < vec.size(); j++){
-//		for(int i = j; i < vec.size(); i++){
-//			if(vec.at(j)->getWordy () == vec.at(i)->getWordy () && vec.at (i)->getSorted ()){
-//				vec.at(i)->setSorted(false);
-//				eraseMe.push_back(i);
-//			}
-//		}
-//	}
-//	// set to descending order
-//	sort(eraseMe.begin(), eraseMe.end(), greater<int>());
-//	// erase the parts of the vector
-//	for(int eraseInt : eraseMe){
-//		vec.erase(vec.begin() + eraseInt - 1);
-//	}
-	vec.erase( unique( vec.begin(), vec.end() ), vec.end() );
+
+bool machine::isIn (word *w) {
+	return *w ==*currentWord;
+}
+
+machine::machine (const machine &m1) {
+this-> trainData = new vector<review*>(*m1.trainData);
+this-> testData = new vector<testerReview*>(*m1.testData);
+this-> outputMe = new Stringy(*m1.outputMe);
+this-> currentWord = new word(*m1.currentWord);
+this-> numRight = m1.numRight;
+this-> numWrong = m1.numWrong;
 }
