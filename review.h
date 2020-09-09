@@ -12,31 +12,51 @@
  * The review objects will be managed by a machine object.*/
 class review{
 public:
-	~review(){delete spaceSeparatedWords;delete total;}
+	/* ***** Destructor ***** */
+	~review();
+
+
 	/* ***** Constructors ***** */
+	// Default Constructor
 	review();
+	// Copy Constructor of a pointer
 	review(review* oldReview);
+	// Copy Constructor
 	review(const review& rev);
-	/* int is_It_Testing serves for the class to function as knowing whether or not the data is training
-	 * data or testing data, so that it does not run findSentiment.
-	 * put 1 if it is training data, any other number for testing data*/
+	// Constructor: give the whole review, and which row it is on.
 	review(Stringy* total, int row);
+	/* Constructor: give the whole review, the sentiment, and give a true to useBool.
+	usebool is necessary to make sure that there is no confusion that the above
+	constructor is used when row == 1 or 0.*/
 	review(Stringy* total, bool sentiment, bool useBool);
+
+
 	/* ***** Getters / Setters ***** */
-	virtual Stringy* getTotal(){return total;}
-	virtual void setTotal(Stringy* total){this-> total = total;}
-	virtual void setSentiment(bool sentiment){this-> sentiment = sentiment;}
-	virtual bool getSentiment(){return this->sentiment;}
-	virtual void setSpaceSeparatedWords(Stringy* words){delete this-> spaceSeparatedWords; this-> spaceSeparatedWords = words;}
-	virtual Stringy* getSpaceSeparatedWords(){return this-> spaceSeparatedWords;}
-	virtual int getRow(){return this->row;}
-	virtual void setRow(int newRow){this->row = newRow;}
+	// returns the pointer to the total review
+	virtual Stringy* getTotal();
+	// sets the total. Takes pointer to a Stringy which contains whole review.
+	virtual void setTotal(Stringy* total);
+	// sets the sentiment of the review. Takes bool as parameter.
+	virtual void setSentiment(bool sentiment);
+	// returns a bool of the sentiment of the review.
+	virtual bool getSentiment();
+	// sets the spaceSeparatedWords variable. Takes stringy pointer as parameter.
+	virtual void setSpaceSeparatedWords(Stringy* words);
+	// returns a Stringy pointer to this review's spaceSeparatedWords
+	virtual Stringy* getSpaceSeparatedWords();
+	// returns the rowNumber of this review.
+	virtual int getRow();
+	// sets the rowNumber of this review. Takes the rownumber as an int as parameter.
+	virtual void setRow(int newRow);
+
+
 	/* ***** Functions ***** */
-	// function will clean up the total, ignoring blacklisted words,
-	// and then put the clean version of the review into spaceSeparatedWords.
+	/* function will clean up the total, ignoring blacklisted words,
+	and then put the clean version of the review into spaceSeparatedWords. */
 	virtual void cleanUp(ifstream& noNoWords);
 	// function to find the sentiment of the total review when it is given.
 	virtual bool findSentiment();
+
 
 protected:
 	// the whole string as taken from the file.

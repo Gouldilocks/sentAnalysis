@@ -77,6 +77,47 @@ this-> sentiment = rev.sentiment;
 this-> row = rev.row;
 }
 
+review::~review ()
+	{
+		delete spaceSeparatedWords;delete total;
+	}
+
+Stringy *review::getTotal ()
+	{
+	return total;
+	}
+
+void review::setTotal (Stringy *total) {
+	this-> total = total;
+}
+
+void review::setSentiment (bool sentiment) {
+	this-> sentiment = sentiment;
+}
+
+bool review::getSentiment () {
+	return this->sentiment;
+}
+
+void review::setSpaceSeparatedWords (Stringy *words) {
+	delete this-> spaceSeparatedWords;
+	this-> spaceSeparatedWords = words;
+}
+
+Stringy *review::getSpaceSeparatedWords () {
+	return this-> spaceSeparatedWords;
+}
+
+int review::getRow () {
+	return this->row;
+}
+
+void review::setRow (int newRow) {
+	this->row = newRow;
+}
+
+
+
 
 
 

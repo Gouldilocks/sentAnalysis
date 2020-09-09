@@ -7,7 +7,7 @@
 #include "testerReview.h"
 
 TEST_CASE("Stringy thingy", "[Stringy]"){
-Stringy s[10];
+Stringy s[11];
 s[0] = Stringy("testString");
 s[1] = Stringy("a test string");
 s[2] = Stringy("");
@@ -18,6 +18,7 @@ s[6] = Stringy("");
 s[7] = Stringy("  split  split  split  ");
 s[8] = Stringy("                          ");
 s[9] = Stringy("testString");
+s[10] = Stringy("the number is: ");
 
 SECTION("Equality operators"){
 CHECK(s[0] == Stringy("testString"));
@@ -44,6 +45,21 @@ CHECK(Stringy("testStringtestString") == s[0]+s[9]);
 CHECK(s[6] + s[6] == "");
 CHECK(s[5] + s[6] == Stringy("\n"));
 CHECK(s[0] + s[1] + s[2] == "testStringa test string");
+
+// overloaded with number
+CHECK(s[10] + 10 == "the number is: 10");
+s[10].setString("the number is: ");
+CHECK(s[10] + 15 == "the number is: 15");
+s[10].setString("the number is: ");
+CHECK(s[10] + 2000000 == "the number is: 2000000");
+
+// overloaded with char*
+s[10].setString("finish ");
+CHECK(s[10] + "me" == "finish me");
+s[10].setString("adding a char* to it is");
+CHECK(s[10] + " fun" == "adding a char* to it is fun");
+s[10].setString("newline here: ");
+CHECK(s[10] + "\n" == "newline here: \n");
 }
 
 //SECTION("Greater than operator"){
@@ -59,7 +75,7 @@ CHECK(s[0] + s[1] + s[2] == "testStringa test string");
 //CHECK(s[6][0] == 0);
 //}
 
-SECTION("getLength function"){
+SECTION("charLength function"){
 CHECK(s[9].charLength() == 10);
 CHECK(s[2].charLength() == 0);
 CHECK(s[8].charLength() == 26);
@@ -67,11 +83,11 @@ CHECK(s[3].charLength() == 27);
 }
 
 SECTION("Substring function"){
-	s[0].substr(0,5);
-	s[4].substr(0,4);
+		s[ 0 ].subStrObj (0, 5);
+		s[ 4 ].subStrObj (0, 4);
 CHECK(s[0] == "testS");
 CHECK(s[4] == "this");
-	s[4].substr(1,3);
+		s[ 4 ].subStrObj (1, 3);
 CHECK(s[4] == "his");
 }
 

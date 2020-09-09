@@ -10,43 +10,70 @@
 // this class will serve to keep all the information about each instance of words in the reviews.
 class word{
 public:
-	/* ***** Getters / Setters ***** */
-	bool getSent(){return *this->sentiment;}
-	bool* getSentPtr(){return this->sentiment;}
-	void setSent(bool* senty){this->sentiment = senty;}
-	Stringy * get_The_Word() const {return theWord;}
-	bool getSorted(){return *this-> sorted;}
-	void setSorted(bool sort) {*this->sorted = sort;}
-	void set_The_Word(Stringy* newWord){this->theWord = newWord;}
-	int* getNumPos(){return this->numPos;}
-	void setNumPos(int* pos){this->numPos = pos;}
-	int* getNumNeg(){return this->numNeg;}
-	void setNumNeg(int* neg){this-> numNeg = neg;}
-	int getTotalInstances(){return *this->totalInstances;}
-	void setTotalInstances(int* ins){this->totalInstances = ins;}
-	// returns the c-string of the word in question.
-	char* getWordy(){return this-> theWord->getString();}
+	/* ***** Destructor ***** */
+	~word();
+
+
+	/* ***** Constructors ***** */
+	// Default Constructor.
+	word();
+	// Constructor: takes a Stringy as parameter. Word will be set to this. Takes bool of sentiment.
+	word(Stringy* theNewWord, bool senty);
+	// Constructor: copies from a pointer to a word. (deep copy)
+	word(char* theNewWord);
+	// Copy constructor.
+	word(const word& w1);
+
+
 	/* ***** Functions ***** */
+	// will increase the numPos by 1 and totalInstances by 1.
 	void increasePos();
+	// will increase the numNeg by 1 and totalInstances by 1.
 	void increaseNeg();
 	// calculates the sentiment of the whole word.
 	void calc_Sentiment();
 	// will add a word to the word count, and change the positive or negative count.
 	void add_Word(bool sentiment);
 
-	/* ***** Constructors ***** */
-	word();
-	word(Stringy* theNewWord, bool senty);
-	word(char* theNewWord);
-	word(const word& w1);
-	//word(int pos, int neg){this-> numPos = pos; this->numNeg = neg;}
 
-	~word(){delete theWord; delete numPos; delete numNeg; delete totalInstances; delete sentiment; delete sorted;}
+	/* ***** Getters / Setters ***** */
+	// returns a bool of the word's overall sentiment.
+	bool getSent();
+	// returns a pointer to the word's overall sentiment.
+	bool* getSentPtr();
+	// set the sentiment of the word. Takes bool pointer as parameter.
+	void setSent(bool* senty);
+	// returns a pointer to a Stringy containing the word.
+	Stringy * get_The_Word() const;
+	// returns a bool of the sorted bool.
+	bool getSorted();
+	// sets the sorted element. Takes a bool as parameter.
+	void setSorted(bool sort);
+	// sets the word. Takes a Stringy pointer as parameter.
+	void set_The_Word(Stringy* newWord);
+	// returns a pointer to the number of positive instances of this word.
+	int* getNumPos();
+	// sets the number of positive instances. Takes int pointer as parameter.
+	void setNumPos(int* pos);
+	// returns a pointer to the number of negative instances.
+	int* getNumNeg();
+	// sets the number of negative instances. Takes int pointer as parameter.
+	void setNumNeg(int* neg);
+	// returns the number of total instances of this word.
+	int getTotalInstances();
+	// sets the number of total instances of this word. Takes int pointer as parameter.
+	void setTotalInstances(int* ins);
+	// returns the c-string of this word.
+	char* getWordy();
+
+
 	/* ***** overloaded operators ***** */
-	friend bool operator == (const word& W1, const word& W2){
-		return (*W1.get_The_Word ()->getString () == *W2.get_The_Word ()->getString ());
-	}
+	// operator compares the Stringys of each word ONLY.
+	friend bool operator == (const word& W1, const word& W2);
+	// operator sets the elements of this word to the same as w2. (Dynamic allocation)
 	word& operator = (const word& w2);
+	// Prints out each of the elements out to the console.
+	friend ostream& operator << (ostream& OS, const word& w1);
 private:
 	Stringy* theWord;
 	int* numPos;

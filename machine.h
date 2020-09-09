@@ -2,7 +2,7 @@
 // Created by loggityloglog on 9/3/20.
 //
 /*	To do list:
- * -------------
+ * ------------------------------
  * 1.) Make all input upper case
  * 2.) Check for rule of threes
  * 3.) Fix Blacklist deleting substring words
@@ -10,7 +10,9 @@
  * 5.) Fix output file type
  * 6.) Fix main for proper input
  * 7.) Finish catch cases
- *
+ * 8.) Comment the crap out of .h files
+ * 9.) Fix n's and p's being shot out like crazy
+ * in the reviews at sort_Training_Data
  *
  */
 #ifndef S20_PA01_SENTIMENTANALYSIS_MACHINE_H
@@ -27,75 +29,79 @@
 class machine{
 public:
 	/* ***** Destructor ***** */
-	~machine(){delete trainData; delete testData; delete sentimentWords; delete currentWord;} /* ***** Constructors ***** */
+	~machine(){delete trainData; delete testData; delete sentimentWords; delete currentWord;}
+
+
+	/* ***** Constructors ***** */
+	// default constructor
 	machine();
-
+	// copy constructor
 	machine(const machine& m);
+
+
 	/* ***** Getters / Setters ***** */
+	// return the vector of reviews to be categorized
 	vector<review*>* getTrainData(){return this->trainData;}
-
+	// set the vector of reviews to be categorized
 	void setTrainData(vector<review*>* trainingData){this->trainData = trainingData;}
-
+	// returns the vector of categorized words
 	vector<word*>* getSentimentWords(){return this->sentimentWords;}
-
+	// set the vector of categorized words
 	void setSentimentWords(vector<word*>* analysedWords){this->sentimentWords = analysedWords;}
-
+	// return number of rightly predicted reviews
 	int get_Right() {return this->numRight;}
-
+	// set the number of rightly predicted reviews
 	void set_Right(int right){this->numRight = right;}
-
+	// get the number of wrongly predicted reviews
 	int get_Wrong() {return this->numWrong;}
-
+	// set the number of wrongly predicted reviews
 	void set_Wrong(int wrong){this-> numWrong = wrong;}
+
+
 	/* ***** Functions ***** */
 	// function which will input all of the data to be sorted into testData.
 	void take_In_Testing_Data(ifstream& testing_Data);
-
 	// function which will use the trained / learned data to sort unknown reviews
 	void sort_Testing_Data();
-
 	// function which will input all of the data to be sorted into trainData.
 	void take_In_Training_Data(ifstream& training_Data);
-
-	// function which will put all the words into their respective vectors.
+	// function which will put all the words from training data into their respective vectors.
 	void sort_Training_Data();
-
-	// function which will jumpstart the whole proces of the program.
-	void jumpStart(ifstream& testing_Data, ifstream& training_Data, ofstream& outPutHere);
-
-	// function will compare what was gotten versus what should have been gotten.
+	/* function will run all necessary functions in order to calculate
+	 * sentiment of the testing data */
+	void jumpStart(ifstream& training_Data, ofstream& outPutHere);
+	/*function will compare expected output to the actual output
+	 * of the testing data */
 	void compare_Answers();
-
 	// function will output all the data to the output file
 	void output_Result(ofstream& outPutHere);
-
 	/* function will take words from testingData and
 	 * put them into sentimentWords */
 	void sort_Sentiment_Words();
-
 	/* function will get the index of the given word
 	 * and return it. Returns -1 if cannot find */
 	int getIndex(vector<word*>* v, word* K);
-
+	/* Given a vector containing pointers to k variables,
+	 * this function will return the pointer to a matching
+	 * word k, and if none is found, will return nullptr
+	 */
 	word* isInsideVector(vector<word*> v, word k);
+
+
 protected:
-	//INITIALIZED IN-CONSTRUCTOR
 	// a vector filled with all of the train data reviews.
 	vector<review*>* trainData;
-
 	// a vector filled with all of the testing data.
 	vector<testerReview*>* testData;
-
-	//INITIALIZED POST-CONSTRUCTOR
 	// a vector filled with all of the words that have been categorized positive.
 	vector<word*>* sentimentWords;
-
+	// the number of correctly predicted reviews.
 	int numRight = 0;
-
+	// the number of incorrectly predicted reviews.
 	int numWrong = 0;
-
+	// the output that will be put to the file.
 	Stringy* outputMe;
-
+	// the current word being analyzed.
 	word* currentWord;
 
 };

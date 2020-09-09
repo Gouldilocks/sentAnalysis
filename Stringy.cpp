@@ -72,7 +72,7 @@ bool Stringy::empty()
 
 
 
-void Stringy::substr(int index, int length)
+void Stringy::subStrObj(int index, int length)
 {
 
 	int size = length+1;
@@ -189,13 +189,15 @@ Stringy& Stringy :: operator += (const Stringy& S1){
 
 Stringy &operator+ (const Stringy &S1,const char* addition)  {
 	char* newStringy = nullptr;
-	newStringy = new char [strlen(S1.getString()) + strlen(addition)+1];
+	int newlen = strlen(S1.getString()) + strlen(addition)+1;
+	newStringy = new char [newlen];
 	for(int i = 0; i < strlen(S1.getString ()); i++){
 		newStringy[i] = S1.getString ()[i];
 	}
-	for(int i = strlen(S1.getString ()), j = 0; i < strlen(S1.getString ())+strlen(addition); i++,j++){
+	for(int i = strlen(S1.getString ()), j = 0; i < newlen; i++,j++){
 		newStringy[i] = addition[j];
 	}
+	newStringy[newlen] = '\0';
 	return *new Stringy(newStringy);
 }
 
@@ -217,7 +219,7 @@ void Stringy::findAndDelete (char *toFind) {
 			//cout << "******************" << endl;
 			memmove (strstr (this->ystring, toFind), strstr (this->ystring, toFind) + strlen (toFind),
 					 bytesToMove);
-		substr(0,this->length() - toFindLen);
+		subStrObj (0, this->length () - toFindLen);
 		this->ylength = strlen (ystring) + 1;
 	}
 }
@@ -255,8 +257,62 @@ int Stringy :: find_Number_Inside(Stringy* toFind) {
 //		cout << "******************" << endl;
 		memmove (strstr (this->ystring, findMe), strstr (this->ystring, findMe) + strlen (findMe),
 				 bytesToMove);
-		substr(0,this->length() - toFindLen);
+		subStrObj (0, this->length () - toFindLen);
 		this->ylength = strlen (ystring) + 1;
 	}
 	return returnMe;
 }
+
+Stringy Stringy::substr (int index, int length) {
+	int size = length+1;
+	char * temp = new char[size];
+	//double for loop, in which it will end at a specified length "i" in the string,
+	//and starts at zero for the new temp string.
+	for(int i = index, j = 0; j < size; i++, j++)
+	{
+		temp[j] = ystring[i];
+	}
+	//make sure the end of the c-string is null-terminated.
+	if(temp[size-1] != '\0'){temp[size-1] = '\0';}
+	return Stringy(temp);
+}
+
+/* reference:
+ * https://www.cplusplus.com/forum/beginner/50062/
+ * */
+Stringy &operator+ (const Stringy &S1, const int num_Toadd) {
+	int counter=0;
+	int number = num_Toadd;
+	// counter will be how many digits inside the number.
+	while(number)
+	{
+		number = number/10;
+		counter++;
+	}
+	int returnLen = S1.length () + counter;
+	char* putMeInStringy = new char[returnLen];
+	// put the elements of S1 into the new char
+	for(int i = 0; i < S1.length() - 1; i++){
+		putMeInStringy[i] = S1.getString ()[i];
+	}
+	char numberToAddToString[counter +1];
+	stringstream strs;
+	strs << num_Toadd;
+	strs.getline(numberToAddToString,counter+1);
+	for(int i = S1.length () -1, j= 0 ; i <returnLen - 1; i++, j++){
+		putMeInStringy[i] = numberToAddToString[j];
+	}
+	putMeInStringy[returnLen - 1] = '\0';
+	return * new Stringy(putMeInStringy);
+}
+
+void Stringy::setLength (int newLen)
+	{
+	this->ylength = newLen;
+	}
+
+char *Stringy::getString () const
+	{
+	return this-> ystring;
+	}
+

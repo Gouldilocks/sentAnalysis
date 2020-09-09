@@ -83,4 +83,82 @@ word &word::operator= (const word &word1) {
 	return *this;
 }
 
+ostream &operator<< (ostream& OS, const word& w1) {
+	OS << "The word is: " << *w1.theWord << endl;
+	OS << "The numPos is: " << *w1.numPos << endl;
+	OS << "The numNeg is: " << *w1.numNeg << endl;
+	OS << "The totalInstances is: " << w1.totalInstances << endl;
+	OS << "The sentiment is: " << *w1.sentiment << endl;
+	OS << "The sorted is: " << *w1.sorted << endl;
+}
+
+bool operator== (const word &W1, const word &W2) {
+		return (*W1.get_The_Word ()->getString () == *W2.get_The_Word ()->getString ());
+}
+
+char *word::getWordy () {
+	return this-> theWord->getString();
+}
+
+void word::setTotalInstances (int *ins) {
+	this->totalInstances = ins;
+}
+
+int word::getTotalInstances () {
+	return *this-> totalInstances;
+}
+
+void word::setNumNeg (int *neg) {
+	this-> numNeg = neg;
+}
+
+int *word::getNumNeg () {
+	return this->numNeg;
+}
+
+void word::setNumPos (int *pos) {
+	this->numPos = pos;
+}
+
+int *word::getNumPos () {
+	return this->numPos;
+}
+
+void word::set_The_Word (Stringy *newWord) {
+	this->theWord = newWord;
+}
+
+void word::setSorted (bool sort) {
+	*this->sorted = sort;
+}
+
+bool word::getSorted () {
+	return *this-> sorted;
+}
+
+Stringy *word::get_The_Word () const {
+	return theWord;
+}
+
+void word::setSent (bool *senty) {
+	this->sentiment = senty;
+}
+
+bool *word::getSentPtr () {
+	return this->sentiment;
+}
+
+bool word::getSent () {
+	return *this->sentiment;
+}
+
+word::~word () {
+	delete theWord;
+	delete numPos;
+	delete numNeg;
+	delete totalInstances;
+	delete sentiment;
+	delete sorted;
+}
+
 

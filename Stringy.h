@@ -12,62 +12,65 @@ class Stringy
 {
 
 public:
-	/* *****     Constructors     ***** */
-	//$$$
-	Stringy();//default sets string to NULL
-	//$$$
-	Stringy(const char* input);//Takes in a string and creates an object
-	//$$$
-	Stringy(Stringy *S);//Copy constructor
-	//$$$
-	~Stringy();//Destructor deletes the nstring at the end
+	/* ***** Destructor ***** */
+	~Stringy();
+
+
+	/* ***** Constructors ***** */
+	//default sets string to NULL
+	Stringy();
+	//Takes in a string and creates an object
+	Stringy(const char* input);
+	// pointer constructor
+	Stringy(Stringy *S);
+	// copy constructor
 	Stringy(const Stringy &s);
 
-	/* *****     Functions     ***** */
 
+	/* ***** Functions ***** */
 	// will find and remove the char* that is passed from the ystring.
 	void findAndDelete(char* toFind);
-
-	//displays length of string excluding null
-	int length() const; // $$$
-
-	// returns a chracter at specified loc-1
-	char& at(int loc); // $$$
-
+	// returns a chracter at specified loc (includes 0)
+	char& at(int loc);
 	// if string is empty returns true else it returns false
-	bool empty(); // $$$
-
+	bool empty();
+	//displays length of string including null
+	int length() const;
+	// returns the length of the string, excluding null-terminator
 	int charLength();
-
 	// takes the next word in the String, then returns a vector of each word according to the delimeter
 	vector<Stringy*>* tokenizeStringy(char delim);
-
-	// returns a pointer to a substring of the object that calls it
-	void substr(int index, int length); // $$$
-
-	// sets the string of a Stringy that has not been initialized.
+	// Modifies the current object to be a substring.
+	void subStrObj(int index, int length);
+	// returns a substring of the object
+	Stringy substr(int index, int length);
+	// sets the string
 	void setString (const char* input); // $$$
-
-	char * getString () const {return this-> ystring;}
-
-	void setLength(int newLen){this->ylength = newLen;}
-
+	// returns the char* of this-> Stringy
+	char * getString () const;
+	// sets the ylength of this Stringy
+	void setLength(int newLen);
+	// returns the number of times the given Stringy appears in this-> Stringy
 	int find_Number_Inside(Stringy* toFind);
-	/* ********     Overloaded Operators     ******** */
 
-	friend ostream& operator << (ostream & OS,const Stringy &S); // $$$
 
-	friend istream& operator >> (istream & IS,Stringy &S); // $$$
-
-	Stringy& operator = (const Stringy& S);// $$$
-
-	friend  bool operator ==(const Stringy& S1, const Stringy & S2); // $$$
-
-	friend Stringy & operator + (const Stringy& S1, const Stringy & S2); // $$$
-
-	friend Stringy & operator + (const Stringy& S1,const char* addition); // $$$
-
-	Stringy & operator += (const Stringy& S1); // $$$
+	/* ***** Overloaded Operators ***** */
+	// outputs the ystring to the output stream.
+	friend ostream& operator << (ostream & OS,const Stringy &S);
+	// adds the input from IS to this Stringy
+	friend istream& operator >> (istream & IS,Stringy &S);
+	// assigns ystring and ylength from given Stringy.
+	Stringy& operator = (const Stringy& S);
+	// compares the ystrings, and NOT ylength.
+	friend  bool operator ==(const Stringy& S1, const Stringy & S2);
+	// adds two Stringys together and returns result. Does not modify parameters.
+	friend Stringy & operator + (const Stringy& S1, const Stringy & S2);
+	// adds Stringy to a char. Does not modify parameters.
+	friend Stringy & operator + (const Stringy& S1,const char* addition);
+	// adds an integer to a Stringy. Does not modify parameters.
+	friend Stringy & operator + (const Stringy& S1, const int num_Toadd);
+	// adds a Stringy to this Stringy. Modifies left hand side of operator. Does not modify right side.
+	Stringy & operator += (const Stringy& S1);
 
 private:
 	int ylength;

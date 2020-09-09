@@ -4,15 +4,19 @@
 #include <vector>
 #include "machine.h"
 using namespace std;
+void kkk (ifstream& k){
+	char testmee[400];
+	k.getline(testmee, 399);
+	cout << testmee << endl;
+}
 // function which returns the index of the given stringy where the beginning of the sentiment starts.
 int main(int argc, char** argv) {
-//Catch :: Session().run();
+	//Catch :: Session().run();
 // todo: make all words capital, as it treats them as different
-	ifstream testing_Data("testing_Data.csv");
-	ifstream training_Data("training_Data.csv");
+	ifstream training_Data("fullData.csv");
 	ofstream outPut("outPut01.txt");
 	auto* newMachine = new machine();
-	newMachine->jumpStart (testing_Data,training_Data,outPut);
+	newMachine->jumpStart (training_Data,outPut);
 	cout << "Done" << endl;
     return 0;
 }

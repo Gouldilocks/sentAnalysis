@@ -18,11 +18,11 @@ machine::machine () {
 	this-> outputMe = new Stringy();
 
 }
-void machine:: jumpStart(ifstream& testing_Data, ifstream& training_Data, ofstream& outPutHere) {
+void machine:: jumpStart(ifstream& training_Data, ofstream& outPutHere) {
 	this->take_In_Training_Data (training_Data);
 	this->sort_Training_Data ();
 	this->sort_Sentiment_Words();
-	this->take_In_Testing_Data (testing_Data);
+	this->take_In_Testing_Data (training_Data);
 	this->sort_Testing_Data ();
 	this->compare_Answers();
 	this->output_Result (outPutHere);
@@ -32,7 +32,7 @@ void machine::take_In_Testing_Data (ifstream& testing_Data) {
 Stringy* testingData;
 testerReview* testingReview;
 char temp[10000];
-int rowCounter = 1;
+int rowCounter = 40000;
 while(testing_Data.getline(temp,9999)){
 testingData = new Stringy(temp);
 testingReview = new testerReview(testingData, rowCounter);
@@ -46,7 +46,7 @@ Stringy* trainingData;
 review* trainingReview;
 char temp[10000];
 int rowCounter = 1;
-while(training_Data.getline(temp,9999)){
+while(training_Data.getline(temp,9999) && rowCounter < 40000){
 	trainingData = new Stringy(temp);
 	trainingReview = new review(trainingData,rowCounter);
 	this->trainData->push_back(trainingReview);
@@ -60,9 +60,10 @@ void machine::sort_Training_Data () {
 	// for each of the reviews, do this.
 		for (review *eachReview : *this->trainData) {
 			bool reviewSentiment = eachReview->getSentiment ();
-
+			//cout << *eachReview->getTotal() << endl;
 			// if the sentimentWords is not empty, check if it is in one of the existing words
 			vector<Stringy *> *tokenizedWords = eachReview->getSpaceSeparatedWords ()->tokenizeStringy (' ');
+
 			for (Stringy *putMeInSentimentWords : *tokenizedWords) {
 				currentWord = new word(putMeInSentimentWords, reviewSentiment);
 
@@ -82,7 +83,6 @@ void machine::sort_Training_Data () {
 			}
 		}
 	}
-//todo: fix function. possible issue with line 78/79
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	for(word* eachWord : *sentimentWords){
@@ -98,7 +98,10 @@ for(testerReview *thisReview : *testData){
 			}
 		}
 	}// end every word
-	float percentage = (*thisReview->getPosWords ())/(*thisReview->getNegWords ());
+	float percentage =(double) (*thisReview->getPosWords ())/(double)(*thisReview->getNegWords ());
+	//cout << "Percentage: " << percentage << endl;
+	//cout << "Positive: " << (double)*thisReview->getPosWords () << endl;
+	//cout << "Negative: " << (double)*thisReview-> getNegWords () << endl;
 	// if the percentage of positive words exceeds the number of
 	// negative words, then set expected output to positive.
 	thisReview->setExpectedOutput (percentage >= 1);
@@ -111,14 +114,17 @@ for (testerReview* testMe: *testData){
 		this->numRight++;
 	} else { // increase number wrong and add the row number to the output stringy with new line
 		this->numWrong++;
-		char rowArr[2] = {(char) testMe->getRow(), '\n'};
-		*outputMe = *outputMe + rowArr;
+		// create string add integer.
+		*outputMe = *outputMe + testMe->getRow();
+		*outputMe = *outputMe + "\n";
 	}
 }
 }
 void machine::output_Result (ofstream& outPutHere) {
-float percentage = this->numRight / this->numWrong;
-//cout << "Percentage: " << percentage << endl;
+	//cout << "numRight: " << (double) numRight << endl;
+	//cout << "numWrong: " << (double) numWrong << endl;
+double percentage = (double)this->numRight / ((double)this->numWrong + (double) this->numRight);
+	//cout << "Percentage: " << percentage << endl;
 outPutHere << percentage << endl;
 outPutHere << *this-> outputMe << endl;
 }
@@ -126,7 +132,8 @@ outPutHere << *this-> outputMe << endl;
 void machine::sort_Sentiment_Words () {
 // calculate the sentiment by the number of occurrences of each of the words
 	for(int i = 0; i < this->sentimentWords->size(); i++){
-	sentimentWords->at(i)->calc_Sentiment ();
+		//cout << *sentimentWords->at (i)->get_The_Word () << endl;
+		sentimentWords->at(i)->calc_Sentiment ();
 	// if the word does not meet requirements, delete it from usable words.
 	if (sentimentWords->at(i)->getSentPtr () == nullptr) *this->sentimentWords->erase(sentimentWords->begin()+i);
 }
