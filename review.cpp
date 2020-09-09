@@ -25,12 +25,13 @@ this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
 this-> row = oldReview->getRow();
 }
 // This is the one that will most likely be used the most.
-review::review (Stringy *total, int row) {
+review::review (Stringy total, int row) {
 	ifstream blackList("blackList.txt");
 	this->row = row;
 	this-> total = new Stringy(total);
-	this->sentiment = findSentiment();
+	this->sentiment = findSentiment();// todo: make findSentiment start from back.
 	this->cleanUp (blackList);
+	//cout << "made one" << endl;
 }
 
 review::review (Stringy *total, bool sentiment, bool useBool) {
@@ -131,6 +132,10 @@ bool operator== (const review &lhs, const review &rhs) {
 			*lhs.spaceSeparatedWords == *rhs.spaceSeparatedWords &&
 			lhs.row == rhs.row
 			);
+}
+
+Stringy review::nextWord () {
+
 }
 
 

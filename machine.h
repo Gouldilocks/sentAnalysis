@@ -4,7 +4,7 @@
 /*	To do list:
  * ------------------------------
  * 1.) Make all input upper case
- * 2.) Fix Blacklist deleting substring words
+ * 2.) Fix Blacklist deleting substring words //todo: test that I fixed it.
  * 3.) Make all elements possible on the stack.
  * 4.) Fix output file type
  * 5.) Fix main for proper input
@@ -27,7 +27,7 @@
 class machine{
 public:
 	/* ***** Destructor ***** */
-	~machine(){delete trainData; delete testData; delete sentimentWords; delete currentWord;}
+	~machine();
 
 
 	/* ***** Constructors ***** */
@@ -39,21 +39,21 @@ public:
 
 	/* ***** Getters / Setters ***** */
 	// return the vector of reviews to be categorized
-	vector<review*>* getTrainData(){return this->trainData;}
+	vector<review*>* getTrainData();
 	// set the vector of reviews to be categorized
-	void setTrainData(vector<review*>* trainingData){this->trainData = trainingData;}
+	void setTrainData(vector<review*>* trainingData);
 	// returns the vector of categorized words
-	vector<word*>* getSentimentWords(){return this->sentimentWords;}
+	vector<word*>* getSentimentWords();
 	// set the vector of categorized words
-	void setSentimentWords(vector<word*>* analysedWords){this->sentimentWords = analysedWords;}
+	void setSentimentWords(vector<word*>* analysedWords);
 	// return number of rightly predicted reviews
-	int get_Right() {return this->numRight;}
+	int get_Right();
 	// set the number of rightly predicted reviews
-	void set_Right(int right){this->numRight = right;}
+	void set_Right(int right);
 	// get the number of wrongly predicted reviews
-	int get_Wrong() {return this->numWrong;}
+	int get_Wrong();
 	// set the number of wrongly predicted reviews
-	void set_Wrong(int wrong){this-> numWrong = wrong;}
+	void set_Wrong(int wrong);
 
 
 	/* ***** Functions ***** */
@@ -84,8 +84,10 @@ public:
 	 * word k, and if none is found, will return nullptr
 	 */
 	word* isInsideVector(vector<word*> v, word k);
-
-
+	// returns a bool of the sentiment of a given Stringy.
+	bool findSentiment(Stringy total);
+	// cleans up the given String to fit the blacklist.
+	void cleanUp(ifstream& noNoWords, Stringy& toClean);
 protected:
 	// a vector filled with all of the train data reviews.
 	vector<review*>* trainData;

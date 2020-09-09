@@ -9,33 +9,33 @@
 class testerReview : public review {
 public:
 	/* ***** Destructor ***** */
-	~testerReview(){delete expectedOutput; delete posWords; delete negWords;}
+	~testerReview();
 
 
 	/* ***** Constructors ***** */
 	// default constructor
 	testerReview();
 	// Constructor: give Stringy of whole review, and row number
-	testerReview(Stringy* total, int row);
+	testerReview(Stringy total, int row);
 	// Constructor: give bool of expected output, and calls review default constructor.
-	testerReview(bool expected) : review() {this-> expectedOutput = &expected;}
+	testerReview(bool expected);
 	// Copy constructor.
 	testerReview (const testerReview& tes);
 
 
 	/* ***** Getters / Setters ***** */
 	// returns expected output in form of a bool
-	bool getExpectedOutput(){return expectedOutput;}
+	bool getExpectedOutput();
 	// sets the expected output. takes bool as parameter.
-	void setExpectedOutput(bool expect){delete this->expectedOutput; expectedOutput = new bool(expect);}
+	void setExpectedOutput(bool expect);
 	// returns a pointer to the number of positive words in the review.
-	int* getPosWords(){return this-> posWords;}
+	int* getPosWords();
 	// returns a pointer to the number of negative words int he review.
-	int* getNegWords(){return this-> negWords;}
+	int* getNegWords();
 	// sets the number of positive words. Takes int pointer as parameter.
-	void setPosWords(int* pos){this-> posWords = pos;}
+	void setPosWords(int* pos);
 	// sets the number of negative words. Takes int pointer as parameter.
-	void setNegWords(int* neg){this->negWords = neg;}
+	void setNegWords(int* neg);
 	// adds addMe to the number of positive words in the review.
 	void addToPosWords(int addMe);
 	// adds addMe to the number of negative words in the review.

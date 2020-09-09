@@ -59,7 +59,7 @@ char& Stringy::at(int loc)
 	if(loc < ylength) {
 		return ystring[ loc ];
 	} else {
-		cout << "location out of bounds in Stringy at function" << endl;
+		cout << "location out of bounds in Stringy (at) function" << endl;
 		return ystring[ 1 ];
 	}
 }
@@ -125,14 +125,18 @@ istream& operator >> (istream & IS,Stringy& S) {
 }
 Stringy& Stringy::operator = (const Stringy &S)
 {
+	// if it is self assignment, return this Stringy
 	if(this == &S) return *this;
+	//set the length the same, then delete this Stringy's string.
 	this-> ylength = S.ylength;
 	delete[] this-> ystring;
 	this-> ystring = new char[this-> ylength];
+	// copy each of the elements of S to this Stringy.
 	for(int i = 0 ; i < (this-> ylength);i++)
 	{
 		this-> ystring[i] = S.ystring[i];
 	}
+	// return this Stringy.
 	return *this;
 }
 
@@ -183,7 +187,7 @@ Stringy& Stringy :: operator += (const Stringy& S1){
 	for(int i = oldlength - 1, j = 0; i < ylength; i++, j++){
 		this-> ystring[i] = S1.ystring[j];
 	}
-	// return the pointer.
+	// return the Stringy.
 	return *this;
 }
 
@@ -206,9 +210,6 @@ Stringy &operator+ (const Stringy &S1,const char* addition)  {
  * */
 
 void Stringy::findAndDelete (char *toFind) {
-	char* begOfWord = strstr(this->ystring,toFind);
-	int toFindLen = strlen(toFind);
-	int bytesToMove = strlen(begOfWord) - toFindLen;
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
 	/* while loop checks these:
 	 * That the char* exists
@@ -216,8 +217,13 @@ void Stringy::findAndDelete (char *toFind) {
 	 * That the char after the word is a space
 	 * That the char is not an empty string
 	 * */
-	while(begOfWord != nullptr && (strcmp(begOfWord -1 , " ")) != 0 && strcmp(toFind,"") != 0 && strcmp((begOfWord + (toFindLen + 1) ), " ") != 0){
-
+	//&& (strcmp(begOfWord -1 , " ")) == 0 && strcmp(toFind,"") != 0 && strcmp((begOfWord + (toFindLen + 1) ), " ") == 0
+	while(this->ystring, toFind != nullptr){
+		char* begOfWord = strstr(this->ystring,toFind);
+		if(begOfWord == nullptr) return;
+		int toFindLen = strlen(toFind);
+		int bytesToMove = strlen(begOfWord) - toFindLen;
+		//cout << "Find n' Delete" << endl;
 		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
 		by moving the data over the number of places that the length of toFind is. */
 			//cout << "toFind: " << toFind << endl;

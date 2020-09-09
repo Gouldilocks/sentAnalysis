@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <set>
+#include <sstream>
 
 machine::machine () {
 	this-> trainData = new vector<review*>();
@@ -19,70 +20,64 @@ machine::machine () {
 
 }
 void machine:: jumpStart(ifstream& training_Data, ofstream& outPutHere) {
+	cout << "Taking in Training Data" << endl;
 	this->take_In_Training_Data (training_Data);
-	this->sort_Training_Data ();
+	cout << "Finished taking in Training Data" << endl;
+	cout << endl;
+	cout << "Begin sorting sentiment words" << endl;
 	this->sort_Sentiment_Words();
+	cout << "Finished sorting sentiment words" << endl;
+	cout << endl;
+	cout << "Starting taking in testing data" << endl;
 	this->take_In_Testing_Data (training_Data);
+	cout << "Finished take in testing data" << endl;
+	cout << endl;
+	cout << "Begin sorting testing data" << endl;
 	this->sort_Testing_Data ();
+	cout << "Finished sorting testing data" << endl;
+	cout << endl;
+	cout << "Begin comparing answers" << endl;
 	this->compare_Answers();
+	cout << "Finished comparing answers" << endl;
+	cout << endl;
+	cout << "Begin output result" << endl;
 	this->output_Result (outPutHere);
+	cout << "End output result" << endl;
 }
 
 void machine::take_In_Testing_Data (ifstream& testing_Data) {
-Stringy* testingData;
-testerReview* testingReview;
 char temp[10000];
 int rowCounter = 40000;
 while(testing_Data.getline(temp,9999)){
-testingData = new Stringy(temp);
-testingReview = new testerReview(testingData, rowCounter);
-this->testData->push_back(testingReview);
+	cout << temp << endl;
+this->testData->push_back(new testerReview(Stringy(temp), rowCounter));
 rowCounter++;
 }
 }
 
 void machine::take_In_Training_Data (ifstream& training_Data) {
-Stringy* trainingData;
-review* trainingReview;
 char temp[10000];
 int rowCounter = 1;
-while(training_Data.getline(temp,9999) && rowCounter < 40000){
-	trainingData = new Stringy(temp);
-	trainingReview = new review(trainingData,rowCounter);
-	this->trainData->push_back(trainingReview);
+while(training_Data.getline(temp,9999) && rowCounter < 4000){
+	//cout << "Finished that loop " << rowCounter << " times" << endl;
+	ifstream noNoWords("blackList.txt");
+	Stringy total(temp);
 	rowCounter++;
-}
-}
-// this function simply puts all the data from the training into sentimentWords
-// for Sort_Sentiment_Words to clean up.
-void machine::sort_Training_Data () {
-
-	// for each of the reviews, do this.
-		for (review *eachReview : *this->trainData) {
-			bool reviewSentiment = eachReview->getSentiment ();
-			//cout << *eachReview->getTotal() << endl;
-			// if the sentimentWords is not empty, check if it is in one of the existing words
-			vector<Stringy *> *tokenizedWords = eachReview->getSpaceSeparatedWords ()->tokenizeStringy (' ');
-
-			for (Stringy *putMeInSentimentWords : *tokenizedWords) {
-				currentWord = new word(putMeInSentimentWords, reviewSentiment);
-
-				// if the word is not already in the array, add it as a new word.
-				if(this->sentimentWords->empty() || isInsideVector(*(this->sentimentWords), *currentWord) == nullptr) {
-					//cout << *currentWord->get_The_Word () << endl;
-					sentimentWords->push_back (currentWord);
-
-					// otherwise, increase the number of that word.
-				} else {
-					word *ref = nullptr;
-					ref = (isInsideVector (*this->sentimentWords, *currentWord));
-					bool senty = eachReview->getSentiment ();
-					// add the word to the list of words for that given word.
-					isInsideVector (*this->sentimentWords, *ref)->add_Word (senty);
-				}
-			}
-		}
+	bool reviewSentiment = findSentiment(total);
+	cleanUp (noNoWords, total);
+	for(Stringy* currString : *total.tokenizeStringy(' ')){
+		word currWord(currString,reviewSentiment);
+		word* inside = isInsideVector (*this->sentimentWords,currWord);
+	if (inside == nullptr){
+	this->sentimentWords->push_back(new word(currWord));
 	}
+	else {
+		inside->add_Word(reviewSentiment);
+	}
+	}
+}
+}
+
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	for(word* eachWord : *sentimentWords){
@@ -179,4 +174,67 @@ this-> currentWord = new word(*m1.currentWord);
 this-> numRight = m1.numRight;
 this-> numWrong = m1.numWrong;
 this-> sentimentWords = new vector<word*> (*m1.sentimentWords);
+}
+
+machine::~machine () {
+	delete trainData; delete testData; delete sentimentWords; delete currentWord;
+}
+
+vector<review *> *machine::getTrainData () {
+	return this->trainData;
+}
+
+void machine::setTrainData (vector<review *> *trainingData) {
+	this->trainData = trainingData;
+}
+
+vector<word *> *machine::getSentimentWords () {
+	return this->sentimentWords;
+}
+
+void machine::setSentimentWords (vector<word *> *analysedWords) {
+	this->sentimentWords = analysedWords;
+}
+
+int machine::get_Right () {
+	return this->numRight;
+}
+
+void machine::set_Right (int right) {
+	this->numRight = right;
+}
+
+int machine::get_Wrong () {
+	return this->numWrong;
+}
+
+void machine::set_Wrong (int wrong) {
+	this-> numWrong = wrong;
+}
+bool machine::findSentiment (Stringy total) {
+	// whole function will not execute if Stringy is empty.
+	if (total.empty()) return false;
+	bool returnMe = false;
+	for(int i = 0; i < total.length (); i++){
+		if (i == total.length() - 1) return i;
+		else{
+			// will only return true if ",p or ",|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')
+			if (total.getString ()[i] == '"'  && (total.getString ()[i+1] == ','|| total.getString ()[i+1] == '\t' || total.getString ()[i+1] == '|') && total.getString ()[i+2] == 'p')	{
+				return true;
+			}
+			else if(total.getString ()[i] == '"'  && (total.getString ()[i+1] == ','|| total.getString ()[i+1] == '\t' || total.getString ()[i+1] == '|') && total.getString ()[i+2] == 'n'){
+				return false;
+			}
+		}
+	}
+	return returnMe;
+}
+void machine::cleanUp (ifstream& noNoWords, Stringy& stringy) {
+	char temporary[200];
+	int counter = 0;
+	counter++;
+	while(noNoWords.getline(temporary,150,' ')) {
+		Stringy tempStringy(temporary);
+		stringy.findAndDelete(tempStringy.getString ());
+	}
 }

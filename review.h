@@ -24,7 +24,7 @@ public:
 	// Copy Constructor
 	review(const review& rev);
 	// Constructor: give the whole review, and which row it is on.
-	review(Stringy* total, int row);
+	review(Stringy total, int row);
 	/* Constructor: give the whole review, the sentiment, and give a true to useBool.
 	usebool is necessary to make sure that there is no confusion that the above
 	constructor is used when row == 1 or 0.*/
@@ -56,7 +56,8 @@ public:
 	virtual void cleanUp(ifstream& noNoWords);
 	// function to find the sentiment of the total review when it is given.
 	virtual bool findSentiment();
-
+	// function will return the next word in the review.
+	virtual Stringy nextWord();
 
 	/* ***** Operators ***** */
 	review& operator= (const review& rev1);
