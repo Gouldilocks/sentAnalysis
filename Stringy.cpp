@@ -206,10 +206,18 @@ Stringy &operator+ (const Stringy &S1,const char* addition)  {
  * */
 
 void Stringy::findAndDelete (char *toFind) {
+	char* begOfWord = strstr(this->ystring,toFind);
+	int toFindLen = strlen(toFind);
+	int bytesToMove = strlen(begOfWord) - toFindLen;
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
-	while(strstr(this->ystring,toFind) != nullptr && (strcmp(strstr(this->ystring,toFind), " ")) != 0 && strcmp(toFind,"") != 0){
-		int toFindLen = strlen(toFind);
-		int bytesToMove = strlen(strstr(this->ystring,toFind)) - toFindLen;
+	/* while loop checks these:
+	 * That the char* exists
+	 * That the char before the word is a space
+	 * That the char after the word is a space
+	 * That the char is not an empty string
+	 * */
+	while(begOfWord != nullptr && (strcmp(begOfWord -1 , " ")) != 0 && strcmp(toFind,"") != 0 && strcmp((begOfWord + (toFindLen + 1) ), " ") != 0){
+
 		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
 		by moving the data over the number of places that the length of toFind is. */
 			//cout << "toFind: " << toFind << endl;
@@ -217,7 +225,7 @@ void Stringy::findAndDelete (char *toFind) {
 			//cout << "Source: " << strstr(this->ystring, toFind) + strlen(toFind) << endl;
 			//cout << "Number of Bytes: " << bytesToMove << endl;
 			//cout << "******************" << endl;
-			memmove (strstr (this->ystring, toFind), strstr (this->ystring, toFind) + strlen (toFind),
+			memmove (begOfWord, begOfWord + toFindLen,
 					 bytesToMove);
 		subStrObj (0, this->length () - toFindLen);
 		this->ylength = strlen (ystring) + 1;

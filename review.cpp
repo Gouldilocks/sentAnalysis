@@ -116,6 +116,24 @@ void review::setRow (int newRow) {
 	this->row = newRow;
 }
 
+review &review::operator= (const review &rev1) {
+	if(rev1 == *this) return *this;
+	this-> total = new Stringy(rev1.total);
+	this-> sentiment = rev1.sentiment;
+	this-> spaceSeparatedWords = new Stringy(rev1.spaceSeparatedWords);
+	this-> row = rev1.row;
+}
+
+bool operator== (const review &lhs, const review &rhs) {
+	return(
+			*lhs.total == *rhs.total &&
+			lhs.sentiment == rhs.sentiment &&
+			*lhs.spaceSeparatedWords == *rhs.spaceSeparatedWords &&
+			lhs.row == rhs.row
+			);
+}
+
+
 
 
 

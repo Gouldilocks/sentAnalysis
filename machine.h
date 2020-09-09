@@ -4,14 +4,12 @@
 /*	To do list:
  * ------------------------------
  * 1.) Make all input upper case
- * 2.) Check for rule of threes
- * 3.) Fix Blacklist deleting substring words
- * 4.) Make all elements on the heap
- * 5.) Fix output file type
- * 6.) Fix main for proper input
- * 7.) Finish catch cases
- * 8.) Comment the crap out of .h files
- * 9.) Fix n's and p's being shot out like crazy
+ * 2.) Fix Blacklist deleting substring words
+ * 3.) Make all elements possible on the stack.
+ * 4.) Fix output file type
+ * 5.) Fix main for proper input
+ * 6.) Finish catch cases
+ * 7.) Fix n's and p's being shot out like crazy
  * in the reviews at sort_Training_Data
  *
  */

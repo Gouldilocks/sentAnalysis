@@ -58,6 +58,9 @@ public:
 	virtual bool findSentiment();
 
 
+	/* ***** Operators ***** */
+	review& operator= (const review& rev1);
+	friend bool operator == (const review& lhs, const review& rhs);
 protected:
 	// the whole string as taken from the file.
 	Stringy* total = nullptr;
