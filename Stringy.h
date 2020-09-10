@@ -52,6 +52,8 @@ public:
 	void setLength(int newLen);
 	// returns the number of times the given Stringy appears in this-> Stringy
 	int find_Number_Inside(Stringy* toFind);
+	// cleans the string up according to the blacklist.
+	void clean();
 
 
 	/* ***** Overloaded Operators ***** */

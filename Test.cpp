@@ -96,6 +96,11 @@ SECTION("c_str function"){
 		CHECK(strcmp(s[9].getString(), s[0].getString()) == 0);
 		CHECK(strcmp(s[2].getString(), "") == 0);
 	}
+	SECTION("Clean"){
+	Stringy one("this's a test %$ ok.. yessir");
+	one.clean();
+	REQUIRE(one == "this s a test    ok   yessir");
+}
 }
 TEST_CASE("Review Class", "[review]"){
 	Stringy negString("This is a review which is negative\",negative");
@@ -135,8 +140,8 @@ TEST_CASE("testerReview Class", "[testerReview]"){
 	Stringy testSpaced("This is a review which is ");
 	Stringy* negStringP = new Stringy(negString);
 	Stringy* poStringP = new Stringy(posString);
-	testerReview negRev(negStringP, 1);
-	testerReview posRev(poStringP, 2);
+	testerReview negRev(negStringP, 1, false);
+	testerReview posRev(poStringP, 2, true);
 	SECTION("Getters and Setters"){
 		CHECK (!negRev.getSentiment());
 		CHECK (posRev.getSentiment());

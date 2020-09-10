@@ -26,11 +26,8 @@ this-> row = oldReview->getRow();
 }
 // This is the one that will most likely be used the most.
 review::review (Stringy total, int row) {
-	ifstream blackList("blackList.txt");
 	this->row = row;
 	this-> total = new Stringy(total);
-	this->sentiment = findSentiment();// todo: make findSentiment start from back.
-	this->cleanUp (blackList);
 	//cout << "made one" << endl;
 }
 

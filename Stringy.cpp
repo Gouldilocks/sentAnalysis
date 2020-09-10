@@ -208,29 +208,29 @@ Stringy &operator+ (const Stringy &S1,const char* addition)  {
 /* Referenced Stack overflow for this function:
  * https://stackoverflow.com/questions/5457608/how-to-remove-the-character-at-a-given-index-from-a-string-in-c
  * */
-
+//cout << "Find n' Delete" << endl;
+/* this will find where the toFind string is inside of the ystring, then delete the word that was found
+by moving the data over the number of places that the length of toFind is. */
+//cout << "toFind: " << toFind << endl;
+//cout << "Destination: " << strstr(this->ystring,toFind) << endl;
+//cout << "Source: " << strstr(this->ystring, toFind) + strlen(toFind) << endl;
+//cout << "Number of Bytes: " << bytesToMove << endl;
+//cout << "******************" << endl;
 void Stringy::findAndDelete (char *toFind) {
 	// strstr returns null if needle is not found in haystack. i.e. if toFind is not found in this-> ystring.
-	/* while loop checks these:
+	/*
+	 * while loop checks these:
 	 * That the char* exists
 	 * That the char before the word is a space
 	 * That the char after the word is a space
 	 * That the char is not an empty string
 	 * */
 	//&& (strcmp(begOfWord -1 , " ")) == 0 && strcmp(toFind,"") != 0 && strcmp((begOfWord + (toFindLen + 1) ), " ") == 0
-	while(this->ystring, toFind != nullptr){
+	while(strstr(this->ystring, toFind) != nullptr){
 		char* begOfWord = strstr(this->ystring,toFind);
 		if(begOfWord == nullptr) return;
 		int toFindLen = strlen(toFind);
 		int bytesToMove = strlen(begOfWord) - toFindLen;
-		//cout << "Find n' Delete" << endl;
-		/* this will find where the toFind string is inside of the ystring, then delete the word that was found
-		by moving the data over the number of places that the length of toFind is. */
-			//cout << "toFind: " << toFind << endl;
-			//cout << "Destination: " << strstr(this->ystring,toFind) << endl;
-			//cout << "Source: " << strstr(this->ystring, toFind) + strlen(toFind) << endl;
-			//cout << "Number of Bytes: " << bytesToMove << endl;
-			//cout << "******************" << endl;
 			memmove (begOfWord, begOfWord + toFindLen,
 					 bytesToMove);
 		subStrObj (0, this->length () - toFindLen);
@@ -329,4 +329,18 @@ char *Stringy::getString () const
 	{
 	return this-> ystring;
 	}
+
+void Stringy::clean () {
+	// for every character in the string
+for(int i = 0; i < ylength-1; i++){
+	// if the character is not a letter
+	if(!(((int)ystring[i] > 64 && (int)ystring[i] < 90 )|| ((int)ystring[i] > 96 && (int)ystring[i] < 123))){
+		// replace it with a space.
+		//cout << (int) ystring[i] << " = " << ystring[i] << endl;
+		//cout << ystring[i-1] << ystring[i] << ystring[i+1] << " becomes ";
+		ystring[i] = ' ';
+		//cout << ystring[i-1] << ystring[i] << ystring [i+1] << endl;
+	}
+}
+}
 

@@ -48,9 +48,12 @@ void machine:: jumpStart(ifstream& training_Data, ofstream& outPutHere) {
 void machine::take_In_Testing_Data (ifstream& testing_Data) {
 char temp[10000];
 int rowCounter = 40000;
-while(testing_Data.getline(temp,9999)){
+while(testing_Data.getline(temp,9999) && rowCounter < 40300){
 	cout << temp << endl;
-this->testData->push_back(new testerReview(Stringy(temp), rowCounter));
+	Stringy pushMe(temp);
+	bool senty = findSentiment (pushMe);
+	pushMe.clean ();
+	this->testData->push_back(new testerReview(pushMe, rowCounter, senty));
 rowCounter++;
 }
 }
@@ -58,13 +61,13 @@ rowCounter++;
 void machine::take_In_Training_Data (ifstream& training_Data) {
 char temp[10000];
 int rowCounter = 1;
-while(training_Data.getline(temp,9999) && rowCounter < 4000){
+while(training_Data.getline(temp,9999) && rowCounter < 300){
 	//cout << "Finished that loop " << rowCounter << " times" << endl;
 	ifstream noNoWords("blackList.txt");
 	Stringy total(temp);
-	rowCounter++;
 	bool reviewSentiment = findSentiment(total);
-	cleanUp (noNoWords, total);
+	total.clean();
+	rowCounter++;
 	for(Stringy* currString : *total.tokenizeStringy(' ')){
 		word currWord(currString,reviewSentiment);
 		word* inside = isInsideVector (*this->sentimentWords,currWord);
@@ -137,12 +140,8 @@ void machine::sort_Sentiment_Words () {
  * https://www.geeksforgeeks.org/how-to-find-index-of-a-given-element-in-a-vector-in-cpp/
  * */
 word* machine :: isInsideVector(vector<word*> v, word k){
-	vector<word> vec;
-	for(word * pushMeBack  : v){
-		vec.push_back(*pushMeBack);
-	}
-	for(int i = 0; i < vec.size(); i++){
-		if (vec.at(i) == k){ return v.at(i); } else continue;
+	for(int i = 0; i < v.size(); i++){
+		if (*v.at(i) == k){ return v.at(i); } else continue;
 	}
 	return nullptr;
 }
