@@ -3,6 +3,7 @@
 //
 #include "word.h"
 
+
 word::word (char *theNewWord) {
 	this-> theWord = new Stringy(theNewWord);
 	this->numPos = new int(0);
@@ -159,6 +160,16 @@ word::~word () {
 	delete totalInstances;
 	delete sentiment;
 	delete sorted;
+}
+
+word::word (Stringy theNewWord, bool sentiment) {
+	this->numPos = new int(0);
+	this-> numNeg = new int(0);
+	this-> totalInstances = new int(0);
+	this-> sentiment = new bool(sentiment);
+	this-> sorted = new bool(false);
+	this-> theWord = new Stringy(theNewWord);
+	add_Word(sentiment);
 }
 
 

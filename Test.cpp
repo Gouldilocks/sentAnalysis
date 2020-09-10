@@ -101,6 +101,11 @@ SECTION("c_str function"){
 	one.clean();
 	REQUIRE(one == "this s a test    ok   yessir");
 }
+	SECTION("Nextword del"){
+	Stringy test("WOrdone wordTwo wordThree");
+	REQUIRE(test.nextWordDel() == "WOrdone");
+	REQUIRE(test == "wordTwo wordThree");
+}
 }
 TEST_CASE("Review Class", "[review]"){
 	Stringy negString("This is a review which is negative\",negative");

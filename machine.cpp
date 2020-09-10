@@ -50,25 +50,35 @@ char temp[10000];
 int rowCounter = 40000;
 int numPos = 1;
 int numNeg = 1;
-while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300 <- For testing. */ ){
+while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300*/){
 	Stringy pushMe(temp);
 	bool senty = findSentiment (pushMe);
 	pushMe.clean ();
 	// tokenize the string for use
-	for(Stringy* currStringy : *pushMe.tokenizeStringy(' ')){
-	word* ifNullIgnoreMe = isInsideVectorStringy(*this-> sentimentWords, currStringy);
-	if(ifNullIgnoreMe == nullptr) {continue;}
-	else{
-		if (ifNullIgnoreMe->getSent()) numPos++; else numNeg++;
+//	for(Stringy* currStringy : *pushMe.tokenizeStringy(' ')){
+//	word* ifNullIgnoreMe = isInsideVectorStringy(*this-> sentimentWords, currStringy);
+//	if(ifNullIgnoreMe == nullptr) {continue;}
+//	else{
+//		if (ifNullIgnoreMe->getSent()) numPos++; else numNeg++;
+//	}
+//	}
+//this->testData->push_back(new testerReview(pushMe, rowCounter, senty, numPos, numNeg));
+//rowCounter++;
+for (word* w1 : *this-> sentimentWords){
+	if(pushMe.wordInsideIt (w1->get_The_Word ())){
+		if(w1->getSent()){
+			numPos++;
+		} else numNeg++;
 	}
-	}
-this->testData->push_back(new testerReview(pushMe, rowCounter, senty, numPos, numNeg));
+}
+this->testData->push_back(new testerReview(pushMe,rowCounter,senty,numPos,numNeg));
 rowCounter++;
 }
 }
 
 void machine::take_In_Training_Data (ifstream& training_Data) {
-char temp[10000];
+Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
+	char temp[10000];
 int rowCounter = 1;
 //int wordMade = 0;
 while(training_Data.getline(temp,9999) && rowCounter < 3000){
@@ -78,7 +88,7 @@ while(training_Data.getline(temp,9999) && rowCounter < 3000){
 	bool reviewSentiment = findSentiment(total);
 	total.clean();
 	rowCounter++;
-	for(Stringy* currString : *total.tokenizeStringy(' ')){
+		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords)){
 		//cout << "The word is " << *currString << endl;
 		word currWord(currString,reviewSentiment);
 		word* inside = isInsideVectorStringy (*this->sentimentWords,currString);
@@ -93,7 +103,9 @@ while(training_Data.getline(temp,9999) && rowCounter < 3000){
 	}
 	}
 }
+
 }
+
 
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
@@ -154,7 +166,7 @@ word* machine :: isInsideVectorStringy(vector<word*> v, const Stringy& k){
 //		cout << *v.at(i)->get_The_Word() << " is the vector word compared to ";
 //		cout << k << endl;
 //		cout << "Returns: " << (*v.at(i)->get_The_Word() == k) << endl;
-		if(*(v.at(i)->get_The_Word()) == k){ return v.at(i);} else continue;
+		if((v.at(i)->get_The_Word())->firstThree(k)){ return v.at(i);} else continue;
 	}
 	return nullptr;
 }

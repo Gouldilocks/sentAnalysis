@@ -23,7 +23,8 @@ public:
 	word(char* theNewWord);
 	// Copy constructor.
 	word(const word& w1);
-
+	// Stringy constructor
+	word(Stringy theNewWord, bool senty);
 
 	/* ***** Functions ***** */
 	// will increase the numPos by 1 and totalInstances by 1.

@@ -238,7 +238,7 @@ void Stringy::findAndDelete (char *toFind) {
 	}
 }
 
-vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
+vector<Stringy *>* Stringy::tokenizeStringy (char delim, const Stringy& stopWords) {
 	auto* returnMe = new vector<Stringy*> ();
 	char temp[10000];
 	Stringy* tempStringy;
@@ -246,6 +246,7 @@ vector<Stringy *>* Stringy::tokenizeStringy (char delim) {
 	while(ss.getline(temp,9999, delim)){
 		// avoid spaces being put into the word vector.
 		if(temp[0] != ' ') {
+			if(strstr(stopWords.ystring, temp)) continue;
 			tempStringy = new Stringy (temp);
 			returnMe->push_back (tempStringy);
 		} else continue;
@@ -342,5 +343,34 @@ for(int i = 0; i < ylength-1; i++){
 		//cout << ystring[i-1] << ystring[i] << ystring [i+1] << endl;
 	}
 }
+}
+
+bool Stringy::wordInsideIt (const Stringy& word) {
+return strstr (this-> ystring, word.ystring) != nullptr;
+}
+
+Stringy Stringy::nextWordDel () {
+	int len = 0;
+	while(ystring[len] != ' '){
+		len++;
+	}
+	len++;
+	char* temp = new char[len];
+	for (int i = 0; i < len; i++){
+		temp[i] = this-> ystring[i];
+	}
+	this->subStrObj (0,len + 1);
+	return Stringy(temp);
+}
+
+stringstream Stringy::convToStreamy () {
+	stringstream ss(this->ystring);
+	return ss;
+}
+
+bool Stringy::firstThree (Stringy same) {
+	return this->ystring[0] == same.ystring[0] &&
+	this->ystring[1] == same.ystring[1] &&
+	this-> ystring[2] == same.ystring[2];
 }
 

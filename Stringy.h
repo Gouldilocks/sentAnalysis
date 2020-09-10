@@ -28,6 +28,14 @@ public:
 
 
 	/* ***** Functions ***** */
+	// function returns a bool of whether the first 3 letters are the same or not.
+	bool firstThree(Stringy same);
+	// function returns a stringstream of the stringy
+	stringstream convToStreamy();
+	// function will return the next word and delete it from the string.
+	Stringy nextWordDel();
+	// function will find if a given review total has a word inside.
+	bool wordInsideIt (const Stringy& wordInside);
 	// will find and remove the char* that is passed from the ystring.
 	void findAndDelete(char* toFind);
 	// returns a chracter at specified loc (includes 0)
@@ -39,7 +47,7 @@ public:
 	// returns the length of the string, excluding null-terminator
 	int charLength();
 	// takes the next word in the String, then returns a vector of each word according to the delimeter
-	vector<Stringy*>* tokenizeStringy(char delim);
+	vector<Stringy*>* tokenizeStringy(char delim, const Stringy& stopWords);
 	// Modifies the current object to be a substring.
 	void subStrObj(int index, int length);
 	// returns a substring of the object
