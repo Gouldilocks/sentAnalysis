@@ -374,3 +374,52 @@ bool Stringy::firstThree (Stringy same) {
 	this-> ystring[2] == same.ystring[2];
 }
 
+Stringy::Stringy (const char *input, int size) {
+	this->ylength = size+1;
+	char* temp = new char[ylength];
+	// loops only size times.
+for(int i = 0; i < size; i++){
+	temp[i] = input[i];
+}
+temp[ylength-1] = '\0';
+this->ystring = temp;
+}
+
+vector<Stringy *>* Stringy::tokenizeStringy (char delim, const Stringy& stopWords, int size) {
+	auto* returnMe = new vector<Stringy*> ();
+	char temp[10000];
+	Stringy* tempStringy;
+	stringstream ss(this->getString ());
+	while(ss.getline(temp,9999, delim)){
+		// avoid spaces being put into the word vector.
+		if(temp[0] != ' ') {
+			if(strstr(stopWords.ystring, temp)) continue;
+			tempStringy = new Stringy (temp, size);
+			returnMe->push_back (tempStringy);
+		} else continue;
+	}
+	return returnMe;
+}
+bool Stringy::findSentiment (Stringy total) {
+	// whole function will not execute if Stringy is empty.
+	if (total.empty()) return false;
+	bool returnMe = false;
+	for(int i = 0; i < total.length (); i++){
+		if (i == total.length() - 1) return false;
+		else{
+			// will only return true if ",p or ",|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')
+			if (total.getString ()[i] == '"'  && (total.getString ()[i+1] == ','|| total.getString ()[i+1] == '\t' || total.getString ()[i+1] == '|') && total.getString ()[i+2] == 'p')	{
+				for(int x = i; x < 8; x++) {
+					total.getString ()[ i ] = '\0';
+				}return true;
+			}
+			else if(total.getString ()[i] == '"'  && (total.getString ()[i+1] == ','|| total.getString ()[i+1] == '\t' || total.getString ()[i+1] == '|') && total.getString ()[i+2] == 'n'){
+				for(int x = i; x < 8; x++) {
+					total.getString ()[ i ] = '\0';
+				}
+				return false;
+			}
+		}
+	}
+	return returnMe;
+}

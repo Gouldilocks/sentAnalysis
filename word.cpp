@@ -88,7 +88,8 @@ ostream &operator<< (ostream& OS, const word& w1) {
 	OS << "The word is: " << *w1.theWord << endl;
 	OS << "The numPos is: " << *w1.numPos << endl;
 	OS << "The numNeg is: " << *w1.numNeg << endl;
-	OS << "The totalInstances is: " << w1.totalInstances << endl;
+	OS << "The totalInstances is: " << *w1.totalInstances << endl;
+	if(w1.sentiment != nullptr)
 	OS << "The sentiment is: " << *w1.sentiment << endl;
 	OS << "The sorted is: " << *w1.sorted << endl;
 }

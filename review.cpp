@@ -3,8 +3,6 @@
 //
 #include "review.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
 /*
  * Elements:
  * -----------------

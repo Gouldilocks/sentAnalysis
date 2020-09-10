@@ -38,11 +38,11 @@ testerReview::testerReview (bool expected) : review() {
 }
 
 bool testerReview::getExpectedOutput () {
-	return expectedOutput;
+	return *expectedOutput;
 }
 
 void testerReview::setExpectedOutput (bool expect) {
-	delete this->expectedOutput; expectedOutput = new bool(expect);
+	expectedOutput = new bool(expect);
 }
 
 int *testerReview::getPosWords () {

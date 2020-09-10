@@ -85,8 +85,6 @@ public:
 	 */
 	word* isInsideVector(vector<word*> v, word k);
 	word* isInsideVectorStringy(vector<word*> v, const Stringy& k);
-	// returns a bool of the sentiment of a given Stringy.
-	bool findSentiment(Stringy total);
 	// cleans up the given String to fit the blacklist.
 	void cleanUp(ifstream& noNoWords, Stringy& toClean);
 protected:

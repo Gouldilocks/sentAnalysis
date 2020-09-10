@@ -52,7 +52,7 @@ int numPos = 1;
 int numNeg = 1;
 while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300*/){
 	Stringy pushMe(temp);
-	bool senty = findSentiment (pushMe);
+	bool senty = pushMe.findSentiment (pushMe);
 	pushMe.clean ();
 	// tokenize the string for use
 //	for(Stringy* currStringy : *pushMe.tokenizeStringy(' ')){
@@ -74,21 +74,23 @@ for (word* w1 : *this-> sentimentWords){
 this->testData->push_back(new testerReview(pushMe,rowCounter,senty,numPos,numNeg));
 rowCounter++;
 }
+//cout << "Size of TestData: " << testData->size() << endl;
 }
 
 void machine::take_In_Training_Data (ifstream& training_Data) {
-Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
-	char temp[10000];
+//Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
+Stringy stopWords("a");
+char temp[10000];
 int rowCounter = 1;
 //int wordMade = 0;
 while(training_Data.getline(temp,9999) && rowCounter < 3000){
 	if (rowCounter == 1) {rowCounter++; continue;}
 	//cout << "Finished that loop " << rowCounter << " times" << endl;
 	Stringy total(temp);
-	bool reviewSentiment = findSentiment(total);
+	bool reviewSentiment = total.findSentiment(total);
 	total.clean();
 	rowCounter++;
-		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords)){
+		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,8)){
 		//cout << "The word is " << *currString << endl;
 		word currWord(currString,reviewSentiment);
 		word* inside = isInsideVectorStringy (*this->sentimentWords,currString);
@@ -103,41 +105,49 @@ while(training_Data.getline(temp,9999) && rowCounter < 3000){
 	}
 	}
 }
-
+cout << "Number of words categorized: " << sentimentWords->size() << endl;
 }
 
 
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	float percentage =(double) (*thisReview->getPosWords ())/(double)(*thisReview->getNegWords ());
-	//cout << "Percentage: " << percentage << endl;
-	//cout << "Positive: " << (double)*thisReview->getPosWords () << endl;
-	//cout << "Negative: " << (double)*thisReview-> getNegWords () << endl;
+	cout << "Percentage: " << percentage << endl;
+	cout << "Positive: " << (double)*thisReview->getPosWords () << endl;
+	cout << "Negative: " << (double)*thisReview-> getNegWords () << endl;
+	cout << *thisReview->getTotal () << endl;
 	// if the percentage of positive words exceeds the number of
 	// negative words, then set expected output to positive.
-	thisReview->setExpectedOutput (percentage >= 1);
+	cout << "Poswords >= Negwords returns: " << (thisReview->getPosWords() >= thisReview->getNegWords ()) << endl;
+	thisReview->setExpectedOutput (thisReview->getPosWords () >= thisReview->getNegWords ());
+	cout << "Expected Output: " << thisReview->getExpectedOutput () << endl;
 }// end every review
 }
 void machine::compare_Answers () {
+	int PosRevs = 0;
+	int NegRevs = 0;
 	// for each tested review in testData
 for (testerReview* testMe: *testData){
+	if(testMe->getSentiment ())PosRevs++; else NegRevs++;
 	if (testMe->getSentiment() == testMe->getExpectedOutput ()){
 		this->numRight++;
 		//cout << *testMe-> getTotal () << endl;
 	} else { // increase number wrong and add the row number to the output stringy with new line
 		this->numWrong++;
-		cout << *testMe->getTotal () << endl;
+		//cout << *testMe->getTotal () << endl;
 		// create string add integer.
 		*outputMe = *outputMe + testMe->getRow();
 		*outputMe = *outputMe + "\n";
 	}
 }
+cout << "Positive reviews: " << PosRevs << endl;
+cout << "Negative reviews: " << NegRevs << endl;
 }
 void machine::output_Result (ofstream& outPutHere) {
-	//cout << "numRight: " << (double) numRight << endl;
-	//cout << "numWrong: " << (double) numWrong << endl;
+	cout << "numRight: " << (double) numRight << endl;
+	cout << "numWrong: " << (double) numWrong << endl;
 double percentage = (double)this->numRight / ((double)this->numWrong + (double) this->numRight);
-	//cout << "Percentage: " << percentage << endl;
+	cout << "Percentage: " << percentage << endl;
 outPutHere << percentage << endl;
 outPutHere << *this-> outputMe << endl;
 }
@@ -147,6 +157,7 @@ void machine::sort_Sentiment_Words () {
 	for(int i = 0; i < this->sentimentWords->size(); i++){
 		//cout << *sentimentWords->at (i)->get_The_Word () << endl;
 		sentimentWords->at(i)->calc_Sentiment ();
+		//cout << *sentimentWords->at(i) << endl;
 	// if the word does not meet requirements, delete it from usable words.
 	if (sentimentWords->at(i)->getSentPtr () == nullptr) *this->sentimentWords->erase(sentimentWords->begin()+i);
 }
@@ -215,24 +226,6 @@ int machine::get_Wrong () {
 
 void machine::set_Wrong (int wrong) {
 	this-> numWrong = wrong;
-}
-bool machine::findSentiment (Stringy total) {
-	// whole function will not execute if Stringy is empty.
-	if (total.empty()) return false;
-	bool returnMe = false;
-	for(int i = 0; i < total.length (); i++){
-		if (i == total.length() - 1) return i;
-		else{
-			// will only return true if ",p or ",|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')|| find->getString ()[i] == '\t' || find-> getString ()[i] == '|')
-			if (total.getString ()[i] == '"'  && (total.getString ()[i+1] == ','|| total.getString ()[i+1] == '\t' || total.getString ()[i+1] == '|') && total.getString ()[i+2] == 'p')	{
-				return true;
-			}
-			else if(total.getString ()[i] == '"'  && (total.getString ()[i+1] == ','|| total.getString ()[i+1] == '\t' || total.getString ()[i+1] == '|') && total.getString ()[i+2] == 'n'){
-				return false;
-			}
-		}
-	}
-	return returnMe;
 }
 void machine::cleanUp (ifstream& noNoWords, Stringy& stringy) {
 	char temporary[200];

@@ -25,7 +25,8 @@ public:
 	Stringy(Stringy *S);
 	// copy constructor
 	Stringy(const Stringy &s);
-
+	// smaller stringy constructor
+	Stringy(const char* input, int size);
 
 	/* ***** Functions ***** */
 	// function returns a bool of whether the first 3 letters are the same or not.
@@ -48,6 +49,8 @@ public:
 	int charLength();
 	// takes the next word in the String, then returns a vector of each word according to the delimeter
 	vector<Stringy*>* tokenizeStringy(char delim, const Stringy& stopWords);
+	// overloaded tokenize, uses sized string constructor.
+	vector<Stringy*>* tokenizeStringy(char delim, const Stringy& stopWords, int size);
 	// Modifies the current object to be a substring.
 	void subStrObj(int index, int length);
 	// returns a substring of the object
@@ -62,6 +65,8 @@ public:
 	int find_Number_Inside(Stringy* toFind);
 	// cleans the string up according to the blacklist.
 	void clean();
+	// finds the sentiment and deletes it.
+	bool findSentiment(Stringy total);
 
 
 	/* ***** Overloaded Operators ***** */
