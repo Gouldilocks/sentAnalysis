@@ -48,20 +48,29 @@ void machine:: jumpStart(ifstream& training_Data, ofstream& outPutHere) {
 void machine::take_In_Testing_Data (ifstream& testing_Data) {
 char temp[10000];
 int rowCounter = 40000;
-while(testing_Data.getline(temp,9999) && rowCounter < 40300){
-	cout << temp << endl;
+int numPos = 1;
+int numNeg = 1;
+while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300 <- For testing. */ ){
 	Stringy pushMe(temp);
 	bool senty = findSentiment (pushMe);
 	pushMe.clean ();
-	this->testData->push_back(new testerReview(pushMe, rowCounter, senty));
+	for(Stringy* currStringy : *pushMe.tokenizeStringy(' ')){
+	word* ifNullIgnoreMe = isInsideVectorStringy(*this-> sentimentWords, currStringy);
+	if(ifNullIgnoreMe == nullptr) {continue;}
+	else{
+		if (ifNullIgnoreMe->getSent()) numPos++; else numNeg++;
+	}
+	}
+this->testData->push_back(new testerReview(pushMe, rowCounter, senty,numPos,numNeg));
 rowCounter++;
 }
+
 }
 
 void machine::take_In_Training_Data (ifstream& training_Data) {
 char temp[10000];
 int rowCounter = 1;
-while(training_Data.getline(temp,9999) && rowCounter < 300){
+while(training_Data.getline(temp,9999) && rowCounter < 4000){
 	//cout << "Finished that loop " << rowCounter << " times" << endl;
 	ifstream noNoWords("blackList.txt");
 	Stringy total(temp);
@@ -83,19 +92,6 @@ while(training_Data.getline(temp,9999) && rowCounter < 300){
 
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
-	for(word* eachWord : *sentimentWords){
-		// find the number of occurrences of this particular word inside of this review..
-		int occurrences = thisReview->review :: getSpaceSeparatedWords()->find_Number_Inside (eachWord->get_The_Word ());
-		// if the word is positive, increase positive word count
-		if(occurrences > 0) {
-			if (eachWord->getSent ()) {
-				thisReview->addToPosWords (occurrences);
-				// if the word is negative, increase negative word count
-			} else {
-				thisReview->addToNegWords (occurrences);
-			}
-		}
-	}// end every word
 	float percentage =(double) (*thisReview->getPosWords ())/(double)(*thisReview->getNegWords ());
 	//cout << "Percentage: " << percentage << endl;
 	//cout << "Positive: " << (double)*thisReview->getPosWords () << endl;
@@ -144,6 +140,11 @@ word* machine :: isInsideVector(vector<word*> v, word k){
 		if (*v.at(i) == k){ return v.at(i); } else continue;
 	}
 	return nullptr;
+}
+word* machine :: isInsideVectorStringy(vector<word*> v, Stringy k){
+	for(int i = 0; i < v.size(); i++){
+		if(*v.at(i)->get_The_Word() == k){ return v.at(i);} else continue;
+	}
 }
 int machine:: getIndex(vector<word*>* v, word* K)
 {

@@ -3,11 +3,13 @@
 //
 // Created by loggityloglog on 9/4/20.
 //
-testerReview ::testerReview (Stringy total, int row, bool realSentiment) :  review(total, row){
+testerReview ::testerReview (Stringy total, int row, bool realSentiment, int pos, int neg) :  review(total, row){
 this-> negWords = new int(1);
 this-> posWords = new int(1);
 this-> expectedOutput = new bool(false);
 this-> sentiment = realSentiment;
+this-> posWords = new int(pos);
+this-> negWords = new int(neg);
 }
 testerReview :: testerReview() : review(){
 	this-> expectedOutput = nullptr;

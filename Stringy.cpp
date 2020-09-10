@@ -317,7 +317,7 @@ Stringy &operator+ (const Stringy &S1, const int num_Toadd) {
 		putMeInStringy[i] = numberToAddToString[j];
 	}
 	putMeInStringy[returnLen - 1] = '\0';
-	return * new Stringy(putMeInStringy);
+	return  *new Stringy(putMeInStringy);
 }
 
 void Stringy::setLength (int newLen)

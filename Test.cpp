@@ -140,8 +140,8 @@ TEST_CASE("testerReview Class", "[testerReview]"){
 	Stringy testSpaced("This is a review which is ");
 	Stringy* negStringP = new Stringy(negString);
 	Stringy* poStringP = new Stringy(posString);
-	testerReview negRev(negStringP, 1, false);
-	testerReview posRev(poStringP, 2, true);
+	testerReview negRev(negStringP, 1, false, 10, 20);
+	testerReview posRev(poStringP, 2, true, 20, 10);
 	SECTION("Getters and Setters"){
 		CHECK (!negRev.getSentiment());
 		CHECK (posRev.getSentiment());

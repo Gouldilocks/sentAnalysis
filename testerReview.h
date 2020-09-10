@@ -16,7 +16,7 @@ public:
 	// default constructor
 	testerReview();
 	// Constructor: give Stringy of whole review, and row number
-	testerReview(Stringy total, int row, bool realSentiment);
+	testerReview(Stringy total, int row, bool realSentiment,int pos, int neg);
 	// Constructor: give bool of expected output, and calls review default constructor.
 	testerReview(bool expected);
 	// Copy constructor.
