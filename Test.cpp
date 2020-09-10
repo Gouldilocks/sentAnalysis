@@ -107,19 +107,19 @@ TEST_CASE("Review Class", "[review]"){
 	Stringy posString("This is a review which is positive\",positive");
 	Stringy testString("This is a tester review of spaced");
 	Stringy blackList ("spaced"); // this is the blacklist;
-	Stringy testSpaced("This is a review which is ");
 	Stringy* negStringP = new Stringy(negString);
 	Stringy* poStringP = new Stringy(posString);
-	review negRev(negStringP, 1);
-	review posRev(poStringP, 2);
+	review negRev(negStringP, false, true);
+	review posRev(poStringP, true, false);
 	SECTION("Getters and Setters"){
+		negRev.setSentiment(false);
+		posRev.setSentiment(true);
 		CHECK (!negRev.getSentiment());
 		CHECK (posRev.getSentiment());
 		negRev.setSentiment(true);
 		CHECK (negRev.getSentiment ());
 		negRev.setSentiment(false);
 		CHECK (!negRev.getSentiment ());
-		CHECK(*negRev.getTotal() == testSpaced);
 		Stringy* testy = new Stringy(testString);
 		posRev.setSpaceSeparatedWords(testy);
 		CHECK(posRev.getSpaceSeparatedWords() == testString);

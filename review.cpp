@@ -24,7 +24,7 @@ this->sentiment = oldReview->getSentiment();
 this-> spaceSeparatedWords = new Stringy(*oldReview->getSpaceSeparatedWords ());
 this-> row = oldReview->getRow();
 }
-// This is the one that will most likely be used the most.
+
 review::review (Stringy total, int row) {
 	this->row = row;
 	this-> total = new Stringy(total);

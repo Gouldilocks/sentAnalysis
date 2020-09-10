@@ -39,13 +39,13 @@ word :: word(const word& w1){
 	this-> theWord = new Stringy(*w1.theWord);
 }
 void word::calc_Sentiment () {
-	//*sentiment = *numPos >= *numNeg;
-	if(*this-> totalInstances > 3){
-		if (sentiment == nullptr) {
-			sentiment = new bool (false);
-		}
-		*sentiment = *numPos >= *numNeg;
-	} else this->sentiment = nullptr;
+	*sentiment = *numPos >= *numNeg;
+//	if(*this-> totalInstances > 3){
+//		if (sentiment == nullptr) {
+//			sentiment = new bool (false);
+//		}
+//		*sentiment = *numPos >= *numNeg;
+//	} else this->sentiment = nullptr;
 }
 
 void word::add_Word (bool senty) {

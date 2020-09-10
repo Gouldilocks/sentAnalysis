@@ -54,6 +54,7 @@ while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300 <- For testing. */
 	Stringy pushMe(temp);
 	bool senty = findSentiment (pushMe);
 	pushMe.clean ();
+	// tokenize the string for use
 	for(Stringy* currStringy : *pushMe.tokenizeStringy(' ')){
 	word* ifNullIgnoreMe = isInsideVectorStringy(*this-> sentimentWords, currStringy);
 	if(ifNullIgnoreMe == nullptr) {continue;}
@@ -61,30 +62,34 @@ while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300 <- For testing. */
 		if (ifNullIgnoreMe->getSent()) numPos++; else numNeg++;
 	}
 	}
-this->testData->push_back(new testerReview(pushMe, rowCounter, senty,numPos,numNeg));
+this->testData->push_back(new testerReview(pushMe, rowCounter, senty, numPos, numNeg));
 rowCounter++;
 }
-
 }
 
 void machine::take_In_Training_Data (ifstream& training_Data) {
 char temp[10000];
 int rowCounter = 1;
-while(training_Data.getline(temp,9999) && rowCounter < 4000){
+//int wordMade = 0;
+while(training_Data.getline(temp,9999) && rowCounter < 3000){
+	if (rowCounter == 1) {rowCounter++; continue;}
 	//cout << "Finished that loop " << rowCounter << " times" << endl;
-	ifstream noNoWords("blackList.txt");
 	Stringy total(temp);
 	bool reviewSentiment = findSentiment(total);
 	total.clean();
 	rowCounter++;
 	for(Stringy* currString : *total.tokenizeStringy(' ')){
+		//cout << "The word is " << *currString << endl;
 		word currWord(currString,reviewSentiment);
-		word* inside = isInsideVector (*this->sentimentWords,currWord);
+		word* inside = isInsideVectorStringy (*this->sentimentWords,currString);
 	if (inside == nullptr){
-	this->sentimentWords->push_back(new word(currWord));
+		//wordMade++;
+		//cout << "Word made # " << wordMade << endl;
+		this->sentimentWords->push_back(new word(currWord));
 	}
 	else {
 		inside->add_Word(reviewSentiment);
+		//cout << *currString << " Added to " << *inside << endl;
 	}
 	}
 }
@@ -106,8 +111,10 @@ void machine::compare_Answers () {
 for (testerReview* testMe: *testData){
 	if (testMe->getSentiment() == testMe->getExpectedOutput ()){
 		this->numRight++;
+		//cout << *testMe-> getTotal () << endl;
 	} else { // increase number wrong and add the row number to the output stringy with new line
 		this->numWrong++;
+		cout << *testMe->getTotal () << endl;
 		// create string add integer.
 		*outputMe = *outputMe + testMe->getRow();
 		*outputMe = *outputMe + "\n";
@@ -141,31 +148,17 @@ word* machine :: isInsideVector(vector<word*> v, word k){
 	}
 	return nullptr;
 }
-word* machine :: isInsideVectorStringy(vector<word*> v, Stringy k){
-	for(int i = 0; i < v.size(); i++){
-		if(*v.at(i)->get_The_Word() == k){ return v.at(i);} else continue;
+// todo: fix glitch. Will return true when only first letter matches.
+word* machine :: isInsideVectorStringy(vector<word*> v, const Stringy& k){
+	for(int i = 0; i < v.size(); i = i+2){
+//		cout << *v.at(i)->get_The_Word() << " is the vector word compared to ";
+//		cout << k << endl;
+//		cout << "Returns: " << (*v.at(i)->get_The_Word() == k) << endl;
+		if(*(v.at(i)->get_The_Word()) == k){ return v.at(i);} else continue;
 	}
+	return nullptr;
 }
-int machine:: getIndex(vector<word*>* v, word* K)
-{
-	auto it = find(v->begin(),
-				  v->end(), K);
 
-	// If element was found
-	if (it != v->end()) {
-		// calculating the index
-		// of K
-		int index = distance(v->begin(),
-							 it);
-		return index;
-	}
-	else {
-		// If the element is not
-		// present in the vector
-		//cout << "-1" << endl;
-		return -1;
-	}
-}
 machine::machine (const machine &m1) {
 this-> trainData = new vector<review*>(*m1.trainData);
 this-> testData = new vector<testerReview*>(*m1.testData);

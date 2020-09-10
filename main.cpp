@@ -4,11 +4,6 @@
 #include <vector>
 #include "machine.h"
 using namespace std;
-void kkk (ifstream& k){
-	char testmee[400];
-	k.getline(testmee, 399);
-	cout << testmee << endl;
-}
 // function which returns the index of the given stringy where the beginning of the sentiment starts.
 int main(int argc, char** argv) {
 	//Catch :: Session().run();
