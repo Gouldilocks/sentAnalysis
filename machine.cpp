@@ -46,11 +46,11 @@ void machine:: jumpStart(ifstream& training_Data, ofstream& outPutHere) {
 }
 
 void machine::take_In_Testing_Data (ifstream& testing_Data) {
-char temp[10000];
+char temp[50000];
 int rowCounter = 40000;
 int numPos = 1;
 int numNeg = 1;
-while(testing_Data.getline(temp,9999) /*&& rowCounter < 40300*/){
+while(testing_Data.getline(temp,50000) /*&& rowCounter < 40300*/){
 	Stringy pushMe(temp);
 	bool senty = pushMe.findSentiment (pushMe);
 	pushMe.clean ();
@@ -80,31 +80,33 @@ rowCounter++;
 void machine::take_In_Training_Data (ifstream& training_Data) {
 //Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
 Stringy stopWords("a");
-char temp[10000];
+char temp[50000];
 int rowCounter = 0;
 //int wordMade = 0;
-while(training_Data.getline(temp,9999) && rowCounter < 3000){
+while(training_Data.getline(temp,49999) && rowCounter < 40001){
 	//cout << temp << endl;
 	if (rowCounter == 0) {rowCounter++; continue;}
-	//cout << "Finished that loop " << rowCounter << " times" << endl;
+	cout << "Finished that loop " << rowCounter << " times" << endl;
 	Stringy total(temp);
 	bool reviewSentiment = total.findSentiment(total);
 	total.clean();
 	rowCounter++;
-		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,2)){
-		//cout << "The word is " << *currString << endl;
-		word currWord(currString,reviewSentiment);
-		word* inside = isInsideVectorStringy (*this->sentimentWords,currString);
-	if (inside == nullptr){
-		//wordMade++;
-		//cout << "Word made # " << wordMade << endl;
-		this->sentimentWords->push_back(new word(currWord));
-	}
-	else {
-		inside->add_Word(reviewSentiment);
-		//cout << *currString << " Added to " << *inside << endl;
-	}
-	}
+		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,2)) {
+			//cout << "The word is " << *currString << endl;
+			// make sure not to get the random ones.
+			if (this->sentimentWords->size () < 10000) {
+				word currWord (currString, reviewSentiment);
+				word *inside = isInsideVectorStringy (*this->sentimentWords, currString);
+				if (inside == nullptr) {
+					//wordMade++;
+					//cout << "Word made # " << wordMade << endl;
+					this->sentimentWords->push_back (new word (currWord));
+				} else {
+					inside->add_Word (reviewSentiment);
+					//cout << *currString << " Added to " << *inside << endl;
+				}
+			}
+		}
 }
 cout << "Number of words categorized: " << sentimentWords->size() << endl;
 }
