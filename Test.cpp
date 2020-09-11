@@ -107,76 +107,47 @@ SECTION("c_str function"){
 	REQUIRE(test == "wordTwo wordThree");
 }
 }
-TEST_CASE("Review Class", "[review]"){
-	Stringy negString("This is a review which is negative\",negative");
-	Stringy posString("This is a review which is positive\",positive");
-	Stringy testString("This is a tester review of spaced");
-	Stringy blackList ("spaced"); // this is the blacklist;
-	Stringy* negStringP = new Stringy(negString);
-	Stringy* poStringP = new Stringy(posString);
-	review negRev(negStringP, false, true);
-	review posRev(poStringP, true, false);
-	SECTION("Getters and Setters"){
-		negRev.setSentiment(false);
-		posRev.setSentiment(true);
-		CHECK (!negRev.getSentiment());
-		CHECK (posRev.getSentiment());
-		negRev.setSentiment(true);
-		CHECK (negRev.getSentiment ());
-		negRev.setSentiment(false);
-		CHECK (!negRev.getSentiment ());
-		Stringy* testy = new Stringy(testString);
-		posRev.setSpaceSeparatedWords(testy);
-		CHECK(posRev.getSpaceSeparatedWords() == testString);
-		negRev.setTotal(testy);
-		CHECK(*negRev.getTotal() == testString);
-		negRev.setRow(2);
-		posRev.setRow(1);
-		CHECK (negRev.getRow() == 2);
-		CHECK (posRev.getRow() == 1);
-	}
-}
 // subclass of review
-TEST_CASE("testerReview Class", "[testerReview]"){
-	Stringy negString("This is a review which is negative\",negative");
-	Stringy posString("This is a review which is positive\",positive");
-	Stringy testString("This is a tester review of spaced");
-	Stringy blackList ("spaced"); // this is the blacklist;
-	Stringy testSpaced("This is a review which is ");
-	Stringy* negStringP = new Stringy(negString);
-	Stringy* poStringP = new Stringy(posString);
-	testerReview negRev(negStringP, 1, false, 10, 20);
-	testerReview posRev(poStringP, 2, true, 20, 10);
-	SECTION("Getters and Setters"){
-		CHECK (!negRev.getSentiment());
-		CHECK (posRev.getSentiment());
-		negRev.setSentiment(true);
-		CHECK (negRev.getSentiment ());
-		negRev.setSentiment(false);
-		CHECK (!negRev.getSentiment ());
-		CHECK(*negRev.getTotal() == testSpaced);
-		Stringy* testy = new Stringy(testString);
-		posRev.setSpaceSeparatedWords(testy);
-		CHECK(posRev.getSpaceSeparatedWords() == testString);
-		negRev.setTotal(testy);
-		CHECK(*negRev.getTotal() == testString);
-		negRev.setRow(2);
-		posRev.setRow(1);
-		CHECK (negRev.getRow() == 2);
-		CHECK (posRev.getRow() == 1);
-	}
-	SECTION ("Getters and Setters from testerReview"){
-	posRev.setExpectedOutput(false);
-	CHECK(!posRev.getExpectedOutput());
-	posRev.setExpectedOutput(true);
-	CHECK(posRev.getExpectedOutput());
-	negRev.setPosWords(new int(2));
-	CHECK(*negRev.getPosWords() == 2);
-	negRev.setNegWords(new int(2));
-	CHECK(*negRev.getNegWords() == 2);
-	negRev.addToNegWords(1);
-	CHECK(*negRev.getNegWords() == 3);
-	negRev.addToPosWords(1);
-	CHECK(*negRev.getPosWords() == 3);
-	}
-}
+//TEST_CASE("testerReview Class", "[testerReview]"){
+//	Stringy negString("This is a review which is negative\",negative");
+//	Stringy posString("This is a review which is positive\",positive");
+//	Stringy testString("This is a tester review of spaced");
+//	Stringy blackList ("spaced"); // this is the blacklist;
+//	Stringy testSpaced("This is a review which is ");
+//	Stringy* negStringP = new Stringy(negString);
+//	Stringy* poStringP = new Stringy(posString);
+//	testerReview negRev(negStringP, 1, false, 10, 20);
+//	testerReview posRev(poStringP, 2, true, 20, 10);
+//	SECTION("Getters and Setters"){
+//		CHECK (!negRev.getSentiment());
+//		CHECK (posRev.getSentiment());
+//		negRev.setSentiment(true);
+//		CHECK (negRev.getSentiment ());
+//		negRev.setSentiment(false);
+//		CHECK (!negRev.getSentiment ());
+//		CHECK(*negRev.getTotal() == testSpaced);
+//		Stringy* testy = new Stringy(testString);
+//		posRev.setSpaceSeparatedWords(testy);
+//		CHECK(posRev.getSpaceSeparatedWords() == testString);
+//		negRev.setTotal(testy);
+//		CHECK(*negRev.getTotal() == testString);
+//		negRev.setRow(2);
+//		posRev.setRow(1);
+//		CHECK (negRev.getRow() == 2);
+//		CHECK (posRev.getRow() == 1);
+//	}
+//	SECTION ("Getters and Setters from testerReview"){
+//	posRev.setExpectedOutput(false);
+//	CHECK(!posRev.getExpectedOutput());
+//	posRev.setExpectedOutput(true);
+//	CHECK(posRev.getExpectedOutput());
+//	negRev.setPosWords(new int(2));
+//	CHECK(*negRev.getPosWords() == 2);
+//	negRev.setNegWords(new int(2));
+//	CHECK(*negRev.getNegWords() == 2);
+//	negRev.addToNegWords(1);
+//	CHECK(*negRev.getNegWords() == 3);
+//	negRev.addToPosWords(1);
+//	CHECK(*negRev.getPosWords() == 3);
+//	}
+//}

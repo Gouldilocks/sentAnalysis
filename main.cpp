@@ -6,16 +6,16 @@
 using namespace std;
 // function which returns the index of the given stringy where the beginning of the sentiment starts.
 int main(int argc, char** argv) {
-	if(argv == nullptr) {
+	if(argc == 1) {
 		Catch::Session ().run ();
 		return 0;
 	}
 	else {
 		//Catch:: Session().run();
-		ifstream training_Data("IMDB Dataset.csv");
-		ofstream outPut("outPut01.txt");
-	//ifstream training_Data(argv[0]);
-	//ofstream outPut(argv[1]);
+		//ifstream training_Data("IMDB Dataset.csv");
+		//ofstream outPut("outPut01.txt");
+	ifstream training_Data(argv[0]);
+	ofstream outPut(argv[1]);
 	auto* newMachine = new machine();
 	newMachine->jumpStart (training_Data,outPut);
 	cout << "Done" << endl;}
