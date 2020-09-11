@@ -12,10 +12,10 @@ int main(int argc, char** argv) {
 	}
 	else {
 		//Catch:: Session().run();
-		//ifstream training_Data("IMDB Dataset.csv");
-		//ofstream outPut("outPut01.txt");
-	ifstream training_Data(argv[0]);
-	ofstream outPut(argv[1]);
+		ifstream training_Data("IMDB Dataset.csv");
+		ofstream outPut("outPut01.txt");
+	//ifstream training_Data(argv[0]);
+	//ofstream outPut(argv[1]);
 	auto* newMachine = new machine();
 	newMachine->jumpStart (training_Data,outPut);
 	cout << "Done" << endl;}
