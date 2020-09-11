@@ -14,10 +14,17 @@ int main(int argc, char** argv) {
 		//Catch:: Session().run();
 		//ifstream training_Data("IMDB Dataset.csv");
 		//ofstream outPut("outPut01.txt");
-	ifstream training_Data(argv[0]);
-	ofstream outPut(argv[1]);
+		cout << "args:" << endl;
+		cout << argv[1] << endl;
+		cout << argv[2] << endl;
+	ifstream training_Data;
+	training_Data.open(argv[1]);
+	ofstream outPut;
+	outPut.open(argv[2]);
 	auto* newMachine = new machine();
 	newMachine->jumpStart (training_Data,outPut);
+	training_Data.close();
+	outPut.close();
 	cout << "Done" << endl;}
     return 0;
 }
