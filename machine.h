@@ -20,6 +20,7 @@
 #include "word.h"
 #include "testerReview.h"
 #include <vector>
+#include <set>
 
 /*The machine's purpose is to organize all of the functionality of the review class, and to
  * facilitate order within the program. The machine will also process all of the input and output of the end product.
@@ -93,7 +94,8 @@ protected:
 	// a vector filled with all of the testing data.
 	vector<testerReview*>* testData;
 	// a vector filled with all of the words that have been categorized positive.
-	vector<word*>* sentimentWords;
+	//vector<word*>* sentimentWords;
+	set<word> sentimentWords;
 	// the number of correctly predicted reviews.
 	int numRight = 0;
 	// the number of incorrectly predicted reviews.

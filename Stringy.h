@@ -86,7 +86,8 @@ public:
 	friend Stringy & operator + (const Stringy& S1, const int num_Toadd);
 	// adds a Stringy to this Stringy. Modifies left hand side of operator. Does not modify right side.
 	Stringy & operator += (const Stringy& S1);
-
+	// less than operator
+	friend bool operator< (const Stringy& lhs, const Stringy& rhs);
 private:
 	int ylength;
 	char* ystring;

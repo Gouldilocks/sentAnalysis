@@ -423,3 +423,8 @@ bool Stringy::findSentiment (Stringy total) {
 	}
 	return returnMe;
 }
+
+bool operator< (const Stringy& lhs, const Stringy& rhs) {
+	return (lhs.getString() < rhs.getString());
+}
+

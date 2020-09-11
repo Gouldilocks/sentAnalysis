@@ -39,7 +39,7 @@ word :: word(const word& w1){
 	this-> sorted = new bool(*w1.sorted);
 	this-> theWord = new Stringy(*w1.theWord);
 }
-void word::calc_Sentiment () {
+void word::calc_Sentiment () const {
 	*sentiment = *numPos >= *numNeg;
 //	if(*this-> totalInstances > 3){
 //		if (sentiment == nullptr) {
@@ -49,7 +49,7 @@ void word::calc_Sentiment () {
 //	} else this->sentiment = nullptr;
 }
 
-void word::add_Word (bool senty) {
+void word::add_Word (bool senty) const {
 if (senty){
 	increasePos ();
 } else {
@@ -57,12 +57,12 @@ if (senty){
 		}
 }
 
-void word::increasePos () {
+void word::increasePos () const {
 *this-> numPos = *numPos + 1;
 *this->totalInstances = *totalInstances + 1;
 }
 
-void word::increaseNeg () {
+void word::increaseNeg () const {
 *this-> numNeg = *numNeg +1;
 *this->totalInstances = *totalInstances + 1;
 }
@@ -146,11 +146,11 @@ void word::setSent (bool *senty) {
 	this->sentiment = senty;
 }
 
-bool *word::getSentPtr () {
+bool *word::getSentPtr () const {
 	return this->sentiment;
 }
 
-bool word::getSent () {
+bool word::getSent () const {
 	return *this->sentiment;
 }
 
@@ -171,6 +171,10 @@ word::word (Stringy theNewWord, bool sentiment) {
 	this-> sorted = new bool(false);
 	this-> theWord = new Stringy(theNewWord);
 	add_Word(sentiment);
+}
+
+bool operator< (const word &lhs, const word &rhs) {
+	return (lhs.get_The_Word() < rhs.get_The_Word());
 }
 
 

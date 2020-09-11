@@ -14,7 +14,7 @@
 machine::machine () {
 	this-> trainData = new vector<review*>();
 	this->testData = new vector<testerReview*>(10000);
-	this->sentimentWords = new vector<word*>(50000);
+	//this->sentimentWords = new vector<word*>(50000);
 	this-> outputMe = new Stringy();
 
 }
@@ -54,11 +54,12 @@ while(testing_Data.getline(temp,50000) /*&& rowCounter < 40300*/){
 	Stringy pushMe(temp);
 	bool senty = pushMe.findSentiment (pushMe);
 	pushMe.clean ();
-for(int i = 0; i < 20000; i++){
-	if((*sentimentWords)[i] == nullptr) break;
+	vector<Stringy*>* StringNow = pushMe.tokenizeStringy(' ',Stringy("a"),3);
+for(int i = 0; i < StringNow->size(); i++){
 	//cout << (*(*sentimentWords)[i]) << endl;
-	if(pushMe.wordInsideIt ((*sentimentWords)[i]->get_The_Word ())){
-		if((*sentimentWords)[i]->getSent()){
+	auto it = sentimentWords.find((word(*(*StringNow)[i],senty)));
+	if(it != sentimentWords.end ()){
+		if((it->getSent())){
 			numPos++;
 		} else numNeg++;
 	}
@@ -67,6 +68,7 @@ for(int i = 0; i < 20000; i++){
 	(*this->testData)[testerReviewIndex] = new testerReview(pushMe,rowCounter,senty,numPos,numNeg);
 rowCounter++;
 testerReviewIndex++;
+delete StringNow;
 }
 //cout << "Size of TestData: " << testData->size() << endl;
 //for(int i = 0; i < 20000; i++){
@@ -75,49 +77,130 @@ testerReviewIndex++;
 }
 //}
 
+//void machine::take_In_Training_Data (ifstream& training_Data) {
+////Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
+//Stringy stopWords("a");
+//char temp[50000];
+//int rowCounter = 0;
+//int wordsSorted = 0;
+////int wordMade = 0;
+//while(training_Data.getline(temp,49999) && rowCounter < 40001){
+//	if(rowCounter == 20000)cout << "gotem" << endl;
+//	//cout << temp << endl;
+//	if (rowCounter == 0) {rowCounter++; continue;}
+//	//cout << "Finished that loop " << rowCounter << " times" << endl;
+//	Stringy total(temp);
+//	bool reviewSentiment = total.findSentiment(total);
+//	total.clean();
+//		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,3)) {
+//			//cout << "The word is " << *currString << endl;
+//			// make sure not to get the random ones.
+//			if (rowCounter < 20000) {
+//				word currWord (currString, reviewSentiment);
+//				word *inside = isInsideVectorStringy (*this->sentimentWords, currString);
+//				if (inside == nullptr) {
+//					//wordMade++;
+//					//cout << "Word made # " << wordMade << endl;
+//					(*this->sentimentWords)[wordsSorted] = (new word (currWord));
+//					//cout << "At sorted num: " << wordsSorted << endl;
+//					//cout << *(*this->sentimentWords)[wordsSorted] << endl;
+//					wordsSorted++;
+//				} else {
+//					inside->add_Word (reviewSentiment);
+//					//cout << *currString << " Added to " << *inside << endl;
+//				}
+//			}
+//		}
+//	rowCounter++;
+//}
+//cout << "Number of unique words categorized: " << wordsSorted << endl;
+////for(int i = 0; i < wordsSorted; i++){
+////	cout << *(*this->sentimentWords)[wordsSorted] << endl;
+////}
+//}
+//void machine::take_In_Training_Data (ifstream& training_Data) {
+////Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
+//	Stringy stopWords("a");
+//	char temp[50000];
+//	int rowCounter = 0;
+//	int wordsSorted = 0;
+////int wordMade = 0;
+//	while(training_Data.getline(temp,49999) && rowCounter < 40001){
+//		if(rowCounter == 20000)cout << "gotem" << endl;
+//		//cout << temp << endl;
+//		if (rowCounter == 0) {rowCounter++; continue;}
+//		//cout << "Finished that loop " << rowCounter << " times" << endl;
+//		Stringy total(temp);
+//		bool reviewSentiment = total.findSentiment(total);
+//		total.clean();
+//		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,3)) {
+//			//cout << "The word is " << *currString << endl;
+//			// make sure not to get the random ones.
+//			if (rowCounter < 20000) {
+//				word currWord (currString, reviewSentiment);
+//				word *inside = isInsideVectorStringy (*this->sentimentWords, currString);
+//				if (inside == nullptr) {
+//					//wordMade++;
+//					//cout << "Word made # " << wordMade << endl;
+//					(*this->sentimentWords)[wordsSorted] = (new word (currWord));
+//					//cout << "At sorted num: " << wordsSorted << endl;
+//					//cout << *(*this->sentimentWords)[wordsSorted] << endl;
+//					wordsSorted++;
+//				} else {
+//					inside->add_Word (reviewSentiment);
+//					//cout << *currString << " Added to " << *inside << endl;
+//				}
+//			}
+//		}
+//		rowCounter++;
+//	}
+//	cout << "Number of unique words categorized: " << wordsSorted << endl;
+////for(int i = 0; i < wordsSorted; i++){
+////	cout << *(*this->sentimentWords)[wordsSorted] << endl;
+////}
+//}
 void machine::take_In_Training_Data (ifstream& training_Data) {
 //Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
-Stringy stopWords("a");
-char temp[50000];
-int rowCounter = 0;
-int wordsSorted = 0;
+	Stringy stopWords("a");
+	char temp[50000];
+	int rowCounter = 0;
+	int wordsSorted = 0;
 //int wordMade = 0;
-while(training_Data.getline(temp,49999) && rowCounter < 40001){
-	if(rowCounter == 20000)cout << "gotem" << endl;
-	//cout << temp << endl;
-	if (rowCounter == 0) {rowCounter++; continue;}
-	//cout << "Finished that loop " << rowCounter << " times" << endl;
-	Stringy total(temp);
-	bool reviewSentiment = total.findSentiment(total);
-	total.clean();
+	while(training_Data.getline(temp,49999) && rowCounter < 40001){
+		if(rowCounter == 20000)cout << "gotem" << endl;
+		//cout << temp << endl;
+		// skip the first line.
+		if (rowCounter == 0) {rowCounter++; continue;}
+		//cout << "Finished that loop " << rowCounter << " times" << endl;
+		Stringy total(temp);
+		bool reviewSentiment = total.findSentiment(total);
+		total.clean();
 		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,3)) {
 			//cout << "The word is " << *currString << endl;
 			// make sure not to get the random ones.
 			if (rowCounter < 20000) {
 				word currWord (currString, reviewSentiment);
-				word *inside = isInsideVectorStringy (*this->sentimentWords, currString);
-				if (inside == nullptr) {
+				auto it = sentimentWords.find(currWord);
+				if (it == sentimentWords.end()) {
 					//wordMade++;
 					//cout << "Word made # " << wordMade << endl;
-					(*this->sentimentWords)[wordsSorted] = (new word (currWord));
+					sentimentWords.insert(word(currWord));
 					//cout << "At sorted num: " << wordsSorted << endl;
 					//cout << *(*this->sentimentWords)[wordsSorted] << endl;
 					wordsSorted++;
 				} else {
-					inside->add_Word (reviewSentiment);
+					it->add_Word (reviewSentiment);
 					//cout << *currString << " Added to " << *inside << endl;
 				}
 			}
 		}
-	rowCounter++;
-}
-cout << "Number of unique words categorized: " << wordsSorted << endl;
+		rowCounter++;
+	}
+	cout << "Number of unique words categorized: " << wordsSorted << endl;
 //for(int i = 0; i < wordsSorted; i++){
 //	cout << *(*this->sentimentWords)[wordsSorted] << endl;
 //}
 }
-
-
 void machine::sort_Testing_Data () {
 for(int i = 0; i < 10000; i++){
 	if((*testData)[i] == nullptr) break;
@@ -164,14 +247,13 @@ outPutHere << *this-> outputMe << endl;
 
 void machine::sort_Sentiment_Words () {
 // calculate the sentiment by the number of occurrences of each of the words
-	for(int i = 0; i < this->sentimentWords->size(); i++){
+	for(auto it = sentimentWords.begin(); it != this->sentimentWords.end(); it++){
 		//cout << *sentimentWords->at (i)->get_The_Word () << endl;
 		// when you get to the end of sentimentWords, end the loop.
-		if ((*sentimentWords)[i] == nullptr) {return;}
-		(*sentimentWords)[i]->calc_Sentiment ();
+		it->calc_Sentiment ();
 		//cout << *sentimentWords->at(i) << endl;
 	// if the word does not meet requirements, delete it from usable words.
-	if ((*sentimentWords)[i]->getSentPtr () == nullptr) *this->sentimentWords->erase(sentimentWords->begin()+i);
+	if (it->getSentPtr () == nullptr) this->sentimentWords.erase(it);
 }
 }
 /* referenced geeks for geeks
@@ -201,11 +283,11 @@ this-> outputMe = new Stringy(*m1.outputMe);
 this-> currentWord = new word(*m1.currentWord);
 this-> numRight = m1.numRight;
 this-> numWrong = m1.numWrong;
-this-> sentimentWords = new vector<word*> (*m1.sentimentWords);
+//this-> sentimentWords = new vector<word*> (*m1.sentimentWords);
 }
 
 machine::~machine () {
-	delete trainData; delete testData; delete sentimentWords; delete currentWord;
+	delete trainData; delete testData; /*delete sentimentWords;*/ delete currentWord;
 }
 
 vector<review *> *machine::getTrainData () {
@@ -216,13 +298,13 @@ void machine::setTrainData (vector<review *> *trainingData) {
 	this->trainData = trainingData;
 }
 
-vector<word *> *machine::getSentimentWords () {
-	return this->sentimentWords;
-}
+//vector<word *> *machine::getSentimentWords () {
+//	return this->sentimentWords;
+//}
 
-void machine::setSentimentWords (vector<word *> *analysedWords) {
-	this->sentimentWords = analysedWords;
-}
+//void machine::setSentimentWords (vector<word *> *analysedWords) {
+//	this->sentimentWords = analysedWords;
+//}
 
 int machine::get_Right () {
 	return this->numRight;

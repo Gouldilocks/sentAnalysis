@@ -28,20 +28,20 @@ public:
 
 	/* ***** Functions ***** */
 	// will increase the numPos by 1 and totalInstances by 1.
-	void increasePos();
+	void increasePos() const;
 	// will increase the numNeg by 1 and totalInstances by 1.
-	void increaseNeg();
+	void increaseNeg() const;
 	// calculates the sentiment of the whole word.
-	void calc_Sentiment();
+	void calc_Sentiment() const;
 	// will add a word to the word count, and change the positive or negative count.
-	void add_Word(bool sentiment);
+	void add_Word(bool sentiment)const;
 
 
 	/* ***** Getters / Setters ***** */
 	// returns a bool of the word's overall sentiment.
-	bool getSent();
+	bool getSent() const;
 	// returns a pointer to the word's overall sentiment.
-	bool* getSentPtr();
+	bool* getSentPtr() const;
 	// set the sentiment of the word. Takes bool pointer as parameter.
 	void setSent(bool* senty);
 	// returns a pointer to a Stringy containing the word.
@@ -75,6 +75,8 @@ public:
 	word& operator = (const word& w2);
 	// Prints out each of the elements out to the console.
 	friend ostream& operator << (ostream& OS, const word& w1);
+	// less than sign
+	friend bool operator< (const word& lhs, const word& rhs);
 private:
 	Stringy* theWord;
 	int* numPos;
