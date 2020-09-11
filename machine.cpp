@@ -84,14 +84,14 @@ char temp[10000];
 int rowCounter = 0;
 //int wordMade = 0;
 while(training_Data.getline(temp,9999) && rowCounter < 3000){
-	cout << temp << endl;
+	//cout << temp << endl;
 	if (rowCounter == 0) {rowCounter++; continue;}
 	//cout << "Finished that loop " << rowCounter << " times" << endl;
 	Stringy total(temp);
 	bool reviewSentiment = total.findSentiment(total);
 	total.clean();
 	rowCounter++;
-		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,3)){
+		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,2)){
 		//cout << "The word is " << *currString << endl;
 		word currWord(currString,reviewSentiment);
 		word* inside = isInsideVectorStringy (*this->sentimentWords,currString);
