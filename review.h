@@ -9,7 +9,13 @@
  * This class will store the review itself, a version of the review free from
  * unwanted words/ characters, and also store the sentiment of the review if
  * given it.
- * The review objects will be managed by a machine object.*/
+ * The review objects will be managed by a machine object.
+ * ^^^^^^^^^^^^^
+ * This was the original plan, until I found that parsing the input into reviews
+ * did not offer enough function for the amount of time spent on it.
+ * The main advantage was more abstraction, however it was not worth the
+ * sacrifice of efficiency. The subclass testerReview was used, however.
+ * */
 class review{
 public:
 	/* ***** Destructor ***** */
@@ -56,8 +62,7 @@ public:
 	virtual void cleanUp(ifstream& noNoWords);
 	// function to find the sentiment of the total review when it is given.
 	virtual bool findSentiment();
-	// function will return the next word in the review.
-	virtual Stringy nextWord();
+
 
 	/* ***** Operators ***** */
 	review& operator= (const review& rev1);

@@ -1,5 +1,5 @@
 //
-// Created by loggityloglog on 9/4/20.
+// Created by Christian Gould on 9/4/20.
 //
 
 #ifndef S20_PA01_SENTIMENTANALYSIS_TESTERREVIEW_H

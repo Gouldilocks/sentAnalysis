@@ -1,5 +1,5 @@
 //
-// Created by loggityloglog on 8/31/20.
+// Created by Christian Gould on 8/31/20.
 //
 # include "Stringy.h"
 # include <iostream>

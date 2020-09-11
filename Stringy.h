@@ -1,5 +1,5 @@
 //
-// Created by loggityloglog on 8/31/20.
+// Created by Christian Gould on 8/31/20.
 //
 
 #ifndef S20_PA01_SENTIMENTANALYSIS_STRINGY_H
