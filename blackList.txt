@@ -1,1 +1,0 @@
-" , ! . ( ) < > [ ] { } \ | - _ + = ^ @ # $ % & * : ; ? / ~ ` positive negative he she no yes

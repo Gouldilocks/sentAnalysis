@@ -33,8 +33,6 @@ public:
 	bool firstThree(Stringy same);
 	// function returns a stringstream of the stringy
 	stringstream convToStreamy();
-	// function will return the next word and delete it from the string.
-	Stringy nextWordDel();
 	// function will find if a given review total has a word inside.
 	bool wordInsideIt (const Stringy& wordInside);
 	// will find and remove the char* that is passed from the ystring.
@@ -87,7 +85,7 @@ public:
 	// adds a Stringy to this Stringy. Modifies left hand side of operator. Does not modify right side.
 	Stringy & operator += (const Stringy& S1);
 	// less than operator
-	friend bool operator< (const Stringy& lhs, const Stringy& rhs);
+	friend bool operator< (const Stringy& rhs, const Stringy& lhs);
 private:
 	int ylength;
 	char* ystring;

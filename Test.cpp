@@ -41,6 +41,7 @@ CHECK(str == s[5]);
 }
 
 SECTION("Addition operator"){
+	// adding two strings
 CHECK(Stringy("testStringtestString") == s[0]+s[9]);
 CHECK(s[6] + s[6] == "");
 CHECK(s[5] + s[6] == Stringy("\n"));
@@ -61,19 +62,23 @@ CHECK(s[10] + " fun" == "adding a char* to it is fun");
 s[10].setString("newline here: ");
 CHECK(s[10] + "\n" == "newline here: \n");
 }
+SECTION("Plus equals operator"){
+	Stringy plus("Plus");
+	Stringy equals("equals");
+	plus+= equals;
+	CHECK(plus == "Plusequals");
+	plus+= equals;
+	CHECK(plus == "Plusequalsequals");
 
-//SECTION("Greater than operator"){
-//CHECK(s[0] > s[1]);
-//CHECK(s[4] > s[3]);
-//CHECK(s[9] > s[6]);
-//CHECK(s[7] > s[6]);
-//}
-//
-//SECTION("[] Operator"){
-//CHECK(s[0][1] == 'e');
-//CHECK(s[4][4] == ' ');
-//CHECK(s[6][0] == 0);
-//}
+}
+SECTION("Less than sign"){
+	Stringy less("I'm less.");
+	Stringy more("zebra I'm more.");
+	Stringy least("aaa I'm the least");
+	CHECK(less < more);
+	CHECK(least < less);
+	CHECK(least < more);
+}
 
 SECTION("charLength function"){
 CHECK(s[9].charLength() == 10);
@@ -81,7 +86,9 @@ CHECK(s[2].charLength() == 0);
 CHECK(s[8].charLength() == 26);
 CHECK(s[3].charLength() == 27);
 }
+SECTION("firstThree function"){
 
+}
 SECTION("Substring function"){
 		s[ 0 ].subStrObj (0, 5);
 		s[ 4 ].subStrObj (0, 4);
@@ -91,7 +98,7 @@ CHECK(s[4] == "this");
 CHECK(s[4] == "his");
 }
 
-SECTION("c_str function"){
+SECTION("getString (c_str) function"){
 		CHECK(strcmp(s[0].getString(), "testString") == 0);
 		CHECK(strcmp(s[9].getString(), s[0].getString()) == 0);
 		CHECK(strcmp(s[2].getString(), "") == 0);
@@ -101,11 +108,7 @@ SECTION("c_str function"){
 	one.clean();
 	REQUIRE(one == "this s a test    ok   yessir");
 }
-	SECTION("Nextword del"){
-	Stringy test("WOrdone wordTwo wordThree");
-	REQUIRE(test.nextWordDel() == "WOrdone");
-	REQUIRE(test == "wordTwo wordThree");
-}
+
 }
 // subclass of review
 //TEST_CASE("testerReview Class", "[testerReview]"){

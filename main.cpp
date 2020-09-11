@@ -12,11 +12,8 @@ int main(int argc, char** argv) {
 	}
 	else {
 		//Catch:: Session().run();
-		//ifstream training_Data("IMDB Dataset.csv");
-		//ofstream outPut("outPut01.txt");
-		cout << "args:" << endl;
-		cout << argv[1] << endl;
-		cout << argv[2] << endl;
+		cout << "Opening: " <<  argv[1] << endl;
+		cout << "Putting output in: " << argv[2] << endl;
 	ifstream training_Data;
 	training_Data.open(argv[1]);
 	ofstream outPut;

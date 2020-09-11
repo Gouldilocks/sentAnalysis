@@ -12,16 +12,13 @@ set (EXE_NAME SentimentAnalyzer)
 # etc....
 
 set (input01 "IMDB Dataset.csv")
-set (input02 "training_Data.csv")
-set (input03 "testing_Data.csv")
 set (input04 "outPut01.txt")
-set (input05 "blackList.txt")
 
 #
 ##########################################
 
 # Copy data files to build dir
-foreach(file IN LISTS input01 input02 input03 input04 input05)
+foreach(file IN LISTS input01 input04)
     configure_file(${file} ${file} COPYONLY)
 endforeach()
 
