@@ -81,16 +81,17 @@ void machine::take_In_Training_Data (ifstream& training_Data) {
 //Stringy stopWords("a an and are as at be by for from has he in is it its of on that the to was were will with");
 Stringy stopWords("a");
 char temp[10000];
-int rowCounter = 1;
+int rowCounter = 0;
 //int wordMade = 0;
 while(training_Data.getline(temp,9999) && rowCounter < 3000){
-	if (rowCounter == 1) {rowCounter++; continue;}
+	//cout << temp << endl;
+	if (rowCounter == 0) {rowCounter++; continue;}
 	//cout << "Finished that loop " << rowCounter << " times" << endl;
 	Stringy total(temp);
 	bool reviewSentiment = total.findSentiment(total);
 	total.clean();
 	rowCounter++;
-		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,8)){
+		for(Stringy* currString : *total.tokenizeStringy(' ', stopWords,3)){
 		//cout << "The word is " << *currString << endl;
 		word currWord(currString,reviewSentiment);
 		word* inside = isInsideVectorStringy (*this->sentimentWords,currString);
@@ -112,15 +113,15 @@ cout << "Number of words categorized: " << sentimentWords->size() << endl;
 void machine::sort_Testing_Data () {
 for(testerReview *thisReview : *testData){
 	float percentage =(double) (*thisReview->getPosWords ())/(double)(*thisReview->getNegWords ());
-	cout << "Percentage: " << percentage << endl;
-	cout << "Positive: " << (double)*thisReview->getPosWords () << endl;
-	cout << "Negative: " << (double)*thisReview-> getNegWords () << endl;
-	cout << *thisReview->getTotal () << endl;
+	//cout << "Percentage: " << percentage << endl;
+	//cout << "Positive: " << (double)*thisReview->getPosWords () << endl;
+	//cout << "Negative: " << (double)*thisReview-> getNegWords () << endl;
+	//cout << *thisReview->getTotal () << endl;
 	// if the percentage of positive words exceeds the number of
 	// negative words, then set expected output to positive.
-	cout << "Poswords >= Negwords returns: " << (thisReview->getPosWords() >= thisReview->getNegWords ()) << endl;
+	//cout << "Poswords >= Negwords returns: " << (thisReview->getPosWords() >= thisReview->getNegWords ()) << endl;
 	thisReview->setExpectedOutput (thisReview->getPosWords () >= thisReview->getNegWords ());
-	cout << "Expected Output: " << thisReview->getExpectedOutput () << endl;
+	//cout << "Expected Output: " << thisReview->getExpectedOutput () << endl;
 }// end every review
 }
 void machine::compare_Answers () {
