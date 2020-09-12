@@ -11,7 +11,7 @@ set (EXE_NAME SentimentAnalyzer)
 #   set (input02 "train_target.csv")
 # etc....
 
-set (input01 "IMDB Dataset.csv")
+set (input01 "IMDBDataset.csv")
 set (input04 "outPut01.txt")
 
 #
