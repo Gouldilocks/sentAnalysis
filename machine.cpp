@@ -51,7 +51,7 @@ void machine::jumpStart (ifstream &training_Data, ofstream &outPutHere) {
 
 // First Major Operation
 void machine::take_In_Training_Data (ifstream &training_Data) {
-	cout << endl << "Taking in Training Data" << endl;
+	cout << endl << "Begin take in training data" << endl;
 	// init stop words and counters
 	Stringy stopWords ("a an and are as at be by for from has he in is it its of on that the to was were will with");
 // input buffer
@@ -73,7 +73,7 @@ void machine::take_In_Training_Data (ifstream &training_Data) {
 		bool reviewSentiment = total.findSentiment (total);
 		total.clean ();
 		// tokenize the string and loop through it
-		for (Stringy *currString : *total.tokenizeStringy (' ', stopWords, 3)) {
+		for (Stringy *currString : *total.tokenizeStringy (' ', stopWords, 5)) {
 			// limit the number of rows being categorized.
 			if (rowCounter < 20000) {
 				/* for each of the words in the review:
@@ -93,14 +93,14 @@ void machine::take_In_Training_Data (ifstream &training_Data) {
 		rowCounter++;
 	}
 	// print to console for debugging / information
-	cout << "Finished taking in Training Data" << endl;
+	cout << "Finished take in training data" << endl;
 	cout << "Number of unique words categorized: " << wordsSorted << endl;
 	cout << endl;
 }
 
 // Second Major Operation
 void machine::sort_Sentiment_Words () {
-	cout << "Begin sorting sentiment words" << endl;
+	cout << "Begin sort sentiment words" << endl;
 // calculate the sentiment by the number of occurrences of each of the words
 	for (auto it = sentimentWords.begin (); it != this->sentimentWords.end (); it++) {
 		// when you get to the end of sentimentWords, end the loop.
@@ -108,13 +108,13 @@ void machine::sort_Sentiment_Words () {
 		// if the word does not meet requirements, delete it from usable words.
 		if (it->getSentPtr () == nullptr) this->sentimentWords.erase (it);
 	}
-	cout << "Finished sorting sentiment words" << endl;
+	cout << "Finished sort sentiment words" << endl;
 	cout << endl;
 }
 
 // Third Major Operation
 void machine::take_In_Testing_Data (ifstream &testing_Data) {
-	cout << "Starting taking in testing data" << endl;
+	cout << "Begin take in testing data" << endl;
 	// the buffer
 	char input_Buffer[50000];
 	// the row which is being inputted
@@ -161,17 +161,17 @@ void machine::take_In_Testing_Data (ifstream &testing_Data) {
 
 
 void machine::sort_Testing_Data () {
-	cout << "Begin sorting testing data" << endl;
+	cout << "Begin sort testing data" << endl;
 	for (int i = 0; i < 10000; i++) {
 		if ((*testData)[ i ] == nullptr) break;
 		(*testData)[ i ]->setExpectedOutput ((*testData)[ i ]->getPosWords () >= (*testData)[ i ]->getNegWords ());
 	}
-	cout << "Finished sorting testing data" << endl;
+	cout << "Finished sort testing data" << endl;
 	cout << endl;
 }
 
 void machine::compare_Answers () {
-	cout << "Begin comparing answers" << endl;
+	cout << "Begin compare answers" << endl;
 	int PosRevs = 0;
 	int NegRevs = 0;
 	// for each tested review in testData
@@ -187,22 +187,24 @@ void machine::compare_Answers () {
 		}
 	}
 	// print information to console
-	cout << "Finished comparing answers" << endl;
+	cout << "Finished compare answers" << endl;
 	cout << endl;
 	cout << "Positive reviews: " << PosRevs << endl;
 	cout << "Negative reviews: " << NegRevs << endl;
+	cout << endl;
 }
 
 void machine::output_Result (ofstream &outPutHere) {
 	cout << "Begin output result" << endl;
 	// print information to console
-	cout << "numRight: " << (double) numRight << endl;
-	cout << "numWrong: " << (double) numWrong << endl;
 	double percentage = (double) this->numRight / ((double) this->numWrong + (double) this->numRight);
-	cout << "Percentage: " << percentage << endl;
 	outPutHere << percentage << endl;
 	outPutHere << *this->outputMe << endl;
 	cout << "End output result" << endl;
+	cout << endl;
+	cout << "numRight: " << (double) numRight << endl;
+	cout << "numWrong: " << (double) numWrong << endl;
+	cout << "Percentage: " << percentage << endl;
 }
 
 // ended up not using, due to inefficiency

@@ -59,10 +59,6 @@ bool Stringy::firstThree (Stringy same) {
 		   this->ystring[ 1 ] == same.ystring[ 1 ] &&
 		   this->ystring[ 2 ] == same.ystring[ 2 ];
 }
-stringstream Stringy::convToStreamy () {
-	stringstream ss (this->ystring);
-	return ss;
-}
 
 bool Stringy::wordInsideIt (const Stringy &word) {
 	return strstr (this->ystring, word.ystring) != nullptr;
@@ -82,7 +78,7 @@ void Stringy::findAndDelete (char *toFind) {
 		int bytesToMove = strlen (begOfWord) - toFindLen;
 		memmove (begOfWord, begOfWord + toFindLen,
 				 bytesToMove);
-		subStrObj (0, this->length () - toFindLen);
+		subStrObj (0, this->length () - toFindLen-1);
 		this->ylength = strlen (ystring) + 1;
 	}
 }
@@ -188,9 +184,6 @@ char *Stringy::getString () const {
 	return this->ystring;
 }
 
-void Stringy::setLength (int newLen) {
-	this->ylength = newLen;
-}
 int Stringy::find_Number_Inside (Stringy *toFind) {
 	int returnMe = 0;
 	//cout << "Stringy toFind: " << *toFind << endl;
@@ -383,6 +376,8 @@ Stringy &Stringy::operator+= (const Stringy &S1) {
 	// return the Stringy.
 	return *this;
 }
-bool operator< (const Stringy &rhs, const Stringy &lhs) {
-	return (rhs.ystring > lhs.ystring);
+bool operator< (const Stringy &lhs, const Stringy &rhs) {
+if(strcmp(lhs.ystring,rhs.ystring) < 0){
+	return true;
+} else false;
 }

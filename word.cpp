@@ -1,5 +1,5 @@
 //
-// Created by loggityloglog on 9/3/20.
+// Created by Christian Gould on 9/3/20.
 //
 #include "word.h"
 

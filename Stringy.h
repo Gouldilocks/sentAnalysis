@@ -31,8 +31,6 @@ public:
 	/* ***** Functions ***** */
 	// function returns a bool of whether the first 3 letters are the same or not.
 	bool firstThree(Stringy same);
-	// function returns a stringstream of the stringy
-	stringstream convToStreamy();
 	// function will find if a given review total has a word inside.
 	bool wordInsideIt (const Stringy& wordInside);
 	// will find and remove the char* that is passed from the ystring.
@@ -58,8 +56,6 @@ public:
 	// returns the char* of this-> Stringy
 	char * getString () const;
 	// sets the ylength of this Stringy
-	void setLength(int newLen);
-	// returns the number of times the given Stringy appears in this-> Stringy
 	int find_Number_Inside(Stringy* toFind);
 	// cleans the string up according to the blacklist.
 	void clean();
